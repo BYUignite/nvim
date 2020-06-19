@@ -208,7 +208,6 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-jedi'
 Plug 'Shougo/deoplete-clangx'
-Plug 'JuliaEditorSupport/deoplete-julia'
 
 call plug#end()
 
