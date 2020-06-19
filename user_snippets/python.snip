@@ -1,0 +1,54 @@
+
+snippet     bp
+abbr        import numpy as np...
+alias       boilerplate
+
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    #------------------------------------------------------------
+
+snippet     bpa
+abbr        import numpy as np...
+alias       boilerplateall
+    import numpy             as np
+    import matplotlib.pyplot as plt
+    from scipy.optimize      import fsolve, curve_fit
+    from scipy.integrate     import odtint, quad
+    from scipy.interpolate   import interp1d
+    from scipy.misc          import derivative
+    import scipy.constants   as const
+    import sympy             as sp
+    sp.init_printing()
+    import glob              
+    import time
+    #import pint; u = pint.UnitRegistry()
+
+    #------------------------------------------------------------
+
+
+snippet     goodplot
+abbr        plt.plot...
+alias       gplt
+    plt.rc('font', size=14)
+    plt.plot(x,y, color='black', linewidth='1')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.legend(['y'], frameon=False)
+    plt.xlim([np.min(x), 1.1*np.max(x)])
+    plt.ylim([np.min(y), 1.1*np.max(y)])
+
+snippet     goodplot2
+abbr        plt.plot...
+alias       gplt2
+    plt.rc('font', size=14)
+    fig, ax = plt.subplots()
+    ax.tick_params(direction='in', top=True, right=True)
+    ax.plot(x,y, 'o-', color='black', linewidth='1', markersize=3)
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.legend(['y'], frameon=False)
+    ax.set_xlim([np.min(x), 1.1*np.max(x)])
+    ax.set_ylim([np.min(y), 1.1*np.max(y)])
+    plt.show()
+

@@ -1,0 +1,45 @@
+
+snippet goodfigure
+alias   gfig
+abbr    figure
+    %
+    \begin{figure}
+        \begin{center}
+        \begin{tabular}{c c}
+            (a) & (b) \\\
+            \includegraphics[width=3 in]{path_to_fig1.pdf} &
+            \includegraphics[width=3 in]{path_to_fig2.pdf}
+        \end{tabular}
+        \caption{some_caption}
+        \label{f:some_label}
+        \end{center}
+    \end{figure}
+    %
+
+
+
+
+snippet goodtable
+alias   gtab
+abbr    table
+    %
+    \begin{table}
+        \caption{HiPS tree lengthscales and timescales.}
+        \label{t:hips_scales}
+        \centering
+        \begin{tabular}{l l l}
+            \hline
+             Level     &  Length scale       &  Time scale                \\\
+             \hline
+             0         &  $L_0$              & $\tau _0$                  \\\
+             1         &  $L_0/{2}$          & $\tau _0 /2^{2/3}$         \\\
+             2         &  $L_0/{4}$          & $\tau _0 /4^{2/3}$         \\\
+             $\ldots$  &  $\ldots$           & $\ldots $                  \\\
+             i         & $L_0/{2^{i}}$       & $\tau _0 /(2^i)^{2/3}$     \\\
+             $\ldots$  & $\ldots$            & $\ldots $                  \\\
+             n-1       & $L_0/{2^{n-1}}$     & $\tau _0 /(2^{n-1})^{2/3}$ \\\
+             \hline
+        \end{tabular}
+    \end{table}
+    %
+
