@@ -31,7 +31,7 @@ set path+=**
 set pumheight=7                   " popup menu height size
 
 set hidden                        " Don't require save before opening/switching buffers"
-set clipboard=unnamedplus         " Use system clipboard register by default (yy -> paste in other app, etc.)
+"set clipboard=unnamedplus         " Use system clipboard register by default (yy -> paste in other app, etc.), but BREAKS visual block paste
 
 if has('mouse')
     set mouse=a                   " mouse support for all modes
@@ -82,6 +82,10 @@ vnoremap > >gv
 
 "--- map to qa to avoid errors for multiple buffers open
 nnoremap <leader>q :qa<CR>
+
+"--- map to switch between header file and source file
+" https://vim.fandom.com/wiki/Easily_switch_between_source_and_header_file
+map <leader>s :e %:p:s,.h$,.X123X,:s,.cc$,.h,:s,.X123X$,.cc,<CR>
 
 "========== Folding (general, see file specific in ftplugins, like python)
 
@@ -202,18 +206,17 @@ Plug 'vim-scripts/loremipsum'
 Plug 'lervag/vimtex'                " handy latex tools including mappings, etc.
 
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
+"Plug 'Shougo/neosnippet.vim'
+"Plug 'Shougo/neosnippet-snippets'
 
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-jedi'
-Plug 'Shougo/deoplete-clangx'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 
 "---------- OTHERS
 " Plug 'tpope/vim-surround'           " good for surrounding text/code with quotes, tags, etc.
 " Plug 'Raimondi/delimitMate'         " auto completion of quotes, [], (), etc.
+" Plug 'ctrlpvim/ctrlp.vim'                " file navigation
 
 "============================================================================
 " Plugins configuration
@@ -283,7 +286,6 @@ let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1
 
 
-
 "==================== vimtex
 
 let g:vimtex_view_general_viewer = 'open -a preview'
@@ -301,51 +303,19 @@ augroup END " }
 
 let g:vimtex_latexmk_options = '-pdf -verbose -bibtex -file-line-error -synctex=1 --interaction=nonstopmode'
 
-
-"==================== deoplete
-
-let g:deoplete#enable_at_startup = 1
-
-"---- set manual trigger
-inoremap <expr><leader>c deoplete#manual_complete()
-
-call deoplete#custom#option('auto_complete', 0)
-
-"---- Use tab to cycle through choices in popup menu https://github.com/Shougo/neosnippet.vim/issues/387
-"---- reset/extended in neosnippets below.
-imap <expr><TAB> pumvisible() ? "\<C-n>" : "<TAB>"
-
-"---- for vimtex: https://github.com/lervag/vimtex/blob/550672834707a587900a3c18dbba219b8dfe6d59/doc/vimtex.txt#L1593
-" dol edited this based on deprication warning
-call deoplete#custom#var('omni', 'input_patterns', {'tex':'\\(?:'
-            \ .  '\w*cite\w*(?:\s*\[[^]]*\]){0,2}\s*{[^}]*'
-            \ . '|\w*ref(?:\s*\{[^}]*|range\s*\{[^,}]*(?:}{)?)'
-            \ . '|hyperref\s*\[[^]]*'
-            \ . '|includegraphics\*?(?:\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-            \ . '|(?:include(?:only)?|input)\s*\{[^}]*'
-            \ . '|\w*(gls|Gls|GLS)(pl)?\w*(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-            \ . '|includepdf(\s*\[[^]]*\])?\s*\{[^}]*'
-            \ . '|includestandalone(\s*\[[^]]*\])?\s*\{[^}]*'
-            \ .')'})
-
-
-
-"==================== neosnippets
-
-"---- see note above with deoplete mapping
-imap <expr><TAB> pumvisible() ? "\<C-n>" : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "<TAB>"
-
-"---- select/expand snippet options with <CR>
-imap <expr><CR> neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : "\<CR>"
-
-"---- do not preview the snippets (annoying split)
-set completeopt-=preview
-
-"---- user snippets
-let g:neosnippet#snippets_directory="~/.config/nvim/user_snippets" 
-
-
-
+""==================== neosnippets
+"
+""---- see note above with deoplete mapping
+"imap <expr><TAB> pumvisible() ? "\<C-n>" : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "<TAB>"
+"
+""---- select/expand snippet options with <CR>
+"imap <expr><CR> neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : "\<CR>"
+"
+""---- do not preview the snippets (annoying split)
+"set completeopt-=preview
+"
+""---- user snippets
+"let g:neosnippet#snippets_directory="~/.config/nvim/user_snippets" 
 
 
 "==================== denite
@@ -463,3 +433,114 @@ endfunction
 
 
 
+"==================== coc
+
+" TextEdit might fail if hidden is not set.
+set hidden
+
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+" Give more space for displaying messages.
+"set cmdheight=2
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+"if has("patch-8.1.1564")
+"  " Recently vim can merge signcolumn and number column into one
+"  set signcolumn=number
+"else
+"  set signcolumn=yes
+"endif
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+"inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr> <leader>c coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gt <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+"xmap <leader>f  <Plug>(coc-format-selected)
+"nmap <leader>f  <Plug>(coc-format-selected)
+"
+"augroup mygroup
+"  autocmd!
+"  " Setup formatexpr specified filetype(s).
+"  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+"  " Update signature help on jump placeholder.
+"  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+"augroup end
+
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Mappings for CoCList
+" Find symbol of current document.
+nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
