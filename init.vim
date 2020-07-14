@@ -431,8 +431,6 @@ function! s:denite_my_settings() abort
 endfunction
 
 
-
-
 "==================== coc
 
 " TextEdit might fail if hidden is not set.
@@ -478,6 +476,16 @@ endfunction
 " Use <c-space> to trigger completion.
 "inoremap <silent><expr> <c-space> coc#refresh()
 inoremap <silent><expr> <leader>c coc#refresh()
+
+autocmd FileType * let b:coc_suggest_disable = 1
+nnoremap <leader>c :call ToggleCocSuggestions()<cr>
+function! ToggleCocSuggestions()
+    if b:coc_suggest_disable == 1
+        let b:coc_suggest_disable = 0
+    else
+        let b:coc_suggest_disable = 1
+    endif
+endfunction
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
 " position. Coc only does snippet and additional edit on confirm.
