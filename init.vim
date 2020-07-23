@@ -80,6 +80,10 @@ endif
 vnoremap < <gv
 vnoremap > >gv
 
+"--- remap tab to allow for tab to be used with coc
+inoremap ` <tab>
+vnoremap ` <tab>
+
 "--- map to qa to avoid errors for multiple buffers open
 nnoremap <leader>q :qa<CR>
 
@@ -226,6 +230,8 @@ call plug#end()
 " julia formatting and latex characters via \alpha<tab>
 
 let g:latex_to_unicode_file_types = ".*"
+let g:latex_to_unicode_auto = 1
+autocmd FileType tex :let g:latex_to_unicode_auto = 0
 
 "==================== vim-smooth-scroll
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 7, 1)<CR>
@@ -305,7 +311,6 @@ let g:vimtex_latexmk_options = '-pdf -verbose -bibtex -file-line-error -synctex=
 
 ""==================== neosnippets
 "
-""---- see note above with deoplete mapping
 "imap <expr><TAB> pumvisible() ? "\<C-n>" : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "<TAB>"
 "
 ""---- select/expand snippet options with <CR>
@@ -358,8 +363,8 @@ let s:denite_options = {'default' : {
 \ 'prompt': '᯾ ',
 \ 'vertical_preview': 1,
 \ 'reversed': 1,
-\ 'winwidth': &columns *6/8,
-\ 'wincol': &columns / 8,
+\ 'winwidth': &columns *28/30,
+\ 'wincol': &columns / 30,
 \ 'winheight': 12,
 \ 'statusline': 0,
 \ 'highlight_matched_char':      'denitetest',
@@ -503,9 +508,9 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gt <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
