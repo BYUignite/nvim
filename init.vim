@@ -482,7 +482,7 @@ endfunction
 "inoremap <silent><expr> <c-space> coc#refresh()
 inoremap <silent><expr> <leader>c coc#refresh()
 
-autocmd FileType * let b:coc_suggest_disable = 1
+let b:coc_suggest_disable = 1
 nnoremap <leader>c :call ToggleCocSuggestions()<cr>
 function! ToggleCocSuggestions()
     if b:coc_suggest_disable == 1
