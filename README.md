@@ -1,9 +1,13 @@
 ## Todo
 * brew install nvim
 * pip3 install pynvim
-* pip3 install 'python-language-server[all]'        # for python language completions in vim
-* pip3 install 'jedi'                               # for python language completions in vim
-
+* brew install llvm
+* vim: ```:CocInstall coc-clangd```
+* vim: `:CocCommand clangd.install
+* vim: `:CocInstall coc-python
+* checkout the coc-settings.json file, especially the last couple lines:
+  `"clangd.disableDiagnostics":true,
+  `"python.linting.enabled":false
 
 
 
@@ -11,6 +15,9 @@
 
 
 ### Some helpful notes
+
+
+* `:CocList extensions
 
 * enter greek letters: <C-k>t* --> \tau. <C-k>a* --> \alpha, etc.
 

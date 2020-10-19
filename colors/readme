@@ -1,1 +1,3 @@
 https://jonasjacek.github.io/colors/
+
+cp dol_airline.vim ../plugged/vim-airline-themes/autoload/airline/themes/
