@@ -229,6 +229,9 @@ Plug 'nvim-lua/completion-nvim'             " code completion
 
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
 
 call plug#end()
 
@@ -465,3 +468,6 @@ function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> <C-v> denite#do_map('do_action', 'vsplit')
   nnoremap <silent><buffer><expr> <C-h> denite#do_map('do_action', 'split')
 endfunction
+
+"==================== ultisnips, vim-snippets
+
