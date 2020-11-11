@@ -471,3 +471,4 @@ endfunction
 
 "==================== ultisnips, vim-snippets
 
+let g:UltiSnipsExpandTrigger = '<leader><Tab>'
