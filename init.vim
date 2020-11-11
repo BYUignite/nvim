@@ -139,6 +139,9 @@ augroup json " {
 augroup END " {
 
 
+"---------- for wrapping lines when using diff
+autocmd VimEnter * if &diff | execute 'windo set wrap' | endif
+
 "========== Syntax, Colors, Highlight: https://jonasjacek.github.io/colors/
 
 set background=light

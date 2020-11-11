@@ -2,7 +2,7 @@
 * brew install nvim
 * pip3 install pynvim
 * brew install llvm
-* vim: ```:CocInstall coc-clangd```
+* vim: `:CocInstall coc-clangd`
 * vim: `:CocCommand clangd.install
 * vim: `:CocInstall coc-python
 * checkout the coc-settings.json file, especially the last couple lines:
