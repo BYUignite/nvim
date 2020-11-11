@@ -232,6 +232,8 @@ Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
+Plug 'lervag/vimtex'                        " handy latex tools including mappings, etc.
+
 
 call plug#end()
 
@@ -335,6 +337,7 @@ require'nvim_lsp'.clangd.setup{on_attach=require'completion'.on_attach}
 require'nvim_lsp'.jedi_language_server.setup{on_attach=require'completion'.on_attach}
 require'nvim_lsp'.julials.setup{on_attach=require'completion'.on_attach}
 require'nvim_lsp'.bashls.setup{on_attach=require'completion'.on_attach}
+require'nvim_lsp'.texlab.setup{on_attach=require'completion'.on_attach}
 
 -- Disable Diagnostcs globally
 vim.lsp.callbacks["textDocument/publishDiagnostics"] = function() end
@@ -472,3 +475,20 @@ endfunction
 "==================== ultisnips, vim-snippets
 
 let g:UltiSnipsExpandTrigger = '<leader><Tab>'
+
+"==================== vimtex
+
+let g:vimtex_view_general_viewer = 'open -a preview'
+
+"---- make sure latex sees .tex files as .tex files (:h vimtex --> tex_flavor)
+let g:tex_flavor = "latex"
+
+"---- compile and view latex
+augroup latex_macros " {
+    autocmd!
+    autocmd FileType tex :nnoremap <leader>v :w<cr> :VimtexCompile<cr>
+    "autocmd FileType tex :nnoremap <leader>c :w<CR>:!rubber --pdf --warn all %<CR>
+    "autocmd FileType tex :nnoremap <leader>v :!open -a preview %:r.pdf &<CR><CR>
+augroup END " }
+
+let g:vimtex_latexmk_options = '-pdf -verbose -bibtex -file-line-error -synctex=1 --interaction=nonstopmode'
