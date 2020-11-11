@@ -168,13 +168,16 @@ highlight SneakLabel ctermfg=black ctermbg=gray
 "---------- popup menu
 highlight Pmenu ctermbg=255 ctermfg=0
 
-"---------- denite
-highlight denitewindow ctermbg=255 ctermfg=0
-highlight denitefilter ctermbg=253 ctermfg=0
-highlight deniteprompt ctermbg=253 ctermfg=0
-highlight denitetest   ctermbg=255 ctermfg=0
-highlight deniteSource_buffer_Name ctermbg=255   ctermfg=0
-highlight SignColumn   ctermbg=255 ctermfg=0
+""---------- fzf
+
+highlight fzf_window  ctermbg=254 ctermfg=0
+highlight fzf_border              ctermfg=254
+highlight fzf_gutter              ctermfg=254
+highlight fzf_marker  ctermbg=240 ctermfg=15
+highlight fzf_prompt              ctermfg=160
+highlight fzf_pointer             ctermfg=240
+highlight fzf_info                ctermfg=254
+highlight fzf_hl                  ctermfg=160
 
 "============================================================================
 "========== plugin manager: vim-plug
@@ -227,7 +230,8 @@ Plug 'nvim-treesitter/nvim-treesitter-refactor'
 Plug 'neovim/nvim-lspconfig'                " language server protocol
 Plug 'nvim-lua/completion-nvim'             " code completion
 
-Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -359,119 +363,6 @@ nnoremap <leader>c :CompletionToggle<cr>
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K  <cmd>lua vim.lsp.buf.hover()<CR>
 
-
-"==================== denite
-" See also: https://github.com/ornicar/dotfiles/blob/master/vim/vimrc
-"           https://github.com/machty/dotfiles/blob/master/.vimrc
-
-" Use ripgrep for searching current directory for files
-" By default, ripgrep will respect rules in .gitignore
-"   --files: Print each file that would be searched (but don't search)
-"   --glob:  Include or exclues files for searching that match the given glob
-"            (aka ignore .git files)
-"
-call denite#custom#var('file/rec', 'command', ['rg', '--files', '--glob', '!.git'])
-
-"--- Use ripgrep in place of "grep"
-call denite#custom#var('grep', 'command', ['rg'])
-
-"--- Custom options for ripgrep
-"      --vimgrep:  Show results with every match on it's own line
-"      --hidden:   Search hidden directories and files
-"      --heading:  Show the file name above clusters of matches from each file
-"      --S:        Search case insensitively if the pattern is all lowercase
-call denite#custom#var('grep', 'default_opts', ['--hidden', '--vimgrep', '--heading', '-S'])
-
-"--- Recommended defaults for ripgrep via Denite docs
-call denite#custom#var('grep', 'recursive_opts', [])
-call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
-call denite#custom#var('grep', 'separator', ['--'])
-call denite#custom#var('grep', 'final_opts', [])
-
-"--- Remove date from buffer list
-call denite#custom#var('buffer', 'date_format', '')
-
-"--- Custom options for Denite
-let s:denite_options = {'default' : {
-\ 'split': 'floating',
-\ 'start_filter': 1,
-\ 'auto_resize': 1,
-\ 'source_names': 'short',
-\ 'prompt': '᯾ ',
-\ 'vertical_preview': 1,
-\ 'reversed': 1,
-\ 'winwidth': &columns *28/30,
-\ 'wincol': &columns / 30,
-\ 'winheight': 12,
-\ 'statusline': 0,
-\ 'highlight_matched_char':      'denitetest',
-\ 'highlight_matched_range':     'denitetest',
-\ 'highlight_window_background': 'denitewindow',
-\ 'highlight_filter_background': 'denitefilter',
-\ 'highlight_prompt':            'deniteprompt',
-\ }}
-
-"--- Loop through denite options and enable them
-function! s:profile(opts) abort
-  for l:fname in keys(a:opts)
-    for l:dopt in keys(a:opts[l:fname])
-      call denite#custom#option(l:fname, l:dopt, a:opts[l:fname][l:dopt])
-    endfor
-  endfor
-endfunction
-
-call s:profile(s:denite_options)
-
-" === Denite shorcuts === "
-
-" <leader>b - Browser currently open buffers
-" <leader>f - Browse list of files in current directory
-" <leader>G - Search current directory for occurences of given term and close window if no results
-" <leader>g - Search current directory for occurences of word under cursor
-" <leader>t - Jump to tag under word
-nmap     <leader>b  :Denite buffer<CR>
-nmap     <leader>f  :DeniteProjectDir file/rec<CR>
-nnoremap <leader>G  :<C-u>Denite grep:. -no-empty<CR>
-nnoremap <leader>g  :<C-u>DeniteCursorWord grep:.:-w<CR>
-nnoremap <leader>T  :<C-u>DeniteCursorWord tag<CR>
-"nnoremap <leader>t  :<C-u>DeniteCursorWord -immediately tag<CR><CR>
-
-" Define mappings while in 'filter' mode
-"   kk            - Switch to normal mode inside of search results
-"   <Esc>         - Exit denite window in any mode
-"   <C-o>         - Open currently selected file in any mode
-"   <C-v>         - Open currently selected file a vertical split
-"   <C-h>         - Open currently selected file in a horizontal split
-autocmd FileType denite-filter call s:denite_filter_my_settings()
-function! s:denite_filter_my_settings() abort
-  imap <silent><buffer> kk        <Plug>(denite_filter_quit)
-  nnoremap <silent><buffer><expr> <Esc> denite#do_map('quit')
-  inoremap <silent><buffer><expr> <C-o> denite#do_map('do_action')
-  inoremap <silent><buffer><expr> <C-v> denite#do_map('do_action', 'vsplit')
-  inoremap <silent><buffer><expr> <C-h> denite#do_map('do_action', 'split')
-endfunction
-
-" Define mappings while in denite window
-"   <CR>        - Opens currently selected file
-"   q or <Esc>  - Quit Denite window
-"   d           - Delete currenly selected file
-"   p           - Preview currently selected file
-"   <C-o> or i  - Switch to insert mode inside of filter prompt
-"   <C-v>       - Open currently selected file a vertical split
-"   <C-h>       - Open currently selected file in a horizontal split
-autocmd FileType denite call s:denite_my_settings()
-function! s:denite_my_settings() abort
-  nnoremap <silent><buffer><expr> <CR>  denite#do_map('do_action')
-  nnoremap <silent><buffer><expr> <C-o> denite#do_map('do_action')
-  nnoremap <silent><buffer><expr> <Esc> denite#do_map('quit')
-  nnoremap <silent><buffer><expr> d     denite#do_map('do_action', 'delete')
-  nnoremap <silent><buffer><expr> p     denite#do_map('do_action', 'preview')
-  nnoremap <silent><buffer><expr> i     denite#do_map('open_filter_buffer')
-  nnoremap <silent><buffer><expr> <C-i> denite#do_map('open_filter_buffer')
-  nnoremap <silent><buffer><expr> <C-v> denite#do_map('do_action', 'vsplit')
-  nnoremap <silent><buffer><expr> <C-h> denite#do_map('do_action', 'split')
-endfunction
-
 "==================== ultisnips, vim-snippets
 
 let g:UltiSnipsExpandTrigger = '<leader><Tab>'
@@ -492,3 +383,36 @@ augroup latex_macros " {
 augroup END " }
 
 let g:vimtex_latexmk_options = '-pdf -verbose -bibtex -file-line-error -synctex=1 --interaction=nonstopmode'
+
+"==================== fzf
+
+let g:fzf_nvim_statusline = 0 " disable statusline overwriting
+
+nnoremap <silent> <leader>f :Files<CR>
+nnoremap <silent> <leader>b :Buffers<CR>
+nnoremap <silent> <leader>T :Tags<CR>
+nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
+nnoremap <silent> <leader>G :Ag
+nnoremap <silent> <leader>g :call SearchWordWithAg()<CR>
+
+function! SearchWordWithAg()
+  execute 'Ag' expand('<cword>')
+endfunction
+
+"------------ window layout and colors
+
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.4 } }
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'fzf_window'],
+  \ 'bg':      ['bg', 'fzf_window'],
+  \ 'hl':      ['fg', 'fzf_hl'],
+  \ 'fg+':     ['fg', 'fzf_marker'],
+  \ 'bg+':     ['bg', 'fzf_marker'],
+  \ 'hl+':     ['fg', 'fzf_marker'],
+  \ 'info':    ['fg', 'fzf_info'],
+  \ 'border':  ['fg', 'fzf_border'],
+  \ 'gutter':  ['fg', 'fzf_gutter'],
+  \ 'prompt':  ['fg', 'fzf_prompt'],
+  \ 'pointer': ['fg', 'fzf_pointer']
+  \}
+
