@@ -255,6 +255,14 @@ call plug#end()
 " Plugins configuration
 "============================================================================
 
+"==================== gutentags
+
+let g:gutentags_enabled = 0
+augroup auto_gutentags
+  au FileType python,java,scala,json,yml,yaml,css,scss,less,xml,html,xhtml,svg,js,javascript,ts,typescript let g:gutentags_enabled=1
+augroup end
+
+
 "==================== diffchar
 
 let g:DiffUnit = 'Word1'
