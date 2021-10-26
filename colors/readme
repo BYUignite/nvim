@@ -1,3 +1,4 @@
-https://jonasjacek.github.io/colors/
+# https://jonasjacek.github.io/colors/
 
 cp dol_airline.vim ../plugged/vim-airline-themes/autoload/airline/themes/
+cp dol_airline_2.vim ../plugged/vim-airline-themes/autoload/airline/themes/
