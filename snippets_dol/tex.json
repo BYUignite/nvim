@@ -1,0 +1,42 @@
+{
+
+  "good figure": {
+  "prefix": ["gfig"],
+  "body": [
+           "%",
+           "\\begin{figure}",
+           "    \\begin{center}",
+           "    \\begin{tabular}{c c}",
+           "        (a) & (b) \\\\\\",
+           "        \\includegraphics[width=3 in]{$1} &",
+           "        \\includegraphics[width=3 in]{$2}",
+           "    \\end{tabular}",
+           "    \\caption{${3:x}}",
+           "    \\label{f:${4:x}}",
+           "    \\end{center}",
+           "\\end{figure}",
+           "%"
+          ]
+  },
+
+  "good table": {
+  "prefix": ["gtab"],
+  "body": [
+           "%",
+           "\\begin{table}",
+           "     \\caption{${1:x}}",
+           "     \\label{t:${2:x}}",
+           "     \\centering",
+           "     \\begin{tabular}{l l l}",
+           "         \\hline",
+           "          Level     &  Length scale       &  Time scale      \\\\\\",
+           "         \\hline",
+           "          0         &  \\$L_0\\$              & \\$\\tau_0\\$         \\\\\\",
+           "          1         &  \\$L_1\\$              & \\$\\tau_1\\$         \\\\\\",
+           "         \\hline",
+           "     \\end{tabular}",
+           "\\end{table}",
+           "%"
+          ]
+  }
+}

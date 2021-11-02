@@ -1,0 +1,59 @@
+{
+
+  "import numpy": {
+  "prefix": ["inp"],
+  "body": [
+           "import numpy as np"
+          ]
+  },
+
+  "import matplotlib": {
+  "prefix": ["impl"],
+  "body": [
+           "import matplotlib.pyplot as plt"
+          ]
+  },
+
+  "import numpy matplotlib": {
+  "prefix": ["inm"],
+  "body": [
+           "import numpy as np",
+           "import matplotlib.pyplot as plt"
+          ]
+  },
+
+
+
+  "imports": {
+  "prefix": ["imports"],
+  "body": [
+           "import numpy as np", 
+           "import matplotlib.pyplot as plt",
+           "from scipy.optimize      import fsolve, curve_fit",
+           "from scipy.integrate     import odtint, quad",
+           "from scipy.interpolate   import interp1d",
+           "from scipy.misc          import derivative",
+           "import scipy.constants   as const",
+           "import sympy             as sp",
+           "sp.init_printing()",
+           "import glob",
+           "import time",
+           "#import pint; u = pint.UnitRegistry()"
+          ]
+  },
+
+  "plot": {
+  "prefix": ["plot"],
+  "body": [
+           "plt.rc('font', size=14)",
+           "plt.plot(${1:x},${2:y}, color='black', linewidth='1')",
+           "plt.xlabel($3)",
+           "plt.ylabel($4)",
+           "plt.legend([${5:y}], frameon=False)",
+           "plt.xlim([np.min(x), 1.1*np.max(x)])",
+           "plt.ylim([np.min(y), 1.1*np.max(y)])",
+           "plt.show()"
+          ]
+  }
+
+}
