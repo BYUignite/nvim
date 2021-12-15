@@ -26,8 +26,6 @@ set viminfo=!,%,'100,f1,<50,h,s10 " http://vimdoc.sourceforge.net/htmldoc/option
 set nosol                         " don't go to the beginning of line when G, gg, etc.; good for selecting cols in visual mode
 set scrolloff=3                   " always see 3 lines above and below cursor (top/bottom)
 
-set tags^=.git/tags;~             " run ctags -R at the top of a source tree; needs +path_extra (run vim --version)
-
 set path+=**                      " allows searching in subdirectories
 
 set pumheight=7                   " popup menu height size
@@ -451,7 +449,7 @@ autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 
 let g:gutentags_enabled = 0
 augroup auto_gutentags
-  au FileType python,java,scala,json,yml,yaml,css,scss,less,xml,html,xhtml,svg,js,javascript,ts,typescript let g:gutentags_enabled=1
+  au FileType cpp,python,java,scala,json,yml,yaml,css,scss,less,xml,html,xhtml,svg,js,javascript,ts,typescript let g:gutentags_enabled=1
 augroup end
 
 "==================== diffchar
