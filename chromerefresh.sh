@@ -4,9 +4,10 @@
 # http://loopduplicate.com/content/refresh-chrome-from-the-mac-terminal-using-applescript
 # See also init.vim markdown area remap leader v to save, compile code and refresh chrome (here)
 
-exec <"$0" || exit; read v; read v; exec /usr/bin/osascript - "$@"; exit
+#exec <"$0" || exit; read v; read v; exec /usr/bin/osascript - "$@"; exit
 # The line above allows the rest of the file to be written in plain AppleScript.
  
+osascript<<EOF
 tell application "Google Chrome"
   activate
   tell application "System Events"
@@ -17,3 +18,4 @@ tell application "Google Chrome"
 end tell
  
 tell application "iTerm2" to activate
+EOF
