@@ -17,6 +17,7 @@ set nofsync                 " turn off fsync
 set history=10000           " lines of history to remember
 set incsearch               " do incremental seraching as you type
 set hlsearch                " highlight what you're searching for
+set hidden
 set langnoremap
 set nolangremap
 set laststatus=2             " alsways use status line in position 2
@@ -34,3 +35,4 @@ set ttimeoutlen=50           " time in ms to wait for a key code sequence to com
 set ttyfast                  " fast terminal
 set wildmenu                 " ...wildmenu
 set wildoptions=pum,tagfile  " changes how cmdline-completion is done
+set tags^=.git/tags;~        " (not needed with gutentags) run ctags -R at the top of a source tree; needs +path_extra (run vim --version)

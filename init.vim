@@ -6,49 +6,35 @@ endif
 
 "========== General settings
 
-set cmdheight=1                  " height of the command window at the bottom
+"set clipboard=unnamedplus                " use system clipboard register by default (yy -> paste in other app, etc.), but BREAKS visual block paste
+"set number                               " show line numbers; see also :set relativenumber for local/relative numbering
+set noshowmode                            " don't show mode (it is shown in airline here)
+set mouse=a                               " mouse support for all modes
+set splitright                            " new split to right
+set splitbelow                            " new split below
+set expandtab                             " convert tabs to  number of spaces; sse :set noexpandtab to disable
+set tabstop=4                             " set the tabstop to 4 spaces
+set shiftwidth=4                          " e.g., indenting code; should match tabstop
+set smartindent                           " vim will try to help you indent your code.
+set showmatch                             " show matching () {} etc...; use %, and see also vim-matchit plugin
+set ignorecase                            " ignores case on search (but see also smartcase)
+set smartcase                             " with ignorecase searches with some caps will be case sensitive.
+set nowrapscan                            " do not wrap while searching (stop at bottom (or top) of file)
+set cursorline                            " highlight the whole line where the cursor is
+set diffopt+=vertical                     " vertical split for diffing
+set completeopt=menuone,noinsert,noselect " completion menu options
+set shortmess+=c                          " avoid showing extra message when using completion
+set pumheight=7                           " popup menu height size
+set timeoutlen=300                        " millisecond delay before recognize command completion and character combos
+set viminfo=!,%,'100,f1,<50,h,s10         " remember settings on reopen
+filetype plugin indent on                 " detect file type
+set path+=**                              " allows searching in subdirectories
+au BufEnter * set fo-=c fo-=r fo-=o       " don't continue comments on enter etc; see :h fo-table, https://tinyurl.com/zehso5h
+:au BufReadPost * if line("'\"") > 1 &&
+    \ line("'\"") <= line("$") |
+    \ exe "normal! g`\"" | endif          "open file at previous cursor location
 
-filetype on                       " detect file type
-filetype plugin on                " read the ftplugins/somefile_for_given_type
-
-set noshowmode                    " don't show mode (it is shown in airline here)
-set backspace=2                   " make the backspace key always work.
-
-set tabstop=4                     " set the tabstop to 4 spaces
-set expandtab                     " convert tabs to  number of spaces; sse :set noexpandtab to disable
-set shiftwidth=4                  " e.g., indenting code; should match tabstop
-set smartindent                   " vim will try to help you indent your code.
-
-set showmatch                     " show matching () {} etc...; use %, and see also vim-matchit plugin
-
-set viminfo=!,%,'100,f1,<50,h,s10 " http://vimdoc.sourceforge.net/htmldoc/options.html#'viminfo'
-
-set nosol                         " don't go to the beginning of line when G, gg, etc.; good for selecting cols in visual mode
-set scrolloff=3                   " always see 3 lines above and below cursor (top/bottom)
-
-set path+=**                      " allows searching in subdirectories
-
-set pumheight=7                   " popup menu height size
-
-set hidden                        " don't require save before opening/switching buffers"
-"set clipboard=unnamedplus        " use system clipboard register by default (yy -> paste in other app, etc.), but BREAKS visual block paste
-
-if has('mouse')
-    set mouse=a                   " mouse support for all modes
-    "set mouse=                   " turn off vim mouse handling
-endif
-
-autocmd FileType * set fo-=c fo-=r fo-=o  " see :h fo-table; not enough to just set fo:
-autocmd BufEnter * set fo-=c fo-=r fo-=o  " see https://tinyurl.com/zehso5h
-
-:au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif    "open file at previous cursor location
-
-set timeoutlen=300                " millisecond delay before recognize command completion and character combos
-
-set diffopt+=vertical
-
-set splitright
-set splitbelow
+:set cmdheight=1
 
 "========== key mappings
 
@@ -61,11 +47,10 @@ nnoremap <leader>rtw :%s/\s\+$//e<CR>
 "--- jj in insert mode to escape
 inoremap jj <ESC>
 
-"--- turn off search highlight
+"--- cancel the search highlight
 nnoremap <leader><space> :noh<cr>
 
-"--- navigate between windows: hold down Ctrl then typel hjkl to move
-"--- not needed with vim-tmux-navigator plugin
+"--- navigate windows; not needed with vim-tmux-navigator plugin
 "noremap <C-j>     <C-W>j
 "noremap <C-k>     <C-W>k
 "noremap <C-h>     <C-W>h
@@ -74,50 +59,34 @@ nnoremap <leader><space> :noh<cr>
 "--- nvim terminal and winndow navigation
 if has('nvim')
     nmap <BS> <C-W>h
-
     tnoremap <C-h> <C-\><C-n><C-w>h
     tnoremap <C-j> <C-\><C-n><C-w>j
     tnoremap <C-k> <C-\><C-n><C-w>k
     tnoremap <C-l> <C-\><C-n><C-w>l
     tnoremap <expr> <Esc> "<c-\><c-n>"
-
 endif
 
-"--- tabbing: select lines and hit > or < to indentation block
+"--- tabbing: select lines, then > or < to indent
 vnoremap < <gv
 vnoremap > >gv
 
 "--- map to qa to avoid errors for multiple buffers open
 nnoremap <leader>q :qa<CR>
 
-"--- map to switch between header file and source file
-" https://vim.fandom.com/wiki/Easily_switch_between_source_and_header_file
+"--- switch between .h and .cc files; https://tinyurl.com/2p9bevf4
 map <leader>s :e %:p:s,.h$,.X123X,:s,.cc$,.h,:s,.X123X$,.cc,<CR>
 
-"--- map jump to tag, as opposed to <C-]>
-"--- can go back with <C-t> or with <C-o>
+"--- map jump to tag (instead of <C-]>); go back with <C-t> or <C-o>
 nnoremap <leader>t <C-]>
 
-"========== folding (general, see file specific in ftplugins, like python)
+"========== folding
 
-set foldopen-=search              " don't open folds when searching
+set foldopen-=search              " dont open folds when searching
 set foldmethod=marker             " select then zf to fold; za, zd, zc, space: toggles, delete, close, open
-
-"========== hide and seek
-
-set nowrapscan                    " do not wrap while searching (stop at bottom (or top) of file)
-set ignorecase                    " ignores case on search (but see also smartcase)
-set smartcase                     " with ignorecase searches with some caps will be case sensitive.
-set cursorline                    " highlight the whole line where the cursor is
-"set number                       " show line numbers; see also :set relativenumber for local/relative numbering
 
 "========== Wrapping/file stuff   " http://vim.wikia.com/wiki/Automatic_word_wrapping
 
-set nowrap                        " do not wrap lines longer than the window (not great for text, but fixed for file types below)
-"set wrap linebreak nolist
-
-"--- turn off syntax error checking on latex
-let g:tex_no_error=1
+set nowrap                        " dont wrap; (not great for text, but fixed for file types below)
 
 augroup python " {
     autocmd!
@@ -137,10 +106,10 @@ augroup markdown " {
     autocmd BufNewFile,BufRead *.md set wrap linebreak nolist tw=0 wm=0
     autocmd BufNewFile,BufRead *.md noremap j gj
     autocmd BufNewFile,BufRead *.md noremap k gk
-    " for markdown-preview.nvim plugin:
+    "--- for markdown-preview.nvim plugin:
     autocmd BufNewFile,BufRead *.md :nnoremap <leader>v :MarkdownPreview<CR>
-    " for compiling reveal.js slides that start with 'lecture'
-    autocmd BufNewFile,BufRead * if expand('%') =~ 'lecture*' | :nnoremap <leader>v :w<CR> :!./buildit.sh<CR> :!/Users/dol4/.config/nvim/chromerefresh.sh<CR> | endif
+    "--- for compiling reveal.js slides that start with 'lecture'
+    autocmd BufNewFile,BufRead * if expand('%') =~ 'lecture*' | :nnoremap <leader>v :w<CR> :!./buildit.sh<CR> :!$HOME/.config/nvim/chromerefresh.sh<CR> | endif
 augroup END " }
 
 augroup textfile " {
@@ -150,13 +119,13 @@ augroup textfile " {
     autocmd BufNewFile,BufRead *.txt noremap k gk
 augroup END " }
 
-"---------- for emphasizing comments in json files
 augroup json " {
     autocmd!
+    "--- comments in json files
     autocmd FileType json syntax match Comment +\/\/.\+$+
 augroup END " {
 
-"---------- for wrapping lines when using diff
+"--- wrapping lines when using diff
 autocmd VimEnter * if &diff | execute 'windo set wrap' | endif
 
 
@@ -173,21 +142,16 @@ highlight EndOfBuffer ctermfg=253 ctermbg=253
 highlight CursorLine  cterm=bold
 highlight Folded      ctermfg=248 ctermbg=015
 
-"---------- Markdown, don't highlight underscores
+"--- markdown: don't highlight underscores in text (technically an error)
 highlight link markdownError Normal
 
-"---------- diff colors
+"--- diff colors
 highlight DiffAdd    cterm=none ctermfg=none  ctermbg=249 gui=none
 highlight DiffDelete cterm=none ctermfg=249   ctermbg=249 gui=none
 highlight DiffChange cterm=none ctermfg=015   ctermbg=23  gui=none
 highlight DiffText   cterm=none ctermfg=015   ctermbg=30  gui=none
 
-"---------- sneak
-highlight Sneak      ctermfg=black ctermbg=gray
-highlight SneakScope ctermfg=black ctermbg=red
-highlight SneakLabel ctermfg=black ctermbg=gray
-
-"---------- popup menu
+"--- popup menu
 highlight Pmenu ctermbg=255 ctermfg=0
 
 "============================================================================
@@ -201,6 +165,7 @@ highlight Pmenu ctermbg=255 ctermfg=0
 " run :PlugClean to remove unused plugins
 " run :PlugUpgrade to update vim-plug itself
 
+"--- automatically install plug if it is not already there
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
         \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -211,23 +176,23 @@ call plug#begin()
 
 Plug 'vifm/vifm.vim'                        " vifm file manager (instead of others, like nerdtree)
 Plug 'rbgrouleff/bclose.vim'                " <leader>bd to delete buffer, or :Bclose, or :Bclose buffer#
-Plug 'chrisbra/Colorizer'                   " show color codes with colors in vim; :ColorHighlight to show colors for codes
-Plug 'karb94/neoscroll.nvim'                " smooth scrolling
+Plug 'karb94/neoscroll.nvim'                " smooth scrolling, e.g. <C-d>
 Plug 'adelarsq/vim-matchit'                 " expands % functionality for finding matches, e.g., html tags
 Plug 'vim-airline/vim-airline'              " nice appearance, statusbars, top buffer tabs
 Plug 'vim-airline/vim-airline-themes'       " airline themes, e.g., papercolor
 Plug 'edkolev/tmuxline.vim'                 " integrates tmux and airline
 Plug 'christoomey/vim-tmux-navigator'       " helping with navigation between windows
 Plug 'vim-scripts/loremipsum'               " :Loremipsum or :Loremipsum 1000 --> generates dummy text
-Plug 'kassio/neoterm'                       " reuse terminal
-Plug 'szw/vim-maximizer'                    " maximize current window
+Plug 'kassio/neoterm'                       " reuse terminal; <leader> r to open/close a quick terminal
+Plug 'szw/vim-maximizer'                    " maximize current window; <leader> m to make split big/return
 Plug 'tpope/vim-fugitive'                   " all things git
-Plug 'tpope/vim-commentary'                 " nice commenting gcc gcap
+Plug 'tpope/vim-commentary'                 " nice commenting; highlight then gc; gcc, gcap for line, paragraph
 Plug 'ludovicchabant/vim-gutentags'         " ctags autogenerated in git folders
-Plug 'airblade/vim-rooter'                  " make folder with .git the root folder (allows fzf to search project, not just local)
 Plug 'lervag/vimtex'                        " handy latex tools including mappings, etc.
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'rickhowe/diffchar.vim'                " improve diff'ing of files using vim
+Plug 'nvim-telescope/telescope.nvim'        " for telescope: fuzzy file finder, etc.
+Plug 'nvim-lua/plenary.nvim'                " for telescope: fuzzy file finder, etc.
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 Plug 'neovim/nvim-lspconfig'                " language server protocol
 Plug 'hrsh7th/cmp-nvim-lsp'                 " completion and related
@@ -245,40 +210,38 @@ Plug 'onsails/lspkind-nvim'
 Plug 'nvim-treesitter/nvim-treesitter'      " nice highlighting, etc.
 Plug 'nvim-treesitter/nvim-treesitter-refactor'
 
-"Plug 'SirVer/ultisnips'                    " snippets
-"Plug 'honza/vim-snippets'                  " snippets
-
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-
 call plug#end()
 
 "============================================================================
 " Plugins configuration
 "============================================================================
 
+"==================== treesitter (better highlighting)
+" do :TSInstall <tab> then select languages
+" see :TSInstallInfo to see what is installed
+" incremental keymaps are <Alt+kjl> for scope_incremental, node_decremental, node_incremental
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight             = { enable = true },
+  indent                = { enable = true },
+  incremental_selection = { enable = true,
+                            keymaps = {init_selection    = "gss",
+                                       scope_incremental = "˚",
+                                       node_decremental  = "∆",
+                                       node_incremental  = "¬"}},
+  refactor              = { highlight_definitions   = { enable = true },
+                            highlight_current_scope = { enable = false } },
+}
+EOF
+
+set updatetime=1000       " time to wait on cursor hold to highlight
+
 "==================== completion (cmp), LSP (nvim-lspconfig), snippets
 " do :h lsp and follow instructions:
 "    (1) install nvim-lspconfig;
 "    (2) install language servers, either :LspInstall or otherwise
 "    (3) include the require'lspconfig'.clangd.setup{...} commands
-
-lua <<EOF
-
-local lsp = require('lspconfig')
-lsp.clangd.setup({})
-lsp.jedi_language_server.setup({})
-lsp.texlab.setup({})
-lsp.fortls.setup({})
-
--- Disable Diagnostcs globally
-vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
-EOF
-
-"------------------------------
-
-set completeopt=menuone,noinsert,noselect
-set shortmess+=c     " avoid showing message extra message when using completion
 
 "------------------------------
 
@@ -287,7 +250,7 @@ lua <<EOF
 local cmp     = require 'cmp'
 local lspkind = require 'lspkind'
 
---https://github.com/hrsh7th/nvim-cmp/issues/417
+--https://github.com/hrsh7th/nvim-cmp/issues/417  tzachar Oct 27
 cmp.register_source('cmdline_buffer', require('cmp_buffer').new())
 cmp.setup.cmdline('/', {
     sources = {
@@ -301,6 +264,7 @@ cmp.setup.cmdline(':', {
         { name = 'cmdline' }
     })
 })
+--done
 
 cmp.setup {
   snippet = {
@@ -308,20 +272,17 @@ cmp.setup {
       vim.fn['vsnip#anonymous'](args.body)
     end,
   },
-  
+
   mapping = {
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>']     = cmp.mapping.abort(),
     ['<C-u>']     = cmp.mapping.scroll_docs(-10),
     ['<C-d>']     = cmp.mapping.scroll_docs(10),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<tab>']     = cmp.mapping.confirm { select = true },
-    ['<CR>']     = cmp.mapping.confirm { select = true },
-    -- Don't insert if I explicitly exit
-    -- Start completion manually with C-Space to have it truly clean-up
-    ['<C-e>'] = cmp.mapping.abort(),
-    -- Insert instead of Select so you don't go away at `stopinsert` after `CursorHoldI`
-    -- @TODOUA: I want to be able to `Select` without `stopinsert` killing it (& keep `stopinsert`)
-    ['<Up>']   = cmp.mapping(cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert }, { 'i', 'c' }),
-    ['<Down>'] = cmp.mapping(cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert }, { 'i', 'c' }),
+    ['<CR>']      = cmp.mapping.confirm { select = true },
+    ['<Up>']      = cmp.mapping(cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert }, { 'i', 'c' }),
+    ['<Down>']    = cmp.mapping(cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert }, { 'i', 'c' }),
+    ['<tab>']     = cmp.mapping(cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert }, { 'i', 'c' }),
+    ['<S-tab>']   = cmp.mapping(cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert }, { 'i', 'c' }),
   },
   documentation = {
     border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
@@ -373,77 +334,94 @@ lsp.jedi_language_server.setup({ capabilities = capabilities, })
 lsp.texlab.setup( {              capabilities = capabilities, })
 lsp.fortls.setup({               capabilities = capabilities, })
 
--- Disable Diagnostcs globally
+-- disable diagnostcs globally (diagnostics are a pain)
 vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
 
 EOF
 
 let g:vsnip_snippet_dir="/Users/dol4/.config/nvim/snippets_dol/"
 
-"==================== telescope
-
-nnoremap <leader>f <cmd>Telescope find_files<cr>
-nnoremap <leader>b <cmd>Telescope buffers<cr>
-nnoremap <leader>/ <cmd>Telescope live_grep<cr>
-nnoremap <leader>g <cmd>Telescope grep_string<cr>
-nnoremap <leader>g <cmd>Telescope grep_string<cr>
-nnoremap <leader>T <cmd>Telescope tags<cr>
-
-
-"-------- https://vimawesome.com/plugin/telescope-nvim-care-of-itself
-"-------- https://github.com/whatsthatsmell/dots/blob/master/public%20dots/vim-nvim/lua/joel/telescope/init.lua
-lua<<EOF
-require('telescope').setup{
-  defaults = {
-    prompt_prefix = "➤ ",
-    selection_caret = "➤ ",
-    entry_prefix = "  ",
-    }
-}
-EOF
-
 "====================
 
 ""----------- Mappings
-"" Use <Tab> and <S-Tab> to navigate through popup menu
+" Use <Tab> and <S-Tab> to navigate through popup menu
 "inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 "inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-"
+
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K  <cmd>lua vim.lsp.buf.hover()<CR>
 
+"==================== telescope
 
+nnoremap <leader>f <cmd>Telescope find_files<cr>
+nnoremap <leader>o <cmd>Telescope oldfiles<cr>
+nnoremap <leader>b <cmd>Telescope buffers<cr>
+nnoremap <leader>/ <cmd>Telescope live_grep<cr>
+nnoremap <leader>g <cmd>Telescope grep_string<cr>
 
-"==================== treesitter (better highlighting)
-" do :TSInstall <tab> then select languages
-" incremental keymaps are <Alt+kjl> for scope_incremental, node_decremental, node_incremental
-
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  highlight             = { enable = true },
-  indent                = { enable = true },
-  incremental_selection = { enable = true,
-                            keymaps = {init_selection    = "gss",
-                                       scope_incremental = "˚",
-                                       node_decremental  = "∆",
-                                       node_incremental  = "¬"}},
-  refactor              = { highlight_definitions   = { enable = true },
-                            highlight_current_scope = { enable = false } },
+"-------- https://vimawesome.com/plugin/telescope-nvim-care-of-itself
+"-------- https://github.com/whatsthatsmell/dots/blob/master/public%20dots/vim-nvim/lua/joel/telescope/init.lua
+"-------- http://www.aliquote.org/post/vim-fuzzy-finder/
+lua<<EOF
+require('telescope').setup {
+  defaults = {
+    vimgrep_arguments = {
+      'rg',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+      '--smart-case'
+    },
+    prompt_prefix = "➤ ",
+    selection_caret = "➤ ",
+    entry_prefix = "  ",
+    sorting_strategy = "descending",
+    --layout_strategy = "vertical",
+    file_ignore_patterns = {},
+    layout_config = {height = 40},
+    color_devicons = false,
+    set_env = {['COLORTERM'] = 'truecolor'},
+  },
+  pickers = {
+    buffers = {
+      sort_lastused = true,
+      --theme = "dropdown",
+      --previewer = false,
+      mappings = {
+        i = {["<c-d>"] = require("telescope.actions").delete_buffer},
+        n = {["<c-d>"] = require("telescope.actions").delete_buffer}
+      }
+    },
+    find_files = {
+      layout_config = {height = 40},
+    },
+    oldfiles = {
+      sort_lastused = true,
+    },
+    --command_history = ...
+    --current_buffer_fuzzy_find = ...
+  }
 }
+
 EOF
 
-set updatetime=1000       " time to wait on cursor hold to highlight
+"==================== neoterm
 
-"==================== fugitive
-
-
+let g:neoterm_default_mod = 'botright'
+let g:neoterm_autoinsert = 1
+let g:neoterm_size = 20
+nnoremap <leader>r :Ttoggle<CR>
+inoremap <leader>r :Ttoggle<CR>
+tnoremap <leader>r :Ttoggle<CR>
 
 "==================== vim-maximizer
+
 nnoremap <leader>m :MaximizerToggle!<CR>
 
 "==================== vim-commentary
-autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 
+autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 
 "==================== gutentags
 
@@ -457,13 +435,6 @@ augroup end
 let g:DiffUnit = 'Word1'
 let g:DiffColors = 0
 let g:DiffPairVisible = 1
-
-"==================== markdown-preview
-"Plug 'JamshedVesuna/vim-markdown-preview'
-
-"let vim_markdown_preview_hotkey='<leader>v'
-"let vim_markdown_preview_browser='Google Chrome'
-"let vim_markdown_preview_pandoc=1
 
 "==================== neoscroll
 
@@ -487,15 +458,31 @@ require('neoscroll.config').set_mappings(t)
 
 EOF
 
-
 "==================== vifm config
 
 let g:vifm_embed_split=1
 noremap <leader>fm :vertical 40Vifm<CR>
 
+"==================== vimtex
+
+let g:vimtex_view_method = 'skim'
+
+"---- make sure latex sees .tex files as .tex files (:h vimtex --> tex_flavor)
+let g:tex_flavor = "latex"
+
+"---- compile and view latex
+augroup latex_macros " {
+    autocmd!
+    autocmd FileType tex :nnoremap <leader>v :w<cr> :VimtexCompile<cr>
+augroup END " }
+
+if has("nvim")
+  let g:vimtex_compiler_progname = 'nvr'
+endif
+
 "==================== Airline config
 
-"---- show top bar
+"---- show top buffer bar
 let g:airline#extensions#tabline#enabled = 1
 
 "---- show buffer number top bar
@@ -503,8 +490,6 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 
 let g:airline_powerline_fonts = 1
 let g:airline_theme='dol_airline_2'
-"let g:airline_theme='papercolor'
-"let g:airline_theme='luna'
 
 "---- don't show file type or encoding
 let g:airline_section_x=''
@@ -535,46 +520,4 @@ let airline#extensions#tmuxline#snapshot_file = "~/.tmux-status.conf"
 
 let g:tmuxline_powerline_separators = 0
 
-"==================== ultisnips, vim-snippets
-
-"let g:UltiSnipsExpandTrigger = '<leader><Tab>'
-
-"==================== vimtex
-
-let g:vimtex_view_method = 'skim'
-
-"---- make sure latex sees .tex files as .tex files (:h vimtex --> tex_flavor)
-let g:tex_flavor = "latex"
-
-"---- compile and view latex
-augroup latex_macros " {
-    autocmd!
-    autocmd FileType tex :nnoremap <leader>v :w<cr> :VimtexCompile<cr>
-augroup END " }
-
-if has("nvim")
-  let g:vimtex_compiler_progname = 'nvr'
-endif
-
-"==================== neoterm
-
-let g:neoterm_default_mod = 'botright'
-let g:neoterm_autoinsert = 1
-let g:neoterm_size = 20
-nnoremap <leader>r :Ttoggle<CR>
-inoremap <leader>r :Ttoggle<CR>
-tnoremap <leader>r :Ttoggle<CR>
-
-
 "========================================================================
-
-"======= hit <C-n> in insert mode to show completion
-if has('unix')
-    set dictionary+=/usr/share/dict/words
-endif
-set complete+=k
-
-"https://vim.fandom.com/wiki/Make_Vim_completion_popup_menu_work_just_like_in_an_IDE
-":inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-"inoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-
