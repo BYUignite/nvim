@@ -254,7 +254,7 @@ local lspkind = require 'lspkind'
 cmp.register_source('cmdline_buffer', require('cmp_buffer').new())
 cmp.setup.cmdline('/', {
     sources = {
-        { name = 'cmdline_buffer', opts = { keyword_pattern = [=[[^[:blank:]].*]=] } }
+        { name = 'cmdline_buffer', option = { keyword_pattern = [=[[^[:blank:]].*]=] } }
     }
 })
 cmp.setup.cmdline(':', {
@@ -295,7 +295,7 @@ cmp.setup {
     { name = 'calc' },
     {
       name = 'buffer',
-      opts = {
+      option = {
         get_bufnrs = function()
           return vim.api.nvim_list_bufs()
         end,
