@@ -1,0 +1,52 @@
+{
+
+  "gcmakeExe": {
+  "prefix": ["gcmakeExe"],
+  "body": [
+            "cmake_minimum_required(VERSION 3.23)",
+            "",
+            "project(example LANGUAGES CXX)",
+            "", 
+            "######################################",
+            "",
+            "set(CMAKE_VERBOSE_MAKEFILE ON)",
+            "set(CMAKE_CXX_STANDARD 20)",
+            "",
+            "######################################",
+            "", 
+            "add_executable(${1:run.x})",
+            "target_sources($1 PRIVATE ${2:main.cc})",
+            "",
+            "install(TARGETS use_hello.x DESTINATION \"${PROJECT_SOURCE_DIR}\")"
+          ]
+  },
+
+  "gcmakeExeParent": {
+  "prefix": ["gcmakeExeParent"],
+  "body": [
+            "cmake_minimum_required(VERSION 3.23)",
+            "",
+            "project(example LANGUAGES CXX)",
+            "", 
+            "######################################",
+            "",
+            "set(CMAKE_VERBOSE_MAKEFILE ON)",
+            "set(CMAKE_CXX_STANDARD 20)",
+            "",
+            "######################################",
+            "", 
+            "add_subdirectory(src)"
+          ]
+  },
+
+  "gcmakeExeSrc": {
+  "prefix": ["gcmakeExeSrc"],
+  "body": [
+            "add_executable(${1:run.x})",
+            "target_sources($1 PRIVATE ${2:main.cc})",
+            "",
+            "install(TARGETS $1 DESTINATION \"${PROJECT_SOURCE_DIR}/run\")"
+          ]
+  }
+
+}

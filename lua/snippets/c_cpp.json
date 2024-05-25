@@ -1,0 +1,57 @@
+{
+
+  "made it": {
+  "prefix": "made",
+  "body": [
+           "cout << endl << \"made it $1\" << endl; //doldb"
+          ]
+  },
+
+  "gmain": {
+  "prefix": "gmain",
+  "body": [
+           "#include <iostream>",
+           "#include <vector>",
+           "",
+           "using namespace std;",
+           "",
+           "int main() {",
+           "",
+           "    $0",
+           "",
+           "    return 0;",
+           "}"
+          ]
+  },
+
+  "class template": {
+  "prefix": ["class", "clst"],
+  "body": [
+           "#pragma once",
+           "",
+           "////////////////////////////////////////////////////////////////////////////////",
+           "",
+           "class $1 {",
+           "",
+           "",
+           "    //////////////////// DATA MEMBERS //////////////////////",
+           "",
+           "    public: ",
+           "",
+           "",
+           "    //////////////////// MEMBER FUNCTIONS /////////////////",
+           "",
+           "    public:",
+           "",
+           "    //////////////////// CONSTRUCTOR FUNCTIONS /////////////////",
+           "    ",
+           "    public: ",
+           "    ",
+           "        $1();",
+           "",
+           "         ~$1(){}",
+           "",
+           "};"
+          ]
+  }
+}

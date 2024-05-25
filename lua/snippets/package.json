@@ -1,0 +1,25 @@
+{
+  "contributes": {
+    "snippets": [
+      {
+        "language": "cpp",
+        "path": "./c_cpp.json"
+      }, {
+        "language": "c",
+        "path": "./c_cpp.json"
+      }, {
+        "language": "python",
+        "path": "./python.json"
+      }, {
+        "language": "markdown",
+        "path": "./md.json"
+      }, {
+        "language": "cmake",
+        "path": "./cmake.json"
+      }, {
+        "language": "tex",
+        "path": "./tex.json"
+      }
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+
+  "arrow": {
+  "prefix": ["arrow"],
+  "body": [
+           "$\\rightarrow$ "
+          ]
+  },
+
+  "align": {
+  "prefix": ["align"],
+  "body": [
+           "$$",
+           "\\begin{align*}",
+           "& $1  \\\\\\",
+           "&   \\\\\\",
+           "\\end{align*}",
+           "$$"
+          ]
+  }
+
+}

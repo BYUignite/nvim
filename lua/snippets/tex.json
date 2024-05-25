@@ -1,0 +1,134 @@
+{
+
+  "good figure": {
+  "prefix": ["gfig"],
+  "body": [
+           "%",
+           "\\begin{figure}",
+           "    \\begin{center}",
+           "    \\begin{tabular}{c c}",
+           "        (a) & (b) \\\\\\",
+           "        \\includegraphics[width=3 in]{$1} &",
+           "        \\includegraphics[width=3 in]{$2}",
+           "    \\end{tabular}",
+           "    \\caption{${3:x}}",
+           "    \\label{f:${4:x}}",
+           "    \\end{center}",
+           "\\end{figure}",
+           "%"
+          ]
+  },
+
+  "good table": {
+  "prefix": ["gtab"],
+  "body": [
+           "%",
+           "\\begin{table}",
+           "     \\caption{${1:x}}",
+           "     \\label{t:${2:x}}",
+           "     \\centering",
+           "     \\begin{tabular}{l l l}",
+           "         \\hline",
+           "          Level     &  Length scale       &  Time scale      \\\\\\",
+           "         \\hline",
+           "          0         &  \\$L_0\\$              & \\$\\tau_0\\$         \\\\\\",
+           "          1         &  \\$L_1\\$              & \\$\\tau_1\\$         \\\\\\",
+           "         \\hline",
+           "     \\end{tabular}",
+           "\\end{table}",
+           "%"
+          ]
+  },
+
+  "good equation": {
+  "prefix": ["geq"],
+  "body": [
+           "%",
+            "\\begin{equation}",
+            "\t$0",
+            "\t\\label{eq:$1}",
+            "\\end{equation}",
+            "%"
+          ]
+  },
+
+  "align equation": {
+  "prefix": ["galign"],
+  "body": [
+           "%",
+            "\\align{equation}",
+            "\t$0",
+            "\t\\label{eq:$1}",
+            "\\end{align}",
+            "%"
+          ]
+  },
+
+  "template": {
+  "prefix": ["gtemplate"],
+  "body": [
+            "\\documentclass[letterpaper, 11pt]{article}",
+            "",
+            "\\usepackage{fullpage}",
+            "\\usepackage{graphicx}               % Include figure files",
+            "\\usepackage{array}",
+            "\\usepackage{amsmath} ",
+            "\\usepackage{amssymb} ",
+            "\\usepackage{bm}                     % bold math",
+            "\\usepackage{caption}",
+            "\\usepackage{mhchem}                 % chemical formulas: \\ce{H2O}",
+            "\\usepackage{textgreek}              % use greek in any context",
+            "\\usepackage{subcaption}",
+            "\\usepackage{lineno}",
+            "\\usepackage[mathcal]{euscript}",
+            "\\usepackage{xcolor}                  % coloring text",
+            "\\usepackage{authblk}                 % author affil commands below",
+            "\\usepackage{hyperref}",
+            "\\hypersetup{",
+            "\tcolorlinks = true",
+            "\turlcolor   = blue",
+            "\tcitecolor  = black",
+            "}",
+            "",
+            "\\newcommand\\tprime{\\prime\\prime\\prime}",
+            "\\newcommand{\\prtl}[2]{\\frac{\\partial #1}{\\partial #2}}",
+            "\\newcommand\\tprime{\\prime\\prime\\prime}",
+            "\\newcommand\\dprime{\\prime\\prime}",
+            "",
+            "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
+            "",
+            "\\begin{document}",
+            "",
+            "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
+            "",
+            "\\title{Stochastic simulation of turbulent reacting flows with variable Schmidt numbers}",
+            "",
+            "\\author[1]{David O. Lignell}",
+            "\\affil[1]{Chemical Engineering, Brigham Young University}",
+            "\\date{\\today}",
+            "", 
+            "\\maketitle",
+            "", 
+            "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
+            "",
+            "\\begin{abstract}",
+            "",
+            "\\end{abstract}",
+            "",
+            "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
+            "",
+            "\\section{Introduction} \\label{s:intro}",
+            "",
+            "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
+            "",
+            "\\bibliographystyle{unsrt}",
+            "\\bibliography{references}",
+            "",
+            "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
+            "",
+            "\\end{document}"
+          ]
+  }
+
+
+}
