@@ -59,7 +59,8 @@ local theme = lush(function(injected_functions)
     -- to reorder items as you go.
     --
     -- See :h highlight-groups
-        TelescopeNormal    { bg=c.c10 },
+
+        TelescopeNormal    { fg=c.c00, bg=c.c11 },
         TelescopeSelection { bg=c.c07, gui="bold" },
 
     Normal         { fg=c.c01, bg=c.wht },      -- Normal text
