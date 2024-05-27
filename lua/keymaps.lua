@@ -115,10 +115,6 @@ t['zz']    = {'zz', {'250'}}
 t['zb']    = {'zb', {'250'}}
 require("neoscroll.config").set_mappings(t)
 
---======= 
-
---map("n", "gv", "<cmd>lua vim.lsp.buf.definition()<CR>", {desc = "LSP go to definition"})
-
 --======= completion
 
 local cmp = require('cmp')
@@ -155,4 +151,16 @@ cmp.setup({
         end, { 'i', 's' }),
     },
 })
+
+--======== LSP: jump to defintion, etc.
+-- for explanations: https://www.reddit.com/r/neovim/comments/11u3sx3/lsp_differences_between_definition_declaration/
+-- ctrl-o to go back; ctrl-i to go forward
+
+map("n", "gd", vim.lsp.buf.definition,     {desc = "go to definition"})
+map("n", "gD", vim.lsp.buf.declaration,    {desc = "go to declaration"})
+map("n", "gD", vim.lsp.buf.type_definition,{desc = "go to type definition of given symbol"})
+map("n", "gr", vim.lsp.buf.references,     {desc = "go to references (use instances) of given symbol"})
+map("n", "gi", vim.lsp.buf.implementation, {desc = "go to implmentation (virtual defs)"})
+
+
 

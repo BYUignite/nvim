@@ -9,8 +9,8 @@ local servers = {["clangd"]                = "clangd",
                  ["marksman"]              = "marksman",
                  ["texlab"]                = "texlab",
                  ["lua-language-server"]   = "lua_ls",
-                 ["yaml-language-server"]  = "yamlls",
-                 ["cmake-language-server"] = "cmake"
+                 ["cmake-language-server"] = "cmake",
+                 --["yaml-language-server"]  = "yamlls",
              }
 for srv, _ in pairs(servers) do
     _ = require("mason-registry").is_installed(srv) or vim.cmd("MasonInstall " .. srv)

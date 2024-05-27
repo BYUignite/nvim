@@ -171,8 +171,8 @@ local theme = lush(function(injected_functions)
     --
     -- Uncomment and edit if you want more specific syntax highlighting.
 
-    Comment        { fg = c.c01 },           -- Any comment
-    SpecialComment { Comment },            -- Special things inside a comment (e.g. '\n')
+    Comment        { fg = c.c01, gui="italic" },           -- Any comment
+    SpecialComment { Comment, gui="italic" },            -- Special things inside a comment (e.g. '\n')
 
     String         { fg=c.blu },           -- A string constant: "this is a string"
     Constant       { String },             -- (*) Any constant
