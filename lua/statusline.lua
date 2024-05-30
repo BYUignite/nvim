@@ -35,16 +35,11 @@ end
 
 local autocmd = vim.api.nvim_create_autocmd
 
-autocmd({"BufEnter"}, {                   -- connect to directory of current file
-    callback = function()
-        vim.cmd("lcd %:p:h")
-    end
-})
-
 autocmd({"BufEnter", "BufNew"}, {        -- update gitbranch variable for use in statusline
     callback = function()
+        vim.cmd("lcd %:p:h")             -- connect to directory of current file
         local res = vim.fn.system({'git', 'rev-parse',  '--abbrev-ref', 'HEAD'})
-        vim.g.gitbranchSL = "fatal:" == string.sub(res, 1, 6) and "" or " " .. string.sub(res,1,#res-1)
+        vim.b.gitbranchSL = "fatal:" == string.sub(res, 1, 6) and "" or " " .. string.sub(res,1,#res-1)
     end
 })
 
@@ -58,7 +53,7 @@ function make_status_line()
   local trans1      = "%#Trans1#%(%)"
   local file_name   = "%#SLine2# %-.30t "
   local trans2      = "%#Trans2#%(%)"
-  local git         = "%#SLine3# " .. vim.g.gitbranchSL
+  local git         = "%#SLine3# " .. vim.b.gitbranchSL
   local right_align = "%="
   local trans3      = "%#Trans3#%(%)" 
   local line_num    = "%#SLine1# %(   %l/%L%)"

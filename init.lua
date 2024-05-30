@@ -31,7 +31,7 @@ opt.cursorline    = true                        -- highlight the current line
 opt.showmode      = false                       -- don't show mode "insert, normal, visual..."; it's in statusline
 opt.shortmess:append "sI"                       -- I: don't show welcome message; s: don't show search messages
 opt.fillchars = { eob = " " }                   -- character for visible lines at the end of file
---opt.signcolumn = "yes"                        -- space at first column
+opt.signcolumn = "yes:1"                        -- space at first column
 
 ---------- don't continue comments on enter, etc. see :h fo-table
 
