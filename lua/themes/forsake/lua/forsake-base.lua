@@ -63,9 +63,6 @@ local theme = lush(function(injected_functions)
     --
     -- See :h highlight-groups
 
-        TelescopeNormal    { bg=c.c_6 },
-        TelescopeSelection { bg=c.c_1, gui="bold" },
-
     Normal         { fg=c.c05, bg=c.c_7 },      -- Normal text
     NormalFloat    { Normal },                  -- Normal text in floating windows.
     FloatTitle     { Normal },                  -- Title of floating windows.
@@ -121,8 +118,8 @@ local theme = lush(function(injected_functions)
     CursorLineFold { FoldColumn},               -- Like FoldColumn when 'cursorline' is set for the cursor line
     CursorLineSign { SignColumn},               -- Like SignColumn when 'cursorline' is set for the cursor line
 
-    Pmenu          { fg=c.c04, bg=c.c_2},       -- Popup menu: Selected item.
-    PmenuSel       { fg=c.c10, bg=c.c02 },      -- Popup menu: Normal item.
+    Pmenu          { bg=c.c_5},                 -- Popup menu: Selected item.
+    PmenuSel       { bg=c.c_1, gui="bold" },    -- Popup menu: Normal item.
     PmenuKind      { Pmenu },                   -- Popup menu: Normal item "kind"
     PmenuKindSel   { PmenuSel},                 -- Popup menu: Selected item "kind"
     PmenuExtra     { Pmenu},                    -- Popup menu: Normal item "extra text"
