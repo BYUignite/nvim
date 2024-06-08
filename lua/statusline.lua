@@ -37,9 +37,11 @@ local autocmd = vim.api.nvim_create_autocmd
 
 autocmd({"BufEnter", "BufNew"}, {        -- update gitbranch variable for use in statusline
     callback = function()
-        vim.cmd("lcd %:p:h")             -- connect to directory of current file
-        local res = vim.fn.system({'git', 'rev-parse',  '--abbrev-ref', 'HEAD'})
-        vim.b.gitbranchSL = "fatal:" == string.sub(res, 1, 6) and "" or " " .. string.sub(res,1,#res-1)
+        if vim.bo.buftype ~= "terminal" then
+            vim.cmd("lcd %:p:h")             -- connect to directory of current file
+            local res = vim.fn.system({'git', 'rev-parse',  '--abbrev-ref', 'HEAD'})
+            vim.b.gitbranchSL = "fatal:" == string.sub(res, 1, 6) and "" or " " .. string.sub(res,1,#res-1)
+        end
     end
 })
 
