@@ -63,7 +63,7 @@ local theme = lush(function(injected_functions)
     --
     -- See :h highlight-groups
 
-    Normal         { fg=c.c05, bg=c.c_7 },      -- Normal text
+    Normal         { fg=c.c06, bg=c.c_7 },      -- Normal text
     NormalFloat    { Normal },                  -- Normal text in floating windows.
     FloatTitle     { Normal },                  -- Title of floating windows.
     NormalNC       { Normal },                  -- normal text in non-current windows
@@ -140,7 +140,7 @@ local theme = lush(function(injected_functions)
     WarningMsg     { bg=c.yel },                -- Warning messages
     ErrorMsg       { fg=c.wht, bg=c.ppr },      -- Error messages on the command line
 
-    ModeMsg        { fg=c.c08, bg=c.c00 },      -- 'showmode' message (e.g., "-- INSERT -- ")
+    ModeMsg        { Normal },                  -- 'showmode' message (e.g., "-- INSERT -- ")
     MsgArea        { Normal },                  -- Area for messages and cmdline
     MoreMsg        { Normal },                  -- |more-prompt|
     MsgSeparator   { Normal },                  -- Separator for scrolled messages, `msgsep` flag of 'display'
@@ -168,7 +168,7 @@ local theme = lush(function(injected_functions)
     --
     -- Uncomment and edit if you want more specific syntax highlighting.
 
-    Comment        { fg = c.c01, gui="italic" },           -- Any comment
+    Comment        { fg = c.c02, gui="italic" },           -- Any comment
     SpecialComment { Comment, gui="italic" },            -- Special things inside a comment (e.g. '\n')
 
     String         { fg=c.blu },           -- A string constant: "this is a string"
