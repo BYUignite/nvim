@@ -59,11 +59,23 @@ local theme = lush(function(injected_functions)
     -- to reorder items as you go.
     --
     -- See :h highlight-groups
+    -- See :Inspect to see group under cursor
 
     Normal         { fg=c.c01, bg=c.wht },      -- Normal text
     NormalFloat    { Normal },                  -- Normal text in floating windows.
     FloatTitle     { Normal },                  -- Title of floating windows.
     NormalNC       { Normal },                  -- normal text in non-current windows
+
+    -- cmakeArguments { Normal },
+    -- cmakeKWtarget_sources { Normal },
+    -- cmakeKWinstall { Normal },
+    -- cmakeKWtry_compile { Normal },
+    -- cmakeKWfind_program { Normal },
+    -- cmakeKWset_tests_properties { Normal },
+    -- cmakeKWget_cmake_property { Normal },
+    -- cmakeKWwrite_file { Normal },
+    -- cmakeKWset_source_files_properties { Normal },
+    -- cmakeKWset_property { Normal },
 
     MatchParen     { fg=c.wht, bg=c.c03 },      -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
     Folded         { fg=c.c06 },                -- Line used for closed folds

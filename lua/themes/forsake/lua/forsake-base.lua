@@ -62,6 +62,7 @@ local theme = lush(function(injected_functions)
     -- to reorder items as you go.
     --
     -- See :h highlight-groups
+    -- See :Inspect to see group under cursor
 
     Normal         { fg=c.c06, bg=c.c_7 },      -- Normal text
     NormalFloat    { Normal },                  -- Normal text in floating windows.
