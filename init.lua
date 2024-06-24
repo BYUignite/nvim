@@ -81,6 +81,11 @@ require("keymaps")
 --vim.cmd("colorscheme forsake")
 vim.cmd("colorscheme repent")
 
+-- fix issue that comments code between preprocessor directives in c++: 
+-- https://www.reddit.com/r/neovim/comments/13tzjz7/neovim_c_highlighting_define_from_other_file_issue/
+vim.api.nvim_set_hl(0, '@lsp.type.comment.cpp', {})
+
 --======== statusline
 
 require("statusline")
+
