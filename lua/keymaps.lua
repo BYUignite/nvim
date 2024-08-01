@@ -66,8 +66,8 @@ map("n", "<leader>ff", "<cmd>Telescope find_files<cr>",  { desc = "telescope fin
 map("n", "<leader>fb", "<cmd>Telescope buffers<CR>",     { desc = "telescope find buffers" })
 map("n", "<leader>ma", "<cmd>Telescope marks<CR>",       { desc = "telescope find marks" })
 
-map("n", "<leader>gg", ":Telescope live_grep<CR>",       { desc = "telescope live grep" })
-map("n", "<leader>gw", ":Telescope grep_string<CR>",     { desc = "telescope grep word under cursor" })
+map("n", "<leader>gr", ":Telescope live_grep<CR>",       { desc = "telescope live grep" })
+map("n", "<leader>gg", ":Telescope grep_string<CR>",     { desc = "telescope grep word under cursor" })
 
 map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
 map("n", "<leader>gc", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" })
@@ -75,6 +75,12 @@ map("n", "<leader>gc", "<cmd>Telescope git_commits<CR>", { desc = "telescope git
 map("n", "<leader>th", "<cmd>Telescope themes<CR>", { desc = "telescope nvchad themes" })
 
 map("n", "<leader>mm", "<cmd>Telescope keymaps<CR>", { desc = "telescope show all known keymappings"})
+
+---- code: jump to definitions, etc. ctrl-o to go back; ctrl-i to go forward
+map("n", "<leader>cd", "<cmd>Telescope lsp_definitions<CR>",      { desc = "telescope: definition for word under cursor"})
+map("n", "<leader>ct", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "telescope: go to the definition of the type of the word under cursor"})
+map("n", "<leader>cr", "<cmd>Telescope lsp_references<CR>",       { desc = "telescope: references for word under cursor"})
+map("n", "<leader>ci", "<cmd>Telescope lsp_implementations<CR>",  { desc = "telescope: go to the implementation of the word under cursor"})
 
 --======== neoterm plugin
 
@@ -152,15 +158,13 @@ cmp.setup({
     },
 })
 
---======== LSP: jump to defintion, etc.
--- for explanations: https://www.reddit.com/r/neovim/comments/11u3sx3/lsp_differences_between_definition_declaration/
--- ctrl-o to go back; ctrl-i to go forward
-
-map("n", "gd", vim.lsp.buf.definition,     {desc = "go to definition"})
-map("n", "gD", vim.lsp.buf.declaration,    {desc = "go to declaration"})
-map("n", "gD", vim.lsp.buf.type_definition,{desc = "go to type definition of given symbol"})
-map("n", "gr", vim.lsp.buf.references,     {desc = "go to references (use instances) of given symbol"})
-map("n", "gi", vim.lsp.buf.implementation, {desc = "go to implmentation (virtual defs)"})
-
-
-
+----======== LSP: jump to defintion, etc.
+---- for explanations: https://www.reddit.com/r/neovim/comments/11u3sx3/lsp_differences_between_definition_declaration/
+---- ctrl-o to go back; ctrl-i to go forward
+-- (these are done above in telescope instead)
+--
+--map("n", "gd", vim.lsp.buf.definition,     {desc = "go to definition"})
+--map("n", "gD", vim.lsp.buf.declaration,    {desc = "go to declaration"})
+--map("n", "gD", vim.lsp.buf.type_definition,{desc = "go to type definition of given symbol"})
+--map("n", "gr", vim.lsp.buf.references,     {desc = "go to references (use instances) of given symbol"})
+--map("n", "gi", vim.lsp.buf.implementation, {desc = "go to implmentation (virtual defs)"})
