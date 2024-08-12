@@ -39,20 +39,8 @@ local plugins = {
     --=============================================================================================
     {
         -- switch between header file and source file
-        "jakemason/ouroboros",
+        "vim-scripts/a.vim",
         lazy = false,
-        dependencies = { "nvim-lua/plenary.nvim" },
-        config = function()
-            require('ouroboros').setup({
-                extension_preferences_table = {
-                    cc  = {h   = 2, hpp = 1},
-                    cpp = {hpp = 2, h   = 1},
-                    c   = {h   = 2, hpp = 1},
-                    h   = {cc  = 3, cpp = 2, c = 1},
-                    hpp = {cpp = 2, c   = 1},
-                }
-            })
-        end
     },
     --=============================================================================================
     {
