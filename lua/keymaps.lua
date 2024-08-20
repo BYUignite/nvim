@@ -7,6 +7,8 @@ vim.g.mapleader = ","
 
 local map = vim.keymap.set
 
+map("n",             "j",               "gj",                         {desc = "go down for regular and wrapped lines"})
+map("n",             "k",               "gk",                         {desc = "go up for regular and wrapped lines"})
 map("n",             "<Esc>",           ":noh<CR>",                   {desc = "cancel search highlight"})
 map("n",             "<leader>n",       ":set nu!<CR>",               {desc = "toggle line numbers"})
 map("n",             "<leader>nr",      ":set rnu!<CR>",              {desc = "toggle relative line numbers"})
@@ -30,20 +32,6 @@ map("n", "<leader>v", function()
         vim.cmd("VimtexCompile")
     end
 end, {desc = "run view commands: markdown, latex"})
-
---======== text file: navigate up or down within a wrapped line
-
-map("n", "j", function()
-    if vim.bo.filetype == "markdown" or "text" or "tex" then
-        vim.api.nvim_feedkeys('gj', 'n', false)
-    end
-end, {desc = "Specialized motion in markdown, text, latex"})
-
-map("n", "k", function()
-    if vim.bo.filetype == "markdown" or "text" or "tex" then
-        vim.api.nvim_feedkeys('gk', 'n', false)
-    end
-end, {desc = "Specialized motion in markdown, text, latex"})
 
 --======== toggle colorschemes
 
