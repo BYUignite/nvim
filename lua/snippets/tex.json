@@ -70,6 +70,7 @@
             "\\documentclass[letterpaper, 11pt]{article}",
             "",
             "\\usepackage{fullpage}",
+            "\\usepackage{authblk}                % allow empty author fields",
             "\\usepackage{graphicx}               % Include figure files",
             "\\usepackage{array}",
             "\\usepackage{amsmath} ",
