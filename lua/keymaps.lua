@@ -38,8 +38,10 @@ end, {desc = "run view commands: markdown, latex"})
 map("n", "<leader>cm", function()
     if vim.g.colors_name == "repent" then
         vim.cmd("colorscheme forsake")
+        vim.g.LASTCM = "forsake"
     else
         vim.cmd("colorscheme repent")
+        vim.g.LASTCM = "repent"
     end
 end, {desc = "toggle colorschemes"})
 

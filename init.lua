@@ -1,6 +1,6 @@
 --======== General options
 
-local g   = vim.g
+local g   = vim.g                               -- vim.cmd.echo('g:') or g:somevar to see values; or do :let g: in cmd mode in vim
 local o   = vim.o
 local opt = vim.opt                             -- like :set option=value
 
@@ -79,8 +79,15 @@ require("keymaps")
 
 --======== colorscheme
 
---vim.cmd("colorscheme forsake")
-vim.cmd("colorscheme repent")
+vim.cmd("rsh")                            -- read the shada file that stores globals (LASTCM); normally read after this file; see :h initialization
+
+if vim.g.LASTCM == "forsake" then
+    vim.cmd("colorscheme forsake")
+    vim.g.LASTCM = "forsake"
+else
+    vim.cmd("colorscheme repent")
+    vim.g.LASTCM = "repent"
+end
 
 -- fix issue that comments code between preprocessor directives in c++: 
 -- https://www.reddit.com/r/neovim/comments/13tzjz7/neovim_c_highlighting_define_from_other_file_issue/
