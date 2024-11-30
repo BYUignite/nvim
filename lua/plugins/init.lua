@@ -24,6 +24,18 @@ local plugins = {
 
     --=============================================================================================
     {
+        -- move between vim windows and tmux windows seemlessly (same command)
+        "alexghergh/nvim-tmux-navigation",
+        lazy = false,
+        config = function()
+            local nvim_tmux_nav = require('nvim-tmux-navigation')
+            nvim_tmux_nav.setup({
+                disable_when_zoomed = true -- defaults to false
+            })
+        end
+    },
+    --=============================================================================================
+    {
         "max397574/better-escape.nvim",
         event = "InsertEnter",
         config = function()
@@ -41,18 +53,6 @@ local plugins = {
         -- switch between header file and source file
         "vim-scripts/a.vim",
         lazy = false,
-    },
-    --=============================================================================================
-    {
-        -- move between vim windows and tmux windows seemlessly (same command)
-        "alexghergh/nvim-tmux-navigation",
-        lazy = false,
-        config = function()
-            local nvim_tmux_nav = require('nvim-tmux-navigation')
-            nvim_tmux_nav.setup({
-                disable_when_zoomed = true -- defaults to false
-            })
-        end
     },
     --=============================================================================================
     {
