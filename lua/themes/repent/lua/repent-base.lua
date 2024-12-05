@@ -61,7 +61,7 @@ local theme = lush(function(injected_functions)
     -- See :h highlight-groups
     -- See :Inspect to see group under cursor
 
-    Normal         { fg=c.c01, bg=c.wht },      -- Normal text
+    Normal         { fg=c.c_1, bg=c.wht },      -- Normal text
     NormalFloat    { Normal },                  -- Normal text in floating windows.
     FloatTitle     { Normal },                  -- Title of floating windows.
     NormalNC       { Normal },                  -- normal text in non-current windows
