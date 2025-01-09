@@ -55,12 +55,27 @@ local plugins = {
         lazy = false,
     },
     --=============================================================================================
+
     {
-        -- make the scrolling (like page up) slower so that we don't lose our place visually
-        "karb94/neoscroll.nvim",
-        lazy = false,
-        config = function() require("neoscroll").setup({}) end,
+        "declancm/cinnamon.nvim",
+        config = function()
+            require("cinnamon").setup({
+                keymaps = {
+                    basic = true,
+                    extra = true,
+                },
+                options = { 
+                    mode = "cursor",
+                    delay = 7,
+                    max_delta = { line = 150, column = false, time = 1000, },
+                    step_size = {vertical=1, horizontal=2,},
+                },
+            })
+        end,
     },
+
+
+
     --=============================================================================================
     {
         -- with multiple windows, allows toggling the current window to full size

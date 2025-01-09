@@ -99,23 +99,6 @@ map("n", "<leader>7",":BufferGoto 7<CR>", {desc = "switch to buffer 3"})
 map("n", "<leader>8",":BufferGoto 8<CR>", {desc = "switch to buffer 2"})
 map("n", "<leader>9",":BufferGoto 9<CR>", {desc = "switch to buffer 1"})
 
---======= neoscroll
-
-neoscroll = require('neoscroll')
-local keymap = {
-  ["<C-u>"] = function() neoscroll.ctrl_u({ duration = 250 }) end;
-  ["<C-d>"] = function() neoscroll.ctrl_d({ duration = 250 }) end;
-  ["<C-b>"] = function() neoscroll.ctrl_b({ duration = 250 }) end;
-  ["<C-f>"] = function() neoscroll.ctrl_f({ duration = 250 }) end;
-  ["zt"]    = function() neoscroll.zt({ half_win_duration = 250 }) end;
-  ["zz"]    = function() neoscroll.zz({ half_win_duration = 250 }) end;
-  ["zb"]    = function() neoscroll.zb({ half_win_duration = 250 }) end;
-}
-local modes = { 'n', 'v', 'x' }
-for key, func in pairs(keymap) do
-  vim.keymap.set(modes, key, func)
-end
-
 --======= completion
 
 local cmp = require('cmp')
