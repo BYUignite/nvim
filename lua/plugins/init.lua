@@ -49,6 +49,19 @@ local plugins = {
         ft = {'markdown', 'text', 'tex', 'plaintex'}
     },
     --=============================================================================================
+
+    {
+        "mikavilpas/yazi.nvim",
+        event = "VeryLazy",
+        keys = {
+            { "<leader>e", "<cmd>Yazi<cr>", desc = "Open yazi at the current file", },
+        },
+        ---@type YaziConfig
+        opts = {},
+    },
+
+
+    --=============================================================================================
     {
         -- switch between header file and source file
         "vim-scripts/a.vim",
