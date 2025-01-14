@@ -1,4 +1,3 @@
-
 --======== leader key
 
 vim.g.mapleader = ","
@@ -15,18 +14,71 @@ map("n",             "<leader>nr",      ":set rnu!<CR>",              {desc = "t
 map("n",             "<leader>rtw",     ":%s/\\s\\+$//e<CR>",         {desc = "remove trailing whitespace"})
 map("n",             "<leader>s",       ":A<CR>",                     {desc = "switch between header and source file"})
 --map("n",             "<leader>e",       "<cmd> NvimTreeToggle <CR>",  {desc = "toggle nvimtree file explorer"})
-map("v",             ">",               ">gv",                        {desc = "indent"})
+map("v",             ">",               ">gv",                        {desc = "indent"});
 map("t",             "<Esc>",           "<C-\\><C-n>",                {desc = "terminal escape to normal mode"})
 map("i",             "jj",              "<Esc>",                      {desc = "another way to escape"})
 map({"i", "n", "v"}, "<leader>wc",      "g<C-g>",                     {desc = "word count"})
 map({"i", "n"},      "<leader>w",       ":w<CR>",                     {desc = "save buffer"})
 map("n",             "<leader>zt",      ":<C-u>exec 'normal! ' . 15 . 'kzt' . 15 . 'j' <CR>", {desc = "Custom scroll so cursor is 15 lines from the top"})
 
+--======== select and run code cell, move to next cell
+
+local function feedkeys(key, mode)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key,tru,true,true), mode, true)
+end
+local function isFenceStart() return vim.fn.getline('.'):sub(1,4) == "```{" end
+local function isFenceEnd() return vim.fn.getline('.') == "```" end
+local function runCode() 
+    feedkeys(":<C-u>MoltenEvaluateVisual<cr>", "V") 
+    --feedkeys("<esc>", "n")
+    --feedkeys("/```<cr>", "n")
+end
+
+map("n", "<leader>r", function()
+    if vim.bo.filetype == "quarto" or vim.bo.filetype == "markdown" then
+        if isFenceStart() then
+            feedkeys("jV/```<cr>k", "n") 
+            runCode()
+        elseif isFenceEnd() then
+            feedkeys("#jV''k", "n") 
+            runCode()
+        else
+            local ok, result = pcall(vim.cmd, "/```")
+            if ok then
+                if isFenceStart() then
+                    feedkeys("jV/```<cr>k", "n") 
+                    runCode()
+                elseif isFenceEnd() then
+                    feedkeys("#jV''k", "n") 
+                    runCode()
+                end
+            end
+        end
+        feedkeys("<esc>:noh<cr>", "n")
+    end
+end, {desc = "run next code block"})
+
+map("n", "[", function()
+    if vim.bo.filetype == "quarto" or vim.bo.filetype == "markdown" then
+        feedkeys("/```{<cr>", "n")
+        feedkeys("<esc>:noh<cr>", "n")
+    end
+end, {desc = "go to next code block"})
+
+map("n", "]", function()
+    if vim.bo.filetype == "quarto" or vim.bo.filetype == "markdown" then
+        feedkeys("?```{<cr>", "n")
+        feedkeys("<esc>:noh<cr>", "n")
+    end
+end, {desc = "go to previous code block"})
+
 --======== markdown preview and latex compile
 
 map("n", "<leader>v", function()
     if vim.bo.filetype == "markdown" then
         vim.cmd("MarkdownPreview")
+    elseif vim.bo.filetype == "quarto" then
+        vim.cmd("QuartoPreview")
     elseif vim.bo.filetype == "tex" then
         vim.cmd("write")
         vim.cmd("VimtexCompile")
@@ -74,7 +126,7 @@ map("n", "<leader>ci", "<cmd>Telescope lsp_implementations<CR>",  { desc = "tele
 
 --======== neoterm plugin
 
-map({"i", "n", "t"}, "<leader>r", ":Ttoggle<CR>", {desc = "Custom toggle terminal"})
+map({"i", "n", "t"}, "<leader>t", ":Ttoggle<CR>", {desc = "Custom toggle terminal"})
 
 --======== nvim_tmux_navigation plugin
 
@@ -135,6 +187,57 @@ cmp.setup({
         end, { 'i', 's' }),
     },
 })
+
+--======== select and run code cell, move to next cell
+
+local function feedkeys(key, mode)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key,tru,true,true), mode, true)
+end
+local function isFenceStart() return vim.fn.getline('.'):sub(1,4) == "```{" end
+local function isFenceEnd() return vim.fn.getline('.') == "```" end
+local function runCode() 
+    feedkeys(":<C-u>MoltenEvaluateVisual<cr>", "V") 
+    --feedkeys("<esc>", "n")
+    --feedkeys("/```<cr>", "n")
+end
+
+map("n", "<leader>r", function()
+    if vim.bo.filetype == "quarto" or vim.bo.filetype == "markdown" then
+        if isFenceStart() then
+            feedkeys("jV/```<cr>k", "n") 
+            runCode()
+        elseif isFenceEnd() then
+            feedkeys("#jV''k", "n") 
+            runCode()
+        else
+            local ok, result = pcall(vim.cmd, "/```")
+            if ok then
+                if isFenceStart() then
+                    feedkeys("jV/```<cr>k", "n") 
+                    runCode()
+                elseif isFenceEnd() then
+                    feedkeys("#jV''k", "n") 
+                    runCode()
+                end
+            end
+        end
+        feedkeys("<esc>:noh<cr>", "n")
+    end
+end, {desc = "run next code block"})
+
+map("n", "[", function()
+    if vim.bo.filetype == "quarto" or vim.bo.filetype == "markdown" then
+        feedkeys("/```{<cr>", "n")
+        feedkeys("<esc>:noh<cr>", "n")
+    end
+end, {desc = "go to next code block"})
+
+map("n", "]", function()
+    if vim.bo.filetype == "quarto" or vim.bo.filetype == "markdown" then
+        feedkeys("?```{<cr>", "n")
+        feedkeys("<esc>:noh<cr>", "n")
+    end
+end, {desc = "go to previous code block"})
 
 ----======== LSP: jump to defintion, etc.
 ---- for explanations: https://www.reddit.com/r/neovim/comments/11u3sx3/lsp_differences_between_definition_declaration/

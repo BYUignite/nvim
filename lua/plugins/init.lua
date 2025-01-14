@@ -23,6 +23,46 @@ vim.opt.rtp:prepend(lazypath)
 local plugins = {
 
     --=============================================================================================
+    -- for images, markdown formatting, and running code (e.g. for qmd files)
+    {
+        'vhyrro/luarocks.nvim',
+        priority = 1001,
+        opts = {
+            rocks = { 'magick' },
+        },
+    },
+    {
+        "3rd/image.nvim",
+        dependencies = { "luarocks.nvim" },
+        opts = {},
+        -- setup is called in config.lua
+    },
+    {
+        "benlubas/molten-nvim",
+        version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
+        dependencies = { "3rd/image.nvim" },
+        build = ":UpdateRemotePlugins",
+        init = function()
+            -- these are examples, not defaults. Please see the readme
+            vim.g.molten_image_provider = "image.nvim"
+            vim.g.molten_output_win_max_height = 20
+        end,
+    },
+    {
+        "lukas-reineke/headlines.nvim",
+        dependencies = "nvim-treesitter/nvim-treesitter",
+        -- setup is called in config.lua
+    },
+    {
+        "quarto-dev/quarto-nvim",
+        ft = { 'quarto' },
+        enabled = true,
+        dependencies = {
+            "jmbuhr/otter.nvim",
+            "nvim-treesitter/nvim-treesitter",
+        },
+    },
+    --=============================================================================================
     {
         -- move between vim windows and tmux windows seemlessly (same command)
         "alexghergh/nvim-tmux-navigation",
@@ -49,7 +89,6 @@ local plugins = {
         ft = {'markdown', 'text', 'tex', 'plaintex'}
     },
     --=============================================================================================
-
     {
         "mikavilpas/yazi.nvim",
         event = "VeryLazy",
@@ -59,8 +98,6 @@ local plugins = {
         ---@type YaziConfig
         opts = {},
     },
-
-
     --=============================================================================================
     {
         -- switch between header file and source file
@@ -68,7 +105,6 @@ local plugins = {
         lazy = false,
     },
     --=============================================================================================
-
     {
         "declancm/cinnamon.nvim",
         config = function()
@@ -80,15 +116,12 @@ local plugins = {
                 options = { 
                     mode = "cursor",
                     delay = 7,
-                    max_delta = { line = 150, column = false, time = 1000, },
+                    max_delta = { line = 15, column = false, time = 100, },
                     step_size = {vertical=1, horizontal=2,},
                 },
             })
         end,
     },
-
-
-
     --=============================================================================================
     {
         -- with multiple windows, allows toggling the current window to full size
@@ -128,60 +161,10 @@ local plugins = {
     },
     --=============================================================================================
     {
-        -- file explorer
-        "nvim-tree/nvim-tree.lua",
-        version = "*",
-        lazy = false,
-        dependencies = {
-            "nvim-tree/nvim-web-devicons",
-        },
-        config = function()
-            require("nvim-tree").setup({})
-        end,
-    },
-    --=============================================================================================
-    {
         -- show color of colorcodes: #587b7b
         "norcalli/nvim-colorizer.lua",
         config = function() require("colorizer").setup() end
     },
-    --=============================================================================================
-
-    --{
-    --    -- show vertical lines at indentation levels
-    --    "lukas-reineke/indent-blankline.nvim",
-    --    main = "ibl",
-    --    ---@module "ibl"
-    --    ---@type ibl.config
-    --    opts = {},
-    --    config = function()
-    --        require("ibl").setup()
-    --    end,
-    --},
-
-
-
-
-
-
-    --{
-    --    "lukas-reineke/indent-blankline.nvim",
-    --    --event = "User FilePost",
-    --    opts = {
-    --        indent = { char = "│", highlight = "IblChar" },
-    --        scope = { char = "│", highlight = "IblScopeChar" },
-    --    },
-    --    config = function(_, opts)
-    --        --dofile(vim.g.base46_cache .. "blankline")
-
-    --        --local hooks = require "ibl.hooks"
-    --        --hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_space_indent_level)
-    --        require("ibl").setup(opts)
-
-    --        --dofile(vim.g.base46_cache .. "blankline")
-    --    end,
-    --},
-
     --=============================================================================================
     {
         -- buffer tabs at top

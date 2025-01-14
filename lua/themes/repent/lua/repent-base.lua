@@ -61,6 +61,15 @@ local theme = lush(function(injected_functions)
     -- See :h highlight-groups
     -- See :Inspect to see group under cursor
 
+    -- for headlines plugin
+    CodeBlock { fg=c.c_00, bg=c.c11 },
+    Headline1  { fg=c.wht, bg=c.c01 },
+    Headline2  { fg=c.wht, bg=c.c03 },
+    Headline3  { fg=c.wht, bg=c.c05 },
+    Dash      { fg=c.c_03, bg=c.wht },
+    -- for molten plugin
+    --
+
     Normal         { fg=c.c_1, bg=c.wht },      -- Normal text
     NormalFloat    { Normal },                  -- Normal text in floating windows.
     FloatTitle     { Normal },                  -- Title of floating windows.
