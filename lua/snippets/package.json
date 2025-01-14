@@ -14,6 +14,9 @@
         "language": "markdown",
         "path": "./md.json"
       }, {
+        "language": "quarto",
+        "path": "./md.json"
+      }, {
         "language": "cmake",
         "path": "./cmake.json"
       }, {
@@ -23,3 +26,4 @@
     ]
   }
 }
+

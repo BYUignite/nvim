@@ -17,6 +17,65 @@
            "\\end{align*}",
            "$$"
           ]
+  },
+
+  "code block": {
+  "prefix": ["code"],
+  "body": [
+           "```{python}",
+           "",
+           "$1",
+           "",
+           "```"
+          ]
+  },
+
+  "import numpy matplotlib": {
+  "prefix": ["import"],
+  "body": [
+           "import numpy as np",
+           "import matplotlib.pyplot as plt"
+          ]
+  },
+
+  "imports": {
+  "prefix": ["imports"],
+  "body": [
+           "import numpy as np", 
+           "import matplotlib.pyplot as plt",
+           "from scipy.optimize      import fsolve, curve_fit",
+           "from scipy.integrate     import odtint, quad",
+           "from scipy.interpolate   import interp1d",
+           "from scipy.misc          import derivative",
+           "import scipy.constants   as const",
+           "import sympy             as sp",
+           "sp.init_printing()",
+           "import glob",
+           "import time",
+           "#import pint; u = pint.UnitRegistry()"
+          ]
+  },
+
+  "plot": {
+  "prefix": ["plot"],
+  "body": [
+           "plt.rc('font', size=14)",
+           "plt.plot(${1:x},${2:y}, color='black', linewidth='1')",
+           "plt.xlabel(${3:'x'})",
+           "plt.ylabel(${4:'y'})",
+           "plt.legend([${5:'y'}], frameon=False)",
+           "plt.xlim([np.min(x), np.max(x)])",
+           "plt.ylim([np.min(y)-0.10*np.abs(np.min(y)), np.max(y)+0.05*np.abs(np.max(y))]);"
+          ]
+  },
+
+  "Heading": {
+  "prefix": ["head"],
+  "body": [
+           "---",
+           "title: $1",
+           "---"
+          ]
   }
 
 }
