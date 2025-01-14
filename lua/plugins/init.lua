@@ -24,6 +24,11 @@ local plugins = {
 
     --=============================================================================================
     -- for images, markdown formatting, and running code (e.g. for qmd files)
+    -- see video https://youtu.be/nYDMXI-yFTA for image.nvim installation (much easier than on the site)
+    -- see video https://youtu.be/iNe88IZplYM?feature=shared for some inspiration, but using everything there
+    -- was a waste of time. I ended up just with 
+    -- headlines (formatting md, qmd), Molten (to run code cells), quarto (for visualizing in browser)
+    -- and I built my own keymap to go to markdown code cells and run them (see ../keymaps.lua)
     {
         'vhyrro/luarocks.nvim',
         priority = 1001,
