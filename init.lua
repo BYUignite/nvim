@@ -48,22 +48,6 @@ vim.cmd([[au BufReadPost * if line("'\"") > 1 &&
 opt.foldopen:remove({"search"})                 -- don't open folds when searching
 opt.foldmethod = "marker"                       -- select then zf to fold; za, dz, zc, space: toggles, delete, close, open
 
----------- Autocommands
-
-local autocmd = vim.api.nvim_create_autocmd
-
-autocmd({"BufNewFile", "BufRead"}, {            --  text, markdown, latex
-    pattern = {"*.txt", "*.md", "*.tex"},
-    callback = function()
-        opt.wrap = true
-        opt.linebreak = true
-        opt.list = false
-        opt.tw = 0
-        opt.wm = 0
-        vim.cmd("hi link markdownError NONE")
-    end
-})
-
 ---------- disable diagnostcs globally (diagnostics are a pain)
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
@@ -71,6 +55,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
 --======== plugins
 
 require("plugins")
+require("lazy").setup(plugins, opts)
+
 require("plugins.config")
 
 --======== keymaps
@@ -96,4 +82,28 @@ vim.api.nvim_set_hl(0, '@lsp.type.comment.cpp', {})
 --======== statusline
 
 require("statusline")
+
+--======== Autocommands
+
+local autocmd = vim.api.nvim_create_autocmd
+
+autocmd({"BufNewFile", "BufRead"}, {            --  text, markdown, latex
+    pattern = {"*.txt", "*.md", "*.tex"},
+    callback = function()
+        opt.wrap = true
+        opt.linebreak = true
+        opt.list = false
+        opt.tw = 0
+        opt.wm = 0
+        vim.cmd("hi link markdownError NONE")
+    end
+})
+
+autocmd({"BufNewFile", "BufRead"}, {            --  c++ comments
+    pattern = {"*.cc", "*.cpp"},
+    callback = function()
+        opt.commentstring = "// %s"
+    end
+})
+
 
