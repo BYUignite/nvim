@@ -62,15 +62,15 @@ local theme = lush(function(injected_functions)
     -- See :Inspect to see group under cursor
 
     -- for headlines plugin
-    CodeBlock { fg=c.c_00, bg=c.c11 },
-    Headline1  { fg=c.wht, bg=c.c01 },
-    Headline2  { fg=c.wht, bg=c.c03 },
-    Headline3  { fg=c.wht, bg=c.c05 },
+    CodeBlock { fg=c.c_00, bg=c.c10 },
+    Headline1  { fg=c.wht, bg=c.c02 },
+    Headline2  { fg=c.wht, bg=c.c04 },
+    Headline3  { fg=c.wht, bg=c.c06 },
     Dash      { fg=c.c_03, bg=c.wht },
     -- for molten plugin
     --
 
-    Normal         { fg=c.c_1, bg=c.wht },      -- Normal text
+    Normal         { fg=c.c02, bg=c.wht },      -- Normal text
     NormalFloat    { Normal },                  -- Normal text in floating windows.
     FloatTitle     { Normal },                  -- Title of floating windows.
     NormalNC       { Normal },                  -- normal text in non-current windows
@@ -86,36 +86,36 @@ local theme = lush(function(injected_functions)
     -- cmakeKWset_source_files_properties { Normal },
     -- cmakeKWset_property { Normal },
 
-    MatchParen     { fg=c.wht, bg=c.c03 },      -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
-    Folded         { fg=c.c06 },                -- Line used for closed folds
+    MatchParen     { fg=c.wht, bg=c.c04 },      -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+    Folded         { fg=c.c07 },                -- Line used for closed folds
 
     EndOfBuffer    { Normal },                  -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
 
-    Search         { fg=c.wht, bg=c.c03 },      -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
+    Search         { fg=c.wht, bg=c.c04 },      -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
     IncSearch      { Search },                  -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
     CurSearch      { Search },                  -- Highlighting a search pattern under the cursor (see 'hlsearch')
     Substitute     { Search },                  -- |:substitute| replacement text highlighting
 
-    TabLineFill    { fg=c.c00, bg=c.c10 },      -- Tab pages line, where there are no labels
+    TabLineFill    { fg=c.c01, bg=c.c10 },      -- Tab pages line, where there are no labels
     TabLine        { TabLineFill },             -- Tab pages line, not active tab page label
-    TabLineSel     { fg=c.c11, bg=c.c_1, gui="bold" },       -- Tab pages line, active tab page label
-    WinBar         { fg=c.wht, bg=c.c_4 },      -- Window bar of current window
-    WinBarNC       { fg=c.wht, bg=c.c01 },      -- Window bar of not-current windows
+    TabLineSel     { fg=c.c10, bg=c.c01, gui="bold" },       -- Tab pages line, active tab page label
+    WinBar         { fg=c.wht, bg=c.c00 },      -- Window bar of current window
+    WinBarNC       { fg=c.wht, bg=c.c02 },      -- Window bar of not-current windows
 
     SLine1 { TabLineSel, gui = "bold" },        -- NEW: Helpers for formatting status line elements
-    Trans1 { fg=c.c_1, bg=c.c06},
-    SLine2 { fg=c.c_5, bg=c.c06, gui="bold" },
-    Trans2 { fg=c.c06, bg=c.c10},
-    SLine3 { fg=c.c_5, bg=c.c10 },
-    Trans3 { fg=c.c_1, bg=c.c10},
+    Trans1 { fg=c.c01, bg=c.c07},
+    SLine2 { fg=c.c00, bg=c.c07, gui="bold" },
+    Trans2 { fg=c.c07, bg=c.c10},
+    SLine3 { fg=c.c00, bg=c.c10 },
+    Trans3 { fg=c.c01, bg=c.c10},
 
-    StatusLine     { fg=c.c_5, bg=c.c06, gui="bold" }, -- Status line of current window
-    StatusLineNC   { fg=c.c_5, bg=c.c10},              -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
+    StatusLine     { fg=c.c00, bg=c.c07, gui="bold" }, -- Status line of current window
+    StatusLineNC   { fg=c.c00, bg=c.c10},              -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
 
     Visual         { bg=c.c09 },                -- Visual mode selection
     VisualNOS      { Visual },                  -- Visual mode selection when vim is "Not Owning the Selection".
 
-    VertSplit      { fg=c.c01 },                -- Column separating vertically split windows
+    VertSplit      { fg=c.c02 },                -- Column separating vertically split windows
     Winseparator   { VertSplit },               -- Separator between window splits. Inherts from |hl-VertSplit| by default, which it will replace eventually.
     -- FloatBorder    { },                      -- Border of floating windows.
 
@@ -123,27 +123,27 @@ local theme = lush(function(injected_functions)
     lCursor        { Cursor },                  -- Character under the cursor when |language-mapping| is used (see 'guicursor')
     CursorIM       { Cursor },                  -- Like Cursor, but used when in IME mode |CursorIM|
     CursorLine     { gui="bold" },              -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
-    CursorColumn   { bg=c.c11 },                -- Screen-column at the cursor, when 'cursorcolumn' is set.
+    CursorColumn   { bg=c.c10 },                -- Screen-column at the cursor, when 'cursorcolumn' is set.
     TermCursor     { Cursor },                  -- Cursor in a focused terminal
-    TermCursorNC   { bg=c.c05, fg=c.c11 },      -- Cursor in an unfocused terminal
+    TermCursorNC   { bg=c.c06, fg=c.c10 },      -- Cursor in an unfocused terminal
 
-    LineNr         { fg=c.c08 },                -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
+    LineNr         { fg=c.c09 },                -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
     LineNrAbove    { LineNr   },                -- Line number for when the 'relativenumber' option is set, above the cursor line
     LineNrBelow    { LineNrAbove },             -- Line number for when the 'relativenumber' option is set, below the cursor line
-    CursorLineNr   { fg=c.c04},                 -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-    FoldColumn     { fg=c.c04 },                -- 'foldcolumn'
+    CursorLineNr   { fg=c.c05},                 -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+    FoldColumn     { fg=c.c05 },                -- 'foldcolumn'
     SignColumn     { FoldColumn},               -- Column where |signs| are displayed
     CursorLineFold { FoldColumn},               -- Like FoldColumn when 'cursorline' is set for the cursor line
     CursorLineSign { SignColumn},               -- Like SignColumn when 'cursorline' is set for the cursor line
 
-    Pmenu          { bg=c.c11},                 -- Popup menu: Selected item.
-    PmenuSel       { bg=c.c07, gui="bold" },    -- Popup menu: Normal item.
+    Pmenu          { bg=c.c10},                 -- Popup menu: Selected item.
+    PmenuSel       { bg=c.c08, gui="bold" },    -- Popup menu: Normal item.
     PmenuKind      { Pmenu },                   -- Popup menu: Normal item "kind"
     PmenuKindSel   { PmenuSel},                 -- Popup menu: Selected item "kind"
     PmenuExtra     { Pmenu},                    -- Popup menu: Normal item "extra text"
     PmenuExtraSel  { PmenuSel},                 -- Popup menu: Selected item "extra text"
-    PmenuSbar      { fg=c.wht, bg=c.c00 },      -- Popup menu: Scrollbar.
-    PmenuThumb     { fg=c.wht, bg=c.c02},       -- Popup menu: Thumb of the scrollbar.
+    PmenuSbar      { fg=c.wht, bg=c.c01 },      -- Popup menu: Scrollbar.
+    PmenuThumb     { fg=c.wht, bg=c.c03},       -- Popup menu: Thumb of the scrollbar.
 
     SpellBad       { gui="undercurl, bold" },   -- Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise.
     SpellCap       { gui="undercurl, bold" },   -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
@@ -158,7 +158,7 @@ local theme = lush(function(injected_functions)
     WarningMsg     { bg=c.yel.li(20) },         -- Warning messages
     ErrorMsg       { fg=c.wht, bg=c.red },      -- Error messages on the command line
 
-    ModeMsg        { fg=c.wht, bg=c.c00 },      -- 'showmode' message (e.g., "-- INSERT -- ")
+    ModeMsg        { fg=c.wht, bg=c.c01 },      -- 'showmode' message (e.g., "-- INSERT -- ")
     MsgArea        { Normal },                  -- Area for messages and cmdline
     MoreMsg        { Normal },                  -- |more-prompt|
     MsgSeparator   { Normal },                  -- Separator for scrolled messages, `msgsep` flag of 'display'
@@ -188,7 +188,7 @@ local theme = lush(function(injected_functions)
     --
     -- Uncomment and edit if you want more specific syntax highlighting.
 
-    Comment        { fg=c.c05, gui="italic" },           -- Any comment
+    Comment        { fg=c.c07, gui="italic" },           -- Any comment
     SpecialComment { Comment, gui="italic" },            -- Special things inside a comment (e.g. '\n')
 
     String         { fg=c.blu },           -- A string constant: "this is a string"
@@ -209,7 +209,7 @@ local theme = lush(function(injected_functions)
     Keyword        { fg=c.red },           -- any other keyword
     Exception      { fg=c.red },           -- try, catch, throw
 
-    Include        { fg=c.pnk },           -- Preprocessor #include
+    Include        { fg=c.prp },           -- Preprocessor #include
     PreProc        { Include },            -- (*) Generic Preprocessor
     Define         { Include },            -- Preprocessor #define
     Macro          { Include },            -- Same as Define
