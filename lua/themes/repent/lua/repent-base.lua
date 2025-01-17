@@ -70,7 +70,7 @@ local theme = lush(function(injected_functions)
     -- for molten plugin
     --
 
-    Normal         { fg=c.c02, bg=c.wht },      -- Normal text
+    Normal         { fg=c.c01, bg=c.wht },      -- Normal text
     NormalFloat    { Normal },                  -- Normal text in floating windows.
     FloatTitle     { Normal },                  -- Title of floating windows.
     NormalNC       { Normal },                  -- normal text in non-current windows
@@ -188,7 +188,7 @@ local theme = lush(function(injected_functions)
     --
     -- Uncomment and edit if you want more specific syntax highlighting.
 
-    Comment        { fg=c.c07, gui="italic" },           -- Any comment
+    Comment        { fg=c.c06, gui="italic" },           -- Any comment
     SpecialComment { Comment, gui="italic" },            -- Special things inside a comment (e.g. '\n')
 
     String         { fg=c.blu },           -- A string constant: "this is a string"
