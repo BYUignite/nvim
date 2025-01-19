@@ -198,13 +198,17 @@ local plugins = {
     --=============================================================================================
     {
         "nvim-treesitter/nvim-treesitter",
-        opts = {
+        build = ":TSUpdate",
+        config = function()
+            require("nvim-treesitter.configs").setup({
             ensure_installed = {
                 "c", "cpp", "vim", "vimdoc", "lua", "css", "html", "make", "bash",
                 "yaml", "java", "json", "cmake", "fortran", "julia", "python",
                 "bibtex", "markdown", "typescript", "dockerfile"
-            }
-        }
+            },
+            highlight = { enable = true }
+            })
+        end
     },
     --=============================================================================================
     {

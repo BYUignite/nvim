@@ -62,12 +62,13 @@ local theme = lush(function(injected_functions)
     -- See :Inspect to see group under cursor
 
     -- for headlines plugin
-    CodeBlock { fg=c.c_00, bg=c.c10 },
+    CodeBlock { fg=c.c_00, bg=c.c11 },
     Headline1  { fg=c.wht, bg=c.c02 },
     Headline2  { fg=c.wht, bg=c.c04 },
     Headline3  { fg=c.wht, bg=c.c06 },
     Dash      { fg=c.c_03, bg=c.wht },
     -- for molten plugin
+    MoltenCell {},                              -- defaults to CursorLine, but we don't want that
     --
 
     Normal         { fg=c.c01, bg=c.wht },      -- Normal text
