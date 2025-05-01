@@ -74,6 +74,8 @@
   "body": [
            "---",
            "title: $1",
+           "execute:",
+           "    echo: false",
            "---"
           ]
   }
