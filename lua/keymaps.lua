@@ -1,8 +1,9 @@
---======== leader key
+--=============================================================================
+------ leader key
 
 vim.g.mapleader = ","
 
---========
+--=============================================================================
 
 local map = vim.keymap.set
 
@@ -21,7 +22,8 @@ map({"i", "n", "v"}, "<leader>wc",      "g<C-g>",                     {desc = "w
 map({"i", "n"},      "<leader>w",       ":w<CR>",                     {desc = "save buffer"})
 map("n",             "<leader>zt",      ":<C-u>exec 'normal! ' . 15 . 'kzt' . 15 . 'j' <CR>", {desc = "Custom scroll so cursor is 15 lines from the top"})
 
---======== select and run code cell, move to next cell
+--=============================================================================
+------ select and run code cell, move to next cell
 
 local function feedkeys(key, mode)
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key,tru,true,true), mode, true)
@@ -72,7 +74,10 @@ map("n", "]", function()
     end
 end, {desc = "go to previous code block"})
 
---======== markdown preview and latex compile
+map("n", "gi", ":noautocmd MoltenEnterOutput<CR>", {desc = "enter the output of a code command"})
+
+--=============================================================================
+------ markdown preview and latex compile
 
 map("n", "<leader>v", function()
     if vim.bo.filetype == "markdown" then
@@ -85,7 +90,8 @@ map("n", "<leader>v", function()
     end
 end, {desc = "run view commands: markdown, latex"})
 
---======== toggle colorschemes
+--=============================================================================
+------ toggle colorschemes
 
 map("n", "<leader>cm", function()
     if vim.g.colors_name == "repent" then
@@ -97,11 +103,13 @@ map("n", "<leader>cm", function()
     end
 end, {desc = "toggle colorschemes"})
 
---======== maximizer plugin
+--=============================================================================
+------ maximizer plugin
 
 map("n", "<leader>m", ":MaximizerToggle!<CR>", {desc = "maximizer: toggle maximize window"})
 
---======== telescope plugin
+--=============================================================================
+------ telescope plugin
 
 map("n", "<leader>f",  ":Telescope git_files <CR>",      { desc = "telescope find git project files" })
 map("n", "<leader>ff", "<cmd>Telescope find_files<cr>",  { desc = "telescope find files" })
@@ -124,18 +132,21 @@ map("n", "<leader>ct", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "tele
 map("n", "<leader>cr", "<cmd>Telescope lsp_references<CR>",       { desc = "telescope: references for word under cursor"})
 map("n", "<leader>ci", "<cmd>Telescope lsp_implementations<CR>",  { desc = "telescope: go to the implementation of the word under cursor"})
 
---======== neoterm plugin
+--=============================================================================
+------ neoterm plugin
 
 map({"i", "n", "t"}, "<leader>t", ":Ttoggle<CR>", {desc = "Custom toggle terminal"})
 
---======== nvim_tmux_navigation plugin
+--=============================================================================
+------ nvim_tmux_navigation plugin
 
 map("n", "<C-h>", ":NvimTmuxNavigateLeft<CR>",  {desc = "Tmux go left"})
 map("n", "<C-j>", ":NvimTmuxNavigateDown<CR>",  {desc = "Tmux go down"})
 map("n", "<C-k>", ":NvimTmuxNavigateUp<CR>",    {desc = "Tmux go up"})
 map("n", "<C-l>", ":NvimTmuxNavigateRight<CR>", {desc = "Tmux go right"})
 
---======= barbar plugin (buffers)
+--=============================================================================
+------ barbar plugin (buffers)
 
 map("n", "<Tab>",":BufferNext<CR>",       {desc = "go to next buffer"})
 map("n", "<S-Tab>",":BufferPrevious<CR>", {desc = "go to previous buffer"})
@@ -151,7 +162,8 @@ map("n", "<leader>7",":BufferGoto 7<CR>", {desc = "switch to buffer 3"})
 map("n", "<leader>8",":BufferGoto 8<CR>", {desc = "switch to buffer 2"})
 map("n", "<leader>9",":BufferGoto 9<CR>", {desc = "switch to buffer 1"})
 
---======= completion
+--=============================================================================
+------ completion
 
 local cmp = require('cmp')
 local luasnip = require('luasnip')
@@ -188,7 +200,8 @@ cmp.setup({
     },
 })
 
---======== select and run code cell, move to next cell
+--=============================================================================
+------ select and run code cell, move to next cell
 
 local function feedkeys(key, mode)
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key,tru,true,true), mode, true)

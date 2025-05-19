@@ -40,7 +40,7 @@ autocmd({"BufEnter", "BufNew"}, {        -- update gitbranch variable for use in
         if vim.bo.buftype ~= "terminal" then
             vim.cmd("lcd %:p:h")             -- connect to directory of current file
             local res = vim.fn.system({'git', 'rev-parse',  '--abbrev-ref', 'HEAD'})
-            vim.b.gitbranchSL = "fatal:" == string.sub(res, 1, 6) and "" or " " .. string.sub(res,1,#res-1)
+            vim.g.gitbranchSL = "fatal:" == string.sub(res, 1, 6) and "" or " " .. string.sub(res,1,#res-1)
         end
     end
 })
@@ -49,7 +49,7 @@ autocmd({"BufEnter", "BufNew"}, {        -- update gitbranch variable for use in
 -- Create the statusline string
 -- Note, making use of highlight groups SLine1, etc. These should be set in the theme.
 
-vim.b.gitbranchSL = ""
+vim.g.gitbranchSL = ""
 
 function make_status_line()
 
@@ -57,7 +57,7 @@ function make_status_line()
   local trans1      = "%#Trans1#%(%)"
   local file_name   = "%#SLine2# %-.30t "
   local trans2      = "%#Trans2#%(%)"
-  local git         = "%#SLine3# " .. vim.b.gitbranchSL
+  local git         = "%#SLine3# " .. vim.g.gitbranchSL
   local right_align = "%="
   local trans3      = "%#Trans3#%(%)" 
   local line_num    = "%#SLine1# %(   %l/%L%)"

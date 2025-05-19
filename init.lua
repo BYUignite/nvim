@@ -1,13 +1,14 @@
---======== General options
+--=============================================================================
+------ general options
 
-local g   = vim.g                               -- vim.cmd.echo('g:') or g:somevar to see values; or do :let g: in cmd mode in vim
+local g   = vim.g                         -- vim.cmd.echo('g:') or g:somevar to see values; or do :let g: in cmd mode in vim
 local o   = vim.o
-local opt = vim.opt                             -- like :set option=value
+local opt = vim.opt                       -- like :set option=value
 
---------------------------------------------
+----------
 
-o.cursorlineopt = "both"                        -- enable highlighting the line the cursor is on
-o.clipboard     = "unnamedplus"                 -- clipboard integration: <C-c> then put; yank then <C-v>
+o.cursorlineopt = "both"                  -- enable highlighting the line the cursor is on
+o.clipboard     = "unnamedplus"           -- clipboard integration: <C-c> then put; yank then <C-v>
 
 opt.number        = false
 opt.wrapscan      = false
@@ -17,21 +18,21 @@ opt.shiftwidth    = 4
 opt.smartindent   = true
 opt.wrap          = false
 opt.showmatch     = true
-opt.shada         = "!,'100,f1,<50,h,s10"     -- "!,%,'100,f1,<50,h,s10"    -- the % remembers which files were open
+opt.shada         = "!,'100,f1,<50,h,s10" -- "!,%,'100,f1,<50,h,s10"    -- the % remembers which files were open
 opt.timeoutlen    = 300
 opt.signcolumn    = "no"
-opt.whichwrap     = "bs"                        -- reset default (don't wrap on left right motion through lines)
+opt.whichwrap     = "bs"                  -- reset default (don't wrap on left right motion through lines)
 opt.showtabline   = 2
-opt.termguicolors = true                        -- needed for colorizer
+opt.termguicolors = true                  -- needed for colorizer
 opt.ignorecase    = true
 opt.smartcase     = true
 opt.mouse         = "a"
-opt.undofile      = true                        -- remember undo on file open/close
-opt.cursorline    = true                        -- highlight the current line
-opt.showmode      = false                       -- don't show mode "insert, normal, visual..."; it's in statusline
-opt.shortmess:append "sI"                       -- I: don't show welcome message; s: don't show search messages
-opt.fillchars = { eob = " " }                   -- character for visible lines at the end of file
-opt.signcolumn = "yes:1"                        -- space at first column
+opt.undofile      = true                  -- remember undo on file open/close
+opt.cursorline    = true                  -- highlight the current line
+opt.showmode      = false                 -- don't show mode "insert, normal, visual..."; it's in statusline
+opt.shortmess:append "sI"                 -- I: don't show welcome message; s: don't show search messages
+opt.fillchars = { eob = " " }             -- character for visible lines at the end of file
+opt.signcolumn = "yes:1"                  -- space at first column
 
 ---------- don't continue comments on enter, etc. see :h fo-table
 
@@ -43,27 +44,28 @@ vim.cmd([[au BufReadPost * if line("'\"") > 1 &&
     \ line("'\"") <= line("$") |
     \ exe "normal! g`\"" | endif]])
 
----------- Folding
+---------- folding
 
-opt.foldopen:remove({"search"})                 -- don't open folds when searching
-opt.foldmethod = "marker"                       -- select then zf to fold; za, dz, zc, space: toggles, delete, close, open
+opt.foldopen:remove({"search"})           -- don't open folds when searching
+opt.foldmethod = "marker"                 -- select then zf to fold; za, dz, zc, space: toggles, delete, close, open
 
 ---------- disable diagnostcs globally (diagnostics are a pain)
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
 
---======== plugins
+--=============================================================================
+------ plugins
 
 require("plugins")
-require("lazy").setup(plugins, opts)
+require("plugins.lsp")                    -- configuration for LSP servers, completion, snippets
 
-require("plugins.config")
-
---======== keymaps
+--=============================================================================
+------ keymaps
 
 require("keymaps")
 
---======== colorscheme
+--=============================================================================
+------ colorscheme
 
 vim.cmd("rsh")                            -- read the shada file that stores globals (LASTCM); normally read after this file; see :h initialization
 
@@ -79,15 +81,17 @@ end
 -- https://www.reddit.com/r/neovim/comments/13tzjz7/neovim_c_highlighting_define_from_other_file_issue/
 vim.api.nvim_set_hl(0, '@lsp.type.comment.cpp', {})
 
---======== statusline
+--=============================================================================
+------ statusline
 
 require("statusline")
 
---======== Autocommands
+--=============================================================================
+------ autocommands
 
 local autocmd = vim.api.nvim_create_autocmd
 
-autocmd({"BufNewFile", "BufRead"}, {            --  text, markdown, latex
+autocmd({"BufNewFile", "BufRead"}, {      --  text, markdown, latex
     pattern = {"*.txt", "*.md", "*.qmd", "*.tex"},
     callback = function()
         opt.wrap = true
@@ -99,7 +103,7 @@ autocmd({"BufNewFile", "BufRead"}, {            --  text, markdown, latex
     end
 })
 
-autocmd({"BufNewFile", "BufRead"}, {            --  c++ comments
+autocmd({"BufNewFile", "BufRead"}, {      --  c++ comments
     pattern = {"*.cc", "*.cpp"},
     callback = function()
         opt.commentstring = "// %s"
