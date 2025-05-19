@@ -94,15 +94,16 @@ local plugins = {
         ft = {'markdown', 'text', 'tex', 'plaintex'}
     },
     --=============================================================================================
-    {
-        "mikavilpas/yazi.nvim",
-        event = "VeryLazy",
-        keys = {
-            { "<leader>e", "<cmd>Yazi<cr>", desc = "Open yazi at the current file", },
-        },
-        ---@type YaziConfig
-        opts = {},
-    },
+    --{
+    --    "mikavilpas/yazi.nvim",
+    --    event = "VeryLazy",
+    --    keys = {
+    --        { "<leader>e", "<cmd>Yazi<cr>", desc = "Open yazi at the current file", },
+    --    },
+    --    ---@type YaziConfig
+    --    opts = {},
+    --},
+
     --=============================================================================================
     {
         -- switch between header file and source file
@@ -146,11 +147,11 @@ local plugins = {
     },
     --=============================================================================================
     {
-        -- compile/view markdown in a browser while editing code in vim
-        "iamcco/markdown-preview.nvim",
-        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-        ft = { "markdown" },
-        build = function() vim.fn["mkdp#util#install"]() end,
+       "iamcco/markdown-preview.nvim",
+       cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+       build = "cd app && yarn install",
+       init = function() vim.g.mkdp_filetypes = { "markdown" } end,
+       ft = { "markdown" },
     },
     --=============================================================================================
     {

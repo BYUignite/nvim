@@ -88,7 +88,7 @@ require("statusline")
 local autocmd = vim.api.nvim_create_autocmd
 
 autocmd({"BufNewFile", "BufRead"}, {            --  text, markdown, latex
-    pattern = {"*.txt", "*.md", "*.tex"},
+    pattern = {"*.txt", "*.md", "*.qmd", "*.tex"},
     callback = function()
         opt.wrap = true
         opt.linebreak = true
