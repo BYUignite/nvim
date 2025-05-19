@@ -181,6 +181,13 @@ local plugins = {
         end,
     },
     --==========================================================================
+    {
+        "mikavilpas/yazi.nvim",
+        event = "VeryLazy",
+        config = true,
+        --keys = { { "<leader>e", "<cmd>Yazi<cr>", desc = "Open yazi at current file", }, }, -- done in ../keymaps.lua
+    },
+    --==========================================================================
     -- for images, markdown formatting, and running code (e.g. for qmd files)
     -- see video https://youtu.be/nYDMXI-yFTA for image.nvim installation (much easier than on the site)
     -- see video https://youtu.be/iNe88IZplYM?feature=shared for some inspiration, but using everything there
@@ -323,15 +330,6 @@ local plugins = {
             { "L3MON4D3/LuaSnip", dependencies = "rafamadriz/friendly-snippets", },
         },
     },
-    --==========================================================================
-    -- {
-    --     "mikavilpas/yazi.nvim",
-    --     event = "VeryLazy",
-    --     config = true,
-    --     keys = {
-    --         { "<leader>e", "<cmd>Yazi<cr>", desc = "Open yazi at current file", },
-    --     },
-    -- },
     --==========================================================================
 }
 
