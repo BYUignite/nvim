@@ -1,5 +1,8 @@
 -- See this link, gsinclair's answer for information on config and opts and how they are related:
 -- https://neovim.discourse.group/t/different-ways-to-configure-plugins-through-lazy-vim-what-do-they-mean-and-which-one-do-i-use/4199/5
+-- This is a good description of Lazy.nvim: https://dev.to/vonheikemen/lazynvim-plugin-configuration-3opi
+-- Here's a link to the lazy plugin spec: https://lazy.folke.io/spec
+-- Josean youtube video: https://www.youtube.com/watch?v=6mxWayq-s9I
 
 
 
@@ -22,51 +25,51 @@ vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
 
-    ----=============================================================================================
-    ---- for images, markdown formatting, and running code (e.g. for qmd files)
-    ---- see video https://youtu.be/nYDMXI-yFTA for image.nvim installation (much easier than on the site)
-    ---- see video https://youtu.be/iNe88IZplYM?feature=shared for some inspiration, but using everything there
-    ---- was a waste of time. I ended up just with 
-    ---- headlines (formatting md, qmd), Molten (to run code cells), quarto (for visualizing in browser)
-    ---- and I built my own keymap to go to markdown code cells and run them (see ../keymaps.lua)
-    --{
-    --    'vhyrro/luarocks.nvim',
-    --    priority = 1001,
-    --    opts = {
-    --        rocks = { 'magick' },
-    --    },
-    --},
-    --{
-    --    "3rd/image.nvim",
-    --    dependencies = { "luarocks.nvim" },
-    --    opts = {},
-    --    -- setup is called in config.lua
-    --},
-    --{
-    --    "benlubas/molten-nvim",
-    --    version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
-    --    dependencies = { "3rd/image.nvim" },
-    --    build = ":UpdateRemotePlugins",
-    --    init = function()
-    --        -- these are examples, not defaults. Please see the readme
-    --        vim.g.molten_image_provider = "image.nvim"
-    --        vim.g.molten_output_win_max_height = 20
-    --    end,
-    --},
-    --{
-    --    "lukas-reineke/headlines.nvim",
-    --    dependencies = "nvim-treesitter/nvim-treesitter",
-    --    -- setup is called in config.lua
-    --},
-    --{
-    --    "quarto-dev/quarto-nvim",
-    --    ft = { 'quarto' },
-    --    enabled = true,
-    --    dependencies = {
-    --        "jmbuhr/otter.nvim",
-    --        "nvim-treesitter/nvim-treesitter",
-    --    },
-    --},
+    --=============================================================================================
+    -- for images, markdown formatting, and running code (e.g. for qmd files)
+    -- see video https://youtu.be/nYDMXI-yFTA for image.nvim installation (much easier than on the site)
+    -- see video https://youtu.be/iNe88IZplYM?feature=shared for some inspiration, but using everything there
+    -- was a waste of time. I ended up just with 
+    -- headlines (formatting md, qmd), Molten (to run code cells), quarto (for visualizing in browser)
+    -- and I built my own keymap to go to markdown code cells and run them (see ../keymaps.lua)
+    {
+        'vhyrro/luarocks.nvim',
+        priority = 1001,
+        opts = {
+            rocks = { 'magick' },
+        },
+    },
+    {
+        "3rd/image.nvim",
+        dependencies = { "luarocks.nvim" },
+        opts = {},
+        -- setup is called in config.lua
+    },
+    {
+        "benlubas/molten-nvim",
+        version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
+        dependencies = { "3rd/image.nvim" },
+        build = ":UpdateRemotePlugins",
+        init = function()
+            -- these are examples, not defaults. Please see the readme
+            vim.g.molten_image_provider = "image.nvim"
+            vim.g.molten_output_win_max_height = 20
+        end,
+    },
+    {
+        "lukas-reineke/headlines.nvim",
+        dependencies = "nvim-treesitter/nvim-treesitter",
+        -- setup is called in config.lua
+    },
+    {
+        "quarto-dev/quarto-nvim",
+        ft = { 'quarto' },
+        enabled = true,
+        dependencies = {
+            "jmbuhr/otter.nvim",
+            "nvim-treesitter/nvim-treesitter",
+        },
+    },
     --=============================================================================================
     {
         -- move between vim windows and tmux windows seemlessly (same command)
