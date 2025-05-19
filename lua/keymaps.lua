@@ -15,6 +15,7 @@ map("n",             "<leader>nr",      ":set rnu!<CR>",              {desc = "t
 map("n",             "<leader>rtw",     ":%s/\\s\\+$//e<CR>",         {desc = "remove trailing whitespace"})
 map("n",             "<leader>s",       ":A<CR>",                     {desc = "switch between header and source file"})
 --map("n",             "<leader>e",       "<cmd> NvimTreeToggle <CR>",  {desc = "toggle nvimtree file explorer"})
+map("n",             "<leader>e",       "<cmd>Yazi<CR>",              {desc = "open yazi at current file"})
 map("v",             ">",               ">gv",                        {desc = "indent"});
 map("t",             "<Esc>",           "<C-\\><C-n>",                {desc = "terminal escape to normal mode"})
 map("i",             "jj",              "<Esc>",                      {desc = "another way to escape"})
