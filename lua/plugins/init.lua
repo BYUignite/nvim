@@ -141,10 +141,10 @@ local plugins = {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
         opts = {
-            ensure_installed = {
+            ensure_installed = {    -- keep query else errors in this file for headlines
                 "c", "cpp", "vim", "vimdoc", "lua", "css", "html", "make", "bash",
                 "yaml", "java", "json", "cmake", "fortran", "julia", "python",
-                "bibtex", "markdown", "typescript", "dockerfile"
+                "bibtex", "markdown", "typescript", "dockerfile", "query"
             },
             highlight = { enable = true }
         },
@@ -324,14 +324,14 @@ local plugins = {
         },
     },
     --==========================================================================
-    {
-        "mikavilpas/yazi.nvim",
-        event = "VeryLazy",
-        config = true,
-        keys = {
-            { "<leader>e", "<cmd>Yazi<cr>", desc = "Open yazi at current file", },
-        },
-    },
+    -- {
+    --     "mikavilpas/yazi.nvim",
+    --     event = "VeryLazy",
+    --     config = true,
+    --     keys = {
+    --         { "<leader>e", "<cmd>Yazi<cr>", desc = "Open yazi at current file", },
+    --     },
+    -- },
     --==========================================================================
 }
 
