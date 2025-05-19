@@ -49,6 +49,8 @@ autocmd({"BufEnter", "BufNew"}, {        -- update gitbranch variable for use in
 -- Create the statusline string
 -- Note, making use of highlight groups SLine1, etc. These should be set in the theme.
 
+vim.b.gitbranchSL = ""
+
 function make_status_line()
 
   local mode        = "%#SLine1#%-6( " .. expand_mode_to_string() .. " %)"
