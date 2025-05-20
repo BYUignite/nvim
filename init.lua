@@ -99,7 +99,8 @@ autocmd({"BufNewFile", "BufRead"}, {      --  text, markdown, latex
         opt.list = false
         opt.tw = 0
         opt.wm = 0
-        vim.cmd("hi link markdownError NONE")
+        vim.cmd("hi link markdownError NONE") -- to fix highlighting underscores
+        vim.cmd("hi link texOnlyMath NONE")   -- same, but in align enviroment; use :Inspect to see hl group under cursor
     end
 })
 
