@@ -53,20 +53,12 @@ local plugins = {
         lazy = false,
     },
     --==========================================================================
-    { 
+    {
         --smooth scrolling
-        "declancm/cinnamon.nvim",
+        "karb94/neoscroll.nvim",
         opts = {
-            keymaps = {
-                basic = true,
-                extra = true,
-            },
-            options = { 
-                mode = "cursor",
-                delay = 7,
-                max_delta = { line = 15, column = false, time = 100, },
-                step_size = {vertical=1, horizontal=2,},
-            }
+            duration_multiplier = 0.75,
+            hide_cursor = false
         }
     },
     --==========================================================================
