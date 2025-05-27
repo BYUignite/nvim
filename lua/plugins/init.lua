@@ -246,7 +246,7 @@ local plugins = {
        config = function() require('headlines').setup({
            quarto = {
                dash_string = "⚯",
-               headline_highlights = { "Headline1", "Headline2", "Headline3" },
+               headline_highlights = { "Headline1", "Headline2", "Headline3", "Headline4" },
                query = vim.treesitter.query.parse(
                    'markdown', 
                    [[
@@ -287,7 +287,7 @@ local plugins = {
            },
            markdown = {                      -- use defaults with changes here
                dash_string = "⚯",
-               headline_highlights = { "Headline1", "Headline2", "Headline3" },
+               headline_highlights = { "Headline1", "Headline2", "Headline3", "Headline4" },
            },
        })
        end

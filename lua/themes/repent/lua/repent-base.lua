@@ -63,9 +63,10 @@ local theme = lush(function(injected_functions)
 
     -- for headlines plugin
     CodeBlock { fg=c.c_00, bg=c.c11 },
-    Headline1  { fg=c.wht, bg=c.c02 },
-    Headline2  { fg=c.wht, bg=c.c04 },
-    Headline3  { fg=c.wht, bg=c.c06 },
+    Headline1  { fg=c.wht, bg=c.c00 },
+    Headline2  { fg=c.wht, bg=c.c02 },
+    Headline3  { fg=c.wht, bg=c.c04 },
+    Headline4  { fg=c.wht, bg=c.c06 },
     Dash      { fg=c.c_03, bg=c.wht },
     -- for molten plugin
     MoltenCell {},                              -- defaults to CursorLine, but we don't want that

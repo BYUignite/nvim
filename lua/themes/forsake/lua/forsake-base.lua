@@ -66,9 +66,10 @@ local theme = lush(function(injected_functions)
 
     -- for headlines plugin
     CodeBlock  { fg=c.c_06, bg=c.c_5 },
-    Headline1  { fg=c.c06, bg=c.c_3 },
-    Headline2  { fg=c.c06, bg=c.c_1 },
-    Headline3  { fg=c.c06, bg=c.c01 },
+    Headline1  { fg=c.c06, bg=c.c03 },
+    Headline2  { fg=c.c06, bg=c.c01 },
+    Headline3  { fg=c.c06, bg=c.c_1 },
+    Headline4  { fg=c.c06, bg=c.c_3 },
     Dash       { fg=c.c_03, bg=c.c_7 },
     -- for molten plugin
     --
