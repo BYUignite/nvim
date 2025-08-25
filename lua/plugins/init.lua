@@ -157,7 +157,21 @@ local plugins = {
         -- telescope file finder etc.
         "nvim-telescope/telescope.nvim",
         dependencies = { 'nvim-lua/plenary.nvim' },
-        config = true
+        --config = true
+        config = function()
+            local telescope = require("telescope")
+            local root_patterns = { ".git" } -- Add or modify based on your project structure
+            local root_dir = vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
+
+            telescope.setup({
+                pickers = {
+                    live_grep = {
+                        file_ignore_patterns = { 'node_modules', '.git', '.cpcache', '.clj-kondo', '.lsp' }, -- Customize ignore patterns
+                        search_dirs = { root_dir },
+                    },
+                },
+            })
+        end,
     },
     --==========================================================================
     {
