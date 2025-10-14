@@ -74,7 +74,8 @@ local theme = lush(function(injected_functions)
     -- for molten plugin
     --
 
-    Normal         { fg=c.c06, bg=c.c_7 },      -- Normal text
+    --Normal         { fg=c.c06, bg=c.c_7 },      -- Normal text
+    Normal         { fg=c.c05, bg=c.c_7 },      -- Normal text
     NormalFloat    { Normal },                  -- Normal text in floating windows.
     FloatTitle     { Normal },                  -- Title of floating windows.
     NormalNC       { Normal },                  -- normal text in non-current windows
@@ -315,7 +316,7 @@ local theme = lush(function(injected_functions)
     -- sym"@operator"          { }, -- Operator
     -- sym"@keyword"           { }, -- Keyword
     -- sym"@exception"         { }, -- Exception
-    -- sym"@variable"          { }, -- Identifier
+    sym"@variable"          { fg=c.c05 }, -- Identifier
     -- sym"@type"              { }, -- Type
     -- sym"@type.definition"   { }, -- Typedef
     -- sym"@storageclass"      { }, -- StorageClass
