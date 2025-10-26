@@ -111,4 +111,35 @@ autocmd({"BufNewFile", "BufRead"}, {      --  c++ comments
     end
 })
 
+--=============================================================================
+-- set digraphs: greek
+-- in insert mode type: <ctrl>ktt --> \tau; <ctrl>kcc --> \xi
+-- see list of digraphs with :dig!
+
+vim.api.nvim_command("digraphs aa 945")  -- α
+vim.api.nvim_command("digraphs bb 946")  -- β
+vim.api.nvim_command("digraphs gg 947")  -- γ
+vim.api.nvim_command("digraphs GG 915")  -- Γ
+vim.api.nvim_command("digraphs dd 948")  -- δ
+vim.api.nvim_command("digraphs DD 916")  -- Δ
+vim.api.nvim_command("digraphs ee 949")  -- ε
+vim.api.nvim_command("digraphs zz 950")  -- ζ
+vim.api.nvim_command("digraphs hh 920")  -- Θ
+vim.api.nvim_command("digraphs kk 954")  -- κ
+vim.api.nvim_command("digraphs ll 955")  -- λ
+vim.api.nvim_command("digraphs mm 956")  -- μ
+vim.api.nvim_command("digraphs cc 958")  -- ξ
+vim.api.nvim_command("digraphs CC 926")  -- Ξ
+vim.api.nvim_command("digraphs pp 960")  -- π
+vim.api.nvim_command("digraphs rr 961")  -- ρ
+vim.api.nvim_command("digraphs ss 963")  -- σ
+vim.api.nvim_command("digraphs SS 931")  -- Σ
+vim.api.nvim_command("digraphs tt 964")  -- τ
+vim.api.nvim_command("digraphs ff 966")  -- φ
+vim.api.nvim_command("digraphs qq 968")  -- ψ
+vim.api.nvim_command("digraphs ww 969")  -- ω
+vim.api.nvim_command("digraphs WW 937")  -- Ω
+vim.api.nvim_command("digraphs -> 8658") -- ⇒
+vim.api.nvim_command("digraphs == 8660") -- ⇔
+vim.api.nvim_command("digraphs dp 8706") -- ∂
 
