@@ -77,7 +77,11 @@ local plugins = {
         -- escpe from terminal
         "max397574/better-escape.nvim",
         event = "InsertEnter",
-        config = true
+        config = function()
+            require("better_escape").setup {
+                mappings = { i = { j = { k = false, }, } }
+            }
+        end
     },
     --==========================================================================
     { 
