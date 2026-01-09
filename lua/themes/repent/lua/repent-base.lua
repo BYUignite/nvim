@@ -152,10 +152,10 @@ local theme = lush(function(injected_functions)
     SpellLocal     { gui="undercurl, bold" },   -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
     SpellRare      { gui="undercurl, bold" },   -- Word that is recognized by the spellchecker as one that is hardly ever used. |spell| Combined with the highlighting used otherwise.
 
-    DiffAdd        { bg=c.grb, fg=c.wht },      -- Diff mode: Added line |diff.txt|
-    DiffChange     { bg=c.org, fg=c.blk},       -- Diff mode: Changed line |diff.txt|
-    DiffText       { DiffChange, fg=c.wht},     -- Diff mode: Changed text within a changed line |diff.txt|
-    DiffDelete     { bg=c.red, fg=c.wht },      -- Diff mode: Deleted line |diff.txt|
+    DiffAdd        { bg=c.c09, fg=c.blk },      -- Diff mode: Added line |diff.txt|
+    DiffChange     { bg=c.c07, fg=c.wht},       -- Diff mode: Changed line |diff.txt|
+    DiffText       { DiffChange, fg=c.blk},     -- Diff mode: Changed text within a changed line |diff.txt|
+    DiffDelete     { bg=c.c09, fg=c.c09 },      -- Diff mode: Deleted line |diff.txt|
 
     WarningMsg     { bg=c.yel.li(20) },         -- Warning messages
     ErrorMsg       { fg=c.wht, bg=c.red },      -- Error messages on the command line

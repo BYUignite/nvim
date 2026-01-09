@@ -38,7 +38,7 @@ local autocmd = vim.api.nvim_create_autocmd
 autocmd({"BufEnter", "BufNew"}, {        -- update gitbranch variable for use in statusline
     callback = function()
         if vim.bo.buftype ~= "terminal" then
-            vim.cmd("lcd %:p:h")             -- connect to directory of current file
+            --vim.cmd("lcd %:p:h")             -- connect to directory of current file; BREAKS fugitive's :Gvdiffsplit command
             local res = vim.fn.system({'git', 'rev-parse',  '--abbrev-ref', 'HEAD'})
             vim.g.gitbranchSL = "fatal:" == string.sub(res, 1, 6) and "" or " " .. string.sub(res,1,#res-1)
         end
