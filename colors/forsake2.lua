@@ -239,7 +239,7 @@ hl(0, "@tag.attribute",   { fg = c.blu })
 hl(0, "@tag.delimiter",   { fg = c.c07 })
 
 hl(0, "@text",            { fg = c.c10 })
-hl(0, "@text.title",      { fg = c.blu, bold = true })
+hl(0, "@text.title",      { fg = c.blk, bold = true })
 hl(0, "@text.literal",    { fg = c.grb })
 hl(0, "@text.uri",        { fg = c.blu, underline = true })
 hl(0, "@text.reference",  { fg = c.prp })
