@@ -14,7 +14,6 @@ map("n",             "<leader>n",       ":set nu!<CR>",               {desc = "t
 map("n",             "<leader>nr",      ":set rnu!<CR>",              {desc = "toggle relative line numbers"})
 map("n",             "<leader>rtw",     ":%s/\\s\\+$//e<CR>",         {desc = "remove trailing whitespace"})
 map("n",             "<leader>s",       ":A<CR>",                     {desc = "switch between header and source file"})
---map("n",             "<leader>e",       "<cmd> NvimTreeToggle <CR>",  {desc = "toggle nvimtree file explorer"})
 map("n",             "<leader>e",       "<cmd>Yazi<CR>",              {desc = "open yazi at current file"})
 map("v",             ">",               ">gv",                        {desc = "indent"});
 map("t",             "<Esc>",           "<C-\\><C-n>",                {desc = "terminal escape to normal mode"})
@@ -107,7 +106,7 @@ end, {desc = "toggle colorschemes"})
 --=============================================================================
 ------ maximizer plugin
 
-map("n", "<leader>m", ":MaximizerToggle!<CR>", {desc = "maximizer: toggle maximize window"})
+vim.api.nvim_set_keymap('n', '<leader>m', '<cmd>lua require("maximizer").toggle()<CR>', {silent = true, noremap = true})
 
 --=============================================================================
 ------ telescope plugin
@@ -138,7 +137,6 @@ map("n", "<leader>gg", function()
   })
 end,                                                              { desc = "telescope grep word under cursor" })
 
-    --search = vim.fn.input("Grep > "),
 --=============================================================================
 ------ neoterm plugin
 
@@ -168,44 +166,6 @@ map("n", "<leader>6",":BufferGoto 6<CR>", {desc = "switch to buffer 4"})
 map("n", "<leader>7",":BufferGoto 7<CR>", {desc = "switch to buffer 3"})
 map("n", "<leader>8",":BufferGoto 8<CR>", {desc = "switch to buffer 2"})
 map("n", "<leader>9",":BufferGoto 9<CR>", {desc = "switch to buffer 1"})
-
---=============================================================================
------- completion
-
-local cmp = require('cmp')
-local luasnip = require('luasnip')
-cmp.setup({
-
-    mapping = {
-        ["<C-Space>"] = cmp.mapping.complete(),
-        ["<C-e>"]     = cmp.mapping.abort(),
-        ["<C-b>"]     = cmp.mapping.scroll_docs(-4),
-        ["<C-f>"]     = cmp.mapping.scroll_docs(4),
-        ["<C-p>"]     = cmp.mapping.select_prev_item(),
-        ["<C-n>"]     = cmp.mapping.select_next_item(),
-        ['<CR>']      = cmp.mapping.confirm { select = true },
-        ['<Up>']      = cmp.mapping(cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert }, { 'i', 'c' }),
-        ['<Down>']    = cmp.mapping(cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert }, { 'i', 'c' }),
-        ['<Tab>']     = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
-                luasnip.expand_or_jump()
-            else
-                fallback()
-            end
-        end, { 'i', 's' }),
-        ['<S-Tab>']   = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-                luasnip.jump(-1)
-            else
-                fallback()
-            end
-        end, { 'i', 's' }),
-    },
-})
 
 --=============================================================================
 ------ select and run code cell, move to next cell

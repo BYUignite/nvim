@@ -1,0 +1,61 @@
+diff --git a/lua/otter/tools/treesitter_iterator.lua b/lua/otter/tools/treesitter_iterator.lua
+index ed82e36..25b561a 100644
+--- a/lua/otter/tools/treesitter_iterator.lua
++++ b/lua/otter/tools/treesitter_iterator.lua
+@@ -1,31 +1,36 @@
+ M = {}
+ 
++--dol vvvvvvvvvvvvvvvv
+ M.iter_captures = function (node, source, query)
+   if type(source) == "number" and source == 0 then
+     source = vim.api.nvim_get_current_buf()
+   end
+ 
+-  local raw_iter = node:_rawquery(query.query, true, 0, -1)
+-  local metadata = {}
+-  local function iter(end_line)
+-    local capture, captured_node, match = raw_iter()
+-
+-    if match ~= nil then
+-      local active = query:match_preds(match, match.pattern, source)
+-      match.active = active
+-      if not active then
+-        return iter(end_line) -- tail call: try next match
+-      else
+-        -- if it has an active match, reset the metadata.
+-        -- then hopefully apply_directives can fill the metadata
+-        metadata = {}
+-      end
+-      query:apply_directives(match, match.pattern, source, metadata)
+-    end
+-    return capture, captured_node, metadata
+-  end
+-  return iter
++  return query:iter_captures(node, source, 0, -1)
+ end
++--dol ^^^^^^^^^^^^^^^^
++
++--dol   local raw_iter = node:_rawquery(query.query, true, 0, -1)
++--dol   local metadata = {}
++--dol   local function iter(end_line)
++--dol     local capture, captured_node, match = raw_iter()
++--dol
++--dol     if match ~= nil then
++--dol       local active = query:match_preds(match, match.pattern, source)
++--dol       match.active = active
++--dol       if not active then
++--dol         return iter(end_line) -- tail call: try next match
++--dol       else
++--dol         -- if it has an active match, reset the metadata.
++--dol         -- then hopefully apply_directives can fill the metadata
++--dol         metadata = {}
++--dol       end
++--dol       query:apply_directives(match, match.pattern, source, metadata)
++--dol     end
++--dol     return capture, captured_node, metadata
++--dol   end
++--dol   return iter
++--dol end
+ 
+ 
+ return M

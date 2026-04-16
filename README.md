@@ -7,6 +7,4 @@ Clone this repository into `~/.config/`
 ## Themes
 Two new themes are written in Lush: repent (light) and forsake (dark)
 
-<img src="themes.png">
-
-
+<img src="forsake-repent.png">

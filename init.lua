@@ -1,14 +1,13 @@
---=============================================================================
------- general options
+--============================= general options
 
 local g   = vim.g                         -- vim.cmd.echo('g:') or g:somevar to see values; or do :let g: in cmd mode in vim
 local o   = vim.o
 local opt = vim.opt                       -- like :set option=value
 
-----------
+------------
 
-o.cursorlineopt = "both"                  -- enable highlighting the line the cursor is on
-o.clipboard     = "unnamedplus"           -- clipboard integration: <C-c> then put; yank then <C-v>
+o.cursorlineopt   = "both"                -- enable highlighting the line the cursor is on
+o.clipboard       = "unnamedplus"         -- clipboard integration: <C-c> then put; yank then <C-v>
 
 opt.number        = false
 opt.wrapscan      = false
@@ -34,64 +33,60 @@ opt.shortmess:append "sI"                 -- I: don't show welcome message; s: d
 opt.fillchars = { eob = " " }             -- character for visible lines at the end of file
 opt.signcolumn = "yes:1"                  -- space at first column
 
----------- don't continue comments on enter, etc. see :h fo-table
+------------ don't continue comments on enter, etc. see :h fo-table
 
 vim.cmd("autocmd FileType * set fo-=r fo-=c fo-=o")
 
----------- open file at previous cursor location
+------------ open file at previous cursor location
 
 vim.cmd([[au BufReadPost * if line("'\"") > 1 &&
     \ line("'\"") <= line("$") |
     \ exe "normal! g`\"" | endif]])
 
----------- folding
+------------ folding
 
 opt.foldopen:remove({"search"})           -- don't open folds when searching
 opt.foldmethod = "marker"                 -- select then zf to fold; za, dz, zc, space: toggles, delete, close, open
 
----------- disable diagnostcs globally (diagnostics are a pain)
+------------ disable diagnostcs globally (diagnostics are a pain)
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
 
---=============================================================================
------- plugins
+--============================= plugins
 
-require("plugins")
-require("plugins.lsp")                    -- configuration for LSP servers, completion, snippets
+require("plugins")                        -- runs file lua/plugins/init.lua
 
---=============================================================================
------- keymaps
+--============================= keymaps
 
-require("keymaps")
+require("keymaps")                        -- runs file lua/keymaps.lua
 
---=============================================================================
------- colorscheme
+--============================= colorscheme
 
 vim.cmd("rsh")                            -- read the shada file that stores globals (LASTCM); normally read after this file; see :h initialization
 
-if vim.g.LASTCM == "forsake" then
-    vim.cmd("colorscheme forsake")
-    vim.g.LASTCM = "forsake"
+if g.LASTCM == "forsake" then
+   vim.cmd("colorscheme forsake")
+   g.LASTCM = "forsake"
 else
-    vim.cmd("colorscheme repent")
-    vim.g.LASTCM = "repent"
+   vim.cmd("colorscheme repent")
+   g.LASTCM = "repent"
 end
 
 -- fix issue that comments code between preprocessor directives in c++: 
 -- https://www.reddit.com/r/neovim/comments/13tzjz7/neovim_c_highlighting_define_from_other_file_issue/
 vim.api.nvim_set_hl(0, '@lsp.type.comment.cpp', {})
 
---=============================================================================
------- statusline
+--============================= statusline
 
 require("statusline")
 
---=============================================================================
------- autocommands
+--============================= autocommands
 
 local autocmd = vim.api.nvim_create_autocmd
 
-autocmd({"BufNewFile", "BufRead"}, {      --  text, markdown, latex
+------------ text, markdown, latex
+
+autocmd({"BufNewFile", "BufRead"}, {
     pattern = {"*.txt", "*.md", "*.qmd", "*.tex"},
     callback = function()
         opt.wrap = true
@@ -104,15 +99,16 @@ autocmd({"BufNewFile", "BufRead"}, {      --  text, markdown, latex
     end
 })
 
-autocmd({"BufNewFile", "BufRead"}, {      --  c++ comments
+------------ c++ comments
+
+autocmd({"BufNewFile", "BufRead"}, {
     pattern = {"*.cc", "*.cpp"},
     callback = function()
         opt.commentstring = "// %s"
     end
 })
 
---=============================================================================
--- set digraphs: greek
+--============================= digraphs: greek
 -- in insert mode type: <ctrl>ktt --> \tau; <ctrl>kcc --> \xi
 -- see list of digraphs with :dig!
 
@@ -127,6 +123,7 @@ vim.api.nvim_command("digraphs zz 950")  -- ζ
 vim.api.nvim_command("digraphs hh 920")  -- Θ
 vim.api.nvim_command("digraphs kk 954")  -- κ
 vim.api.nvim_command("digraphs ll 955")  -- λ
+vim.api.nvim_command("digraphs LL 923")  -- Λ
 vim.api.nvim_command("digraphs mm 956")  -- μ
 vim.api.nvim_command("digraphs cc 958")  -- ξ
 vim.api.nvim_command("digraphs CC 926")  -- Ξ
@@ -142,4 +139,6 @@ vim.api.nvim_command("digraphs WW 937")  -- Ω
 vim.api.nvim_command("digraphs -> 8658") -- ⇒
 vim.api.nvim_command("digraphs == 8660") -- ⇔
 vim.api.nvim_command("digraphs dp 8706") -- ∂
+vim.api.nvim_command("digraphs -- 8212") -- —  (em dash)
+
 
