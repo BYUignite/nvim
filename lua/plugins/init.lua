@@ -272,7 +272,7 @@ require("luarocks-nvim").setup({ opts = { rocks = { 'magick' } } })
 
 require("image").setup({ 
     integrations = { markdown = { filetypes = { "markdown", "vimwiki", "quarto" }, }, },
-    max_width = 100,
+    max_width = 200,
     max_height = 12,
     max_width_window_percentage = math.huge,
     max_height_window_percentage = math.huge,
@@ -287,6 +287,7 @@ end)                                         -- silent! suppresses the message a
 
 vim.g.molten_image_provider = "image.nvim"
 vim.g.molten_output_win_max_height = 20
+vim.g.molten_enter_output_behavior = "open_and_enter"
 
 vim.g.molten_virt_text_output = true
 vim.g.molten_image_location = "both"
