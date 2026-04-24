@@ -34,6 +34,7 @@ local c = {
     c09 = utils.hsl_to_hex(200, 20, 78), --"#BCCBD2"
     c10 = utils.hsl_to_hex(200, 20, 86), --"#D4DEE2"
     c11 = utils.hsl_to_hex(200, 20, 94), --"#EDF1F3"
+    c12 = utils.hsl_to_hex(200, 20, 97), --"#F6F7F9"
     wht = utils.hsl_to_hex(200, 00,100), --"#ffffff"
 
     red = utils.hsl_to_hex(350, 90, 30), --"#91081F"
@@ -331,7 +332,7 @@ hl(0, "WhichKeyDesc",         { fg = c.c02 })
 hl(0, "WhichKeySeparator",    { fg = c.c04 })
 hl(0, "WhichKeyFloat",        { bg = c.c11 })
 
-hl(0, "CodeBlock", { fg=c.c_01, bg=c.c11 })  -- headlines
+hl(0, "CodeBlock", { fg=c.c_01, bg=c.c12 })  -- headlines
 hl(0, "Headline1", { fg=c.wht,  bg=c.c01 })
 hl(0, "Headline2", { fg=c.wht,  bg=c.c03 })
 hl(0, "Headline3", { fg=c.wht,  bg=c.c05 })
