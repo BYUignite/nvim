@@ -44,6 +44,7 @@ vim.pack.add({
     "https://github.com/neovim/nvim-lspconfig",                    -- lsp server configurations
     "https://github.com/williamboman/mason.nvim",                  -- installs language servers
     "https://github.com/L3MON4D3/LuaSnip",                         -- snippets
+    "https://github.com/Saghen/blink.lib",                         -- completition
     "https://github.com/Saghen/blink.cmp",                         -- completition
 
     "https://github.com/vhyrro/luarocks.nvim",                     -- for running code in quarto/markdown cells
@@ -241,6 +242,7 @@ require("blink.cmp").setup({
     fuzzy = { implementation = "lua" },
     snippets = { preset = 'luasnip' },
     keymap = {                      -- https://cmp.saghen.dev/configuration/keymap.html
+        ['<C-k>'] = false,
         ['<Tab>'] = {
             function(cmp)
                 if cmp.snippet_active() then return cmp.accept()
@@ -251,6 +253,7 @@ require("blink.cmp").setup({
         },
     },
 })
+
 ----------------------------------------
 
 local capabilities = require('blink.cmp').get_lsp_capabilities()
