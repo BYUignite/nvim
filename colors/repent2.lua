@@ -245,6 +245,19 @@ hl(0, "@text.literal",    { fg = c.grb })
 hl(0, "@text.uri",        { fg = c.blu, underline = true })
 hl(0, "@text.reference",  { fg = c.prp })
 
+------------------- cmake
+
+hl(0, "cmakeKWset",           Normal)
+hl(0, "cmakeKWtry_compile",   Normal)
+hl(0, "cmakeKWif",            Normal)
+hl(0, "cmakeKWstring",        Normal)
+hl(0, "cmakeKWcmake_path",    Normal)
+hl(0, "cmakeKWproject",       Normal)
+hl(0, "cmakeKWproject",       Normal)
+hl(0, "cmakeKWget_filename_component", Normal)
+hl(0, "cmakeKWwrite_basic_package_version_file",   Normal)
+
+
 ------------------- diagnostics, LSP
 
 hl(0, "DiagnosticError",  { fg = c.red })

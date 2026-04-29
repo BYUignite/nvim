@@ -223,7 +223,6 @@ local servers = {["clangd"]                = "clangd",                -- first i
                  ["marksman"]              = "marksman",
                  ["texlab"]                = "texlab",
                  ["lua-language-server"]   = "lua_ls",
-                 ["cmake-language-server"] = "cmake",
              }
 
 for srv, _ in pairs(servers) do
