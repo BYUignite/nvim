@@ -253,8 +253,11 @@ hl(0, "cmakeKWif",            Normal)
 hl(0, "cmakeKWstring",        Normal)
 hl(0, "cmakeKWcmake_path",    Normal)
 hl(0, "cmakeKWproject",       Normal)
-hl(0, "cmakeKWproject",       Normal)
+hl(0, "cmakeKWexport",        Normal)
+hl(0, "cmakeKWinstall",       Normal)
+hl(0, "cmakeKWtarget_sources",Normal)
 hl(0, "cmakeKWget_filename_component", Normal)
+hl(0, "cmakeKWtarget_link_libraries",  Normal)
 hl(0, "cmakeKWwrite_basic_package_version_file",   Normal)
 
 ------------------- diagnostics, LSP
