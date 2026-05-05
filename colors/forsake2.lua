@@ -245,6 +245,30 @@ hl(0, "@text.literal",    { fg = c.grb })
 hl(0, "@text.uri",        { fg = c.blu, underline = true })
 hl(0, "@text.reference",  { fg = c.prp })
 
+------------------- cmake
+
+hl(0, "cmakeKWset",                              Normal)
+hl(0, "cmakeKWtry_compile",                      Normal)
+hl(0, "cmakeKWif",                               Normal)
+hl(0, "cmakeKWstring",                           Normal)
+hl(0, "cmakeKWcmake_path",                       Normal)
+hl(0, "cmakeKWproject",                          Normal)
+hl(0, "cmakeKWexport",                           Normal)
+hl(0, "cmakeKWinstall",                          Normal)
+hl(0, "cmakeKWtarget_sources",                   Normal)
+hl(0, "cmakeKWget_filename_component",           Normal)
+hl(0, "cmakeKWtarget_link_libraries",            Normal)
+hl(0, "cmakeKWwrite_basic_package_version_file", Normal)
+hl(0, "cmakeKWtry_run",                          Normal)
+hl(0, "cmakeKWwrite_file",                       Normal)
+hl(0, "cmakeKWforeach",                          Normal)
+hl(0, "cmakeKWmacro",                            Normal)
+hl(0, "cmakeKWfile",                             Normal)
+hl(0, "cmakeKWvariable_watch",                   Normal)
+hl(0, "cmakeKWdoxygen_add_docs",                 Normal)
+hl(0, "cmakeKWadd_dependencies",                 Normal)
+hl(0, "cmakeKWmessage",                          Normal)
+
 ------------------- diagnostics, LSP
 
 hl(0, "DiagnosticError",  { fg = c.red })
