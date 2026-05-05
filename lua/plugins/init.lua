@@ -176,12 +176,24 @@ require("nvim-autopairs").setup( { fast_wrap = {},  ignored_next_char = "[%w%.]"
 
 --===================== treesitter
 
-require("nvim-treesitter").setup( {
-           ensure_installed = {    -- keep query else errors in this file for headlines
-               "c", "cpp", "vim", "vimdoc", "lua", "css", "html", "make", "bash",
-               "yaml", "java", "json", "cmake", "fortran", "julia", "python",
-               "bibtex", "markdown", "typescript", "dockerfile", "query" },
-           highlight = { enable = true }
+local treesitter_languages = {    -- keep query else errors in this file for headlines
+    "c", "cpp", "vim", "vimdoc", "lua", "css", "html", "make", "bash",
+    "yaml", "java", "json", "cmake", "fortran", "julia", "python",
+    "bibtex", "markdown", "markdown_inline", "typescript", "dockerfile", "query"
+}
+
+require("nvim-treesitter").setup()
+require("nvim-treesitter").install(treesitter_languages)
+
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = vim.list_extend(vim.deepcopy(treesitter_languages), { "quarto" }),
+    callback = function(args)
+        if args.match == "quarto" then
+            vim.treesitter.language.register("markdown", "quarto")
+        end
+        pcall(vim.treesitter.start, args.buf)
+    end,
 })
 
 --===================== plenary

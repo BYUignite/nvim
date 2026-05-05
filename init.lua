@@ -33,6 +33,8 @@ opt.shortmess:append "sI"                 -- I: don't show welcome message; s: d
 opt.fillchars = { eob = " " }             -- character for visible lines at the end of file
 opt.signcolumn = "yes:1"                  -- space at first column
 
+
+
 ------------ don't continue comments on enter, etc. see :h fo-table
 
 vim.cmd("autocmd FileType * set fo-=r fo-=c fo-=o")
@@ -51,6 +53,11 @@ opt.foldmethod = "marker"                 -- select then zf to fold; za, dz, zc,
 ------------ disable diagnostcs globally (diagnostics are a pain)
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
+
+------------ fix slow scrolling of files with julia code fences
+
+vim.g.rmd_dynamic_fenced_languages = false
+vim.g.rmd_fenced_languages = { "python" }
 
 --============================= plugins
 
