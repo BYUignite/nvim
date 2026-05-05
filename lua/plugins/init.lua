@@ -300,6 +300,12 @@ vim.g.molten_auto_open_output = false
 
 require("plugins.patch.ensure_otter_patch").ensure_otter_patch()          -- apply bug fix to keep otter from breaking
 require("otter").setup( { buffers = { set_filetype = true }, })   -- it has several issues but fixed with quarto settings below (diagnostics, completion off; languages explicitly set)
+do   -- codex added this to fix a bug (my installed otter.nvim no longer exposes rafts, it uses _otters_attached instead...)
+    local otterkeeper = require("otter.keeper")
+    if otterkeeper.rafts == nil and otterkeeper._otters_attached ~= nil then
+        otterkeeper.rafts = otterkeeper._otters_attached
+    end
+end
 
 --===================== quarto
 
@@ -308,5 +314,9 @@ require("quarto").setup({
         diagnostics = { enabled = false },
         completion  = { enabled = false },
         languages   = { "python", "julia" },
+    },
+    codeRunner = {
+        enabled = true,
+        default_method = "molten",
     },
 })

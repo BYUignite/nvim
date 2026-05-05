@@ -19,10 +19,21 @@
           ]
   },
 
-  "code block": {
-  "prefix": ["code"],
+  "python code block": {
+  "prefix": ["pcode"],
   "body": [
            "```{python}",
+           "",
+           "$1",
+           "",
+           "```"
+          ]
+  },
+
+  "julia code block": {
+  "prefix": ["jcode"],
+  "body": [
+           "```{julia}",
            "",
            "$1",
            "",
