@@ -287,7 +287,7 @@ require("luarocks-nvim").setup({ opts = { rocks = { 'magick' } } })
 require("image").setup({ 
     integrations = { markdown = { filetypes = { "markdown", "vimwiki", "quarto" }, }, },
     max_width = 200,
-    max_height = 12,
+    max_height = 40 ,
     max_width_window_percentage = math.huge,
     max_height_window_percentage = math.huge,
     window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
@@ -300,12 +300,15 @@ vim.schedule(function()              -- delays running till UpdateRemotePlugins 
 end)                                         -- silent! suppresses the message about making a manifest
 
 vim.g.molten_image_provider = "image.nvim"
-vim.g.molten_output_win_max_height = 20
+vim.g.molten_output_win_max_height = 40
 vim.g.molten_enter_output_behavior = "open_and_enter"
 
 vim.g.molten_virt_text_output = true
 vim.g.molten_image_location = "both"
 vim.g.molten_auto_open_output = false
+
+vim.g.molten_output_win_max_width = 200
+vim.g.molten_output_win_max_height = 40
 
 --===================== otter (for quarto)
 

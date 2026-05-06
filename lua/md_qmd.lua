@@ -119,16 +119,99 @@ function M.setup()
         silent = true,
         desc = "enter output; us :q to leave the output",
     })
-    vim.keymap.set("n", "[", function()
-        local current = vim.api.nvim_win_get_cursor(0)[1]
+
+    local function get_line(line_nr)
+        return vim.api.nvim_buf_get_lines(buf, line_nr - 1, line_nr, false)[1]
+    end
+
+    local function find_cell_from(start_line)
         local last = vim.api.nvim_buf_line_count(buf)
 
-        for line_nr = current + 1, last do
-            local line = vim.api.nvim_buf_get_lines(buf, line_nr - 1, line_nr, false)[1]
+        for line_nr = math.max(start_line, 1), last do
+            local line = get_line(line_nr)
             if line and line:match("^```%{") then
-                vim.api.nvim_win_set_cursor(0, { math.min(line_nr + 1, last), 0 })
+                for end_line_nr = line_nr + 1, last do
+                    local end_line = get_line(end_line_nr)
+                    if end_line and end_line:match("^```%s*$") then
+                        return {
+                            start_line = line_nr,
+                            end_line = end_line_nr,
+                        }
+                    end
+                end
+                return nil
+            end
+        end
+
+        return nil
+    end
+
+    local function find_current_cell(line_nr)
+        local start_line = nil
+
+        for scan_line = line_nr, 1, -1 do
+            local line = get_line(scan_line)
+            if line and line:match("^```%{") then
+                start_line = scan_line
+                break
+            end
+        end
+
+        if start_line == nil then
+            return nil
+        end
+
+        local cell = find_cell_from(start_line)
+        if cell == nil then
+            return nil
+        end
+
+        if cell.start_line < line_nr and line_nr < cell.end_line then
+            return cell
+        end
+
+        return nil
+    end
+
+    local function target_line_for(cell)
+        return math.max(cell.start_line, cell.end_line - 1)
+    end
+
+    local function find_previous_cell(before_line)
+        local previous_cell = nil
+        local search_line = 1
+
+        while true do
+            local cell = find_cell_from(search_line)
+            if cell == nil or cell.start_line >= before_line then
+                return previous_cell
+            end
+
+            previous_cell = cell
+            search_line = cell.end_line + 1
+        end
+    end
+
+    vim.keymap.set("n", "[", function()
+        local current = vim.api.nvim_win_get_cursor(0)[1]
+        local current_cell = find_current_cell(current)
+
+        if current_cell ~= nil then
+            if current == current_cell.end_line - 1 then
+                local next_cell = find_cell_from(current_cell.end_line + 1)
+                if next_cell ~= nil then
+                    vim.api.nvim_win_set_cursor(0, { target_line_for(next_cell), 0 })
+                end
                 return
             end
+
+            vim.api.nvim_win_set_cursor(0, { target_line_for(current_cell), 0 })
+            return
+        end
+
+        local next_cell = find_cell_from(current + 1)
+        if next_cell ~= nil then
+            vim.api.nvim_win_set_cursor(0, { target_line_for(next_cell), 0 })
         end
     end, {
         buffer = buf,
@@ -137,37 +220,25 @@ function M.setup()
     })
     vim.keymap.set("n", "]", function()
         local current = vim.api.nvim_win_get_cursor(0)[1]
-        local starts = {}
+        local current_cell = find_current_cell(current)
 
-        for line_nr = current - 1, 1, -1 do
-            local line = vim.api.nvim_buf_get_lines(buf, line_nr - 1, line_nr, false)[1]
-            if line and line:match("^```%{") then
-                table.insert(starts, line_nr)
-                if #starts == 2 then
-                    break
+        if current_cell ~= nil then
+            if current == current_cell.end_line - 1 then
+                local previous_cell = find_previous_cell(current_cell.start_line)
+                if previous_cell ~= nil then
+                    vim.api.nvim_win_set_cursor(0, { target_line_for(previous_cell), 0 })
                 end
+                return
             end
-        end
 
-        if #starts == 0 then
+            vim.api.nvim_win_set_cursor(0, { target_line_for(current_cell), 0 })
             return
         end
 
-        local target_start = starts[1]
-        local inside_current_block = true
-        for line_nr = target_start + 1, current - 1 do
-            local line = vim.api.nvim_buf_get_lines(buf, line_nr - 1, line_nr, false)[1]
-            if line and line:match("^```%s*$") then
-                inside_current_block = false
-                break
-            end
+        local previous_cell = find_previous_cell(current)
+        if previous_cell ~= nil then
+            vim.api.nvim_win_set_cursor(0, { target_line_for(previous_cell), 0 })
         end
-
-        if inside_current_block and #starts >= 2 then
-            target_start = starts[2]
-        end
-
-        vim.api.nvim_win_set_cursor(0, { target_start + 1, 0 })
     end, {
         buffer = buf,
         silent = true,
