@@ -287,28 +287,30 @@ require("luarocks-nvim").setup({ opts = { rocks = { 'magick' } } })
 require("image").setup({ 
     integrations = { markdown = { filetypes = { "markdown", "vimwiki", "quarto" }, }, },
     max_width = 200,
-    max_height = 40 ,
+    max_height = 20 ,
     max_width_window_percentage = math.huge,
     max_height_window_percentage = math.huge,
-    window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
+    window_overlap_clear_enabled = false,
 })
 
 --===================== molten run code blocks
+
+require("plugins.patch.ensure_molten_patch").ensure_molten_patch()
 
 vim.schedule(function()              -- delays running till UpdateRemotePlugins exists; error otherwise
     vim.cmd("silent! UpdateRemotePlugins")   -- run this on installation (but here, always done; tried some fancy stuff to only run on install, but way slower)
 end)                                         -- silent! suppresses the message about making a manifest
 
-vim.g.molten_image_provider = "image.nvim"
-vim.g.molten_output_win_max_height = 40
-vim.g.molten_enter_output_behavior = "open_and_enter"
-
-vim.g.molten_virt_text_output = true
-vim.g.molten_image_location = "both"
-vim.g.molten_auto_open_output = false
-
-vim.g.molten_output_win_max_width = 200
-vim.g.molten_output_win_max_height = 40
+vim.g.molten_virt_text_max_lines      = 8
+vim.g.molten_output_win_max_height    = 20
+vim.g.molten_output_win_max_width     = 200
+vim.g.molten_virt_text_output         = true
+vim.g.molten_virt_lines_off_by_1      = true
+vim.g.molten_auto_open_output         = false
+vim.g.molten_enter_output_behavior    = "open_and_enter"  -- (not open_then_enter); call using :noautocmd MoltenEnterOutput
+vim.g.molten_output_win_hide_on_leave = false
+vim.g.molten_image_provider           = "image.nvim"
+vim.g.molten_image_location           = "virt"
 
 --===================== otter (for quarto)
 

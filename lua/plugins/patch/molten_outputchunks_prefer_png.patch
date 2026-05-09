@@ -1,0 +1,16 @@
+diff --git a/rplugin/python3/molten/outputchunks.py b/rplugin/python3/molten/outputchunks.py
+index 1eb8804..b9a2d8d 100644
+--- a/rplugin/python3/molten/outputchunks.py
++++ b/rplugin/python3/molten/outputchunks.py
+@@ -292,6 +292,11 @@ def to_outputchunk(
+     def _from_plaintext(text: str) -> OutputChunk:
+         return TextLnOutputChunk(text)
+ 
+     chunk = None
++    if chunk is None and data is not None:
++        png_data = data.get("image/png")
++        if png_data is not None:
++            chunk = _from_image("png", png_data)
++
+     # if options.image_provider != "none":
+     # handle these mimetypes first, since they require Molten to render them

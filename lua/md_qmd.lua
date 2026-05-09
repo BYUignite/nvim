@@ -1,56 +1,14 @@
-
---- Setup quarto and markdown files so that if the frontmatter has:
---- code: python, then run :MoltenInit and choose the first python kernel
---- code: julia,  then run :MoltenInit and choose the first julia kernel
---- Set keymaps for md and qmd files: 
----    <leader>r to run a cell
----    <leader>ra to run all cells
----    <leader>rs to run cells from start to current
----    <leader>v to run markdown or quarto preview (in the browser)
-
--------------------------------------------------------------------------------
+--- Setup markdown and quarto buffers for Molten.
+--- If YAML frontmatter contains `code: python` or `code: julia`,
+--- initialize Molten with the first matching kernel for that language.
 
 local M = {}
 
-local function init_with_first_kernel_then(buf, kernel_filter, callback)
+local pending_inits = {}
 
-    if require("molten.status").initialized() ~= "" then
-        callback()
-        return
-    end
+--=============================================================================
 
-    local kernels = vim.fn.MoltenAvailableKernels()
-    local first_kernel = nil
-
-    if kernels ~= nil then
-        for _, kernel in ipairs(kernels) do
-            if kernel_filter == nil or kernel:lower():match(kernel_filter) then
-                first_kernel = kernel
-                break
-            end
-        end
-    end
-
-    vim.api.nvim_create_autocmd("User", {
-        pattern = "MoltenKernelReady",
-        once = true,
-        callback = function()
-            if vim.api.nvim_buf_is_valid(buf) then
-                callback()
-            end
-        end,
-    })
-
-    if first_kernel ~= nil and first_kernel ~= "" then
-        vim.cmd(("MoltenInit %s"):format(first_kernel))
-    else
-        vim.cmd("MoltenInit")
-    end
-end
-
--------------------------------------------------------------------------------
-
-local function frontmatter_code_kernel_filter(buf)
+local function parse_frontmatter_code(buf)
     local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
 
     if lines[1] ~= "---" then
@@ -60,190 +18,188 @@ local function frontmatter_code_kernel_filter(buf)
     for i = 2, #lines do
         local line = lines[i]
         if line == "---" or line == "..." then
-            return nil
+            break
         end
+
         local value = line:match([[^code:%s*['"]?([^'"]+)['"]?%s*$]])
         if value ~= nil then
             value = value:lower()
-            if value == "python" then
-                return "python"
-            elseif value == "julia" then
-                return "julia"
-            else
-                return nil
+            if value == "python" or value == "julia" then
+                return value
             end
+            return nil
         end
     end
 
     return nil
 end
 
--------------------------------------------------------------------------------
+--=============================================================================
+
+local function first_matching_kernel(language)
+    local kernels = vim.fn.MoltenAvailableKernels()
+    if type(kernels) ~= "table" then
+        return nil
+    end
+
+    for _, kernel in ipairs(kernels) do
+        if type(kernel) == "string" and kernel:lower():match(language) then
+            return kernel
+        end
+    end
+
+    return nil
+end
+
+--=============================================================================
+
+local function with_ready_molten(buf, language, callback)
+    local state = pending_inits[buf]
+    if state == nil then
+        state = {
+            status = "idle",
+            callbacks = {},
+        }
+        pending_inits[buf] = state
+    end
+
+    local molten_ok, molten_status = pcall(require, "molten.status")
+    if molten_ok and molten_status.initialized() ~= "" then
+        state.status = "ready"
+        callback()
+        return
+    end
+
+    if state.status == "starting" then
+        table.insert(state.callbacks, callback)
+        return
+    end
+
+    if state.status == "ready" then
+        callback()
+        return
+    end
+
+    state.status = "starting"
+    state.callbacks = { callback }
+
+    local kernel = first_matching_kernel(language)
+    local ok, err
+
+    if kernel ~= nil then
+        ok, err = pcall(vim.cmd, ("MoltenInit %s"):format(kernel))
+    else
+        ok, err = pcall(vim.cmd, "MoltenInit")
+    end
+
+    if not ok then
+        state.status = "idle"
+        state.callbacks = {}
+        vim.schedule(function()
+            vim.notify(("MoltenInit failed: %s"):format(err), vim.log.levels.WARN)
+        end)
+        return
+    end
+
+    vim.api.nvim_create_autocmd("User", {
+        pattern = "MoltenKernelReady",
+        once = true,
+        callback = function()
+            local active_state = pending_inits[buf]
+            if active_state ~= nil then
+                active_state.status = "ready"
+                local callbacks = active_state.callbacks
+                active_state.callbacks = {}
+                for _, queued_callback in ipairs(callbacks) do
+                    queued_callback()
+                end
+            end
+        end,
+    })
+end
+
+--=============================================================================
+
+local function get_line(buf, line_nr)
+    return vim.api.nvim_buf_get_lines(buf, line_nr - 1, line_nr, false)[1]
+end
+
+--=============================================================================
+
+local function current_code_cell(buf)
+    local line_nr = vim.api.nvim_win_get_cursor(0)[1]
+    local start_line = nil
+
+    for scan = line_nr, 1, -1 do
+        local line = get_line(buf, scan)
+        if line ~= nil and line:match("^```%{") then
+            start_line = scan
+            break
+        end
+        if line ~= nil and line:match("^```%s*$") then
+            return nil
+        end
+    end
+
+    if start_line == nil then
+        return nil
+    end
+
+    local last_line = vim.api.nvim_buf_line_count(buf)
+    for scan = start_line + 1, last_line do
+        local line = get_line(buf, scan)
+        if line ~= nil and line:match("^```%s*$") then
+            if start_line < line_nr and line_nr < scan then
+                return {
+                    start_line = start_line,
+                    end_line = scan,
+                }
+            end
+            return nil
+        end
+    end
+
+    return nil
+end
+
+--=============================================================================
+
+local function next_code_cell(buf, line_nr)
+    local last_line = vim.api.nvim_buf_line_count(buf)
+
+    for scan = math.max(line_nr, 1), last_line do
+        local line = get_line(buf, scan)
+        if line ~= nil and line:match("^```%{") then
+            return {
+                start_line = scan,
+            }
+        end
+    end
+
+    return nil
+end
+
+local function previous_code_cell(buf, line_nr)
+    for scan = math.min(line_nr, vim.api.nvim_buf_line_count(buf)), 1, -1 do
+        local line = get_line(buf, scan)
+        if line ~= nil and line:match("^```%{") then
+            return {
+                start_line = scan,
+            }
+        end
+    end
+
+    return nil
+end
+
+--=============================================================================
 
 function M.setup()
     local buf = vim.api.nvim_get_current_buf()
-    local runner = require("quarto.runner")
-    local function run_with_init(run_fn)
-        return function()
-            local kernel_filter = frontmatter_code_kernel_filter(buf)
-            if kernel_filter ~= nil then
-                init_with_first_kernel_then(buf, kernel_filter, run_fn)
-            else
-                run_fn()
-            end
-        end
-    end
+    local language = parse_frontmatter_code(buf)
 
-    vim.keymap.set("n", "<leader>r", run_with_init(runner.run_cell), {
-        buffer = buf,
-        silent = true,
-        desc = "run cell",
-    })
-    vim.keymap.set("n", "<leader>rs", run_with_init(runner.run_above), {
-        buffer = buf,
-        silent = true,
-        desc = "run start through current cell",
-    })
-    vim.keymap.set("n", "<leader>ra", run_with_init(runner.run_all), {
-        buffer = buf,
-        silent = true,
-        desc = "run all cells",
-    })
-    vim.keymap.set("n", "<leader>q", "<cmd>MoltenInterrupt<CR>", {
-        buffer = buf,
-        silent = true,
-        desc = "interrupt kernel",
-    })
-    vim.keymap.set("n", "gi", "<cmd>noautocmd MoltenEnterOutput<CR>", {
-        buffer = buf,
-        silent = true,
-        desc = "enter output; us :q to leave the output",
-    })
+    --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    local function get_line(line_nr)
-        return vim.api.nvim_buf_get_lines(buf, line_nr - 1, line_nr, false)[1]
-    end
-
-    local function find_cell_from(start_line)
-        local last = vim.api.nvim_buf_line_count(buf)
-
-        for line_nr = math.max(start_line, 1), last do
-            local line = get_line(line_nr)
-            if line and line:match("^```%{") then
-                for end_line_nr = line_nr + 1, last do
-                    local end_line = get_line(end_line_nr)
-                    if end_line and end_line:match("^```%s*$") then
-                        return {
-                            start_line = line_nr,
-                            end_line = end_line_nr,
-                        }
-                    end
-                end
-                return nil
-            end
-        end
-
-        return nil
-    end
-
-    local function find_current_cell(line_nr)
-        local start_line = nil
-
-        for scan_line = line_nr, 1, -1 do
-            local line = get_line(scan_line)
-            if line and line:match("^```%{") then
-                start_line = scan_line
-                break
-            end
-        end
-
-        if start_line == nil then
-            return nil
-        end
-
-        local cell = find_cell_from(start_line)
-        if cell == nil then
-            return nil
-        end
-
-        if cell.start_line < line_nr and line_nr < cell.end_line then
-            return cell
-        end
-
-        return nil
-    end
-
-    local function target_line_for(cell)
-        return math.max(cell.start_line, cell.end_line - 1)
-    end
-
-    local function find_previous_cell(before_line)
-        local previous_cell = nil
-        local search_line = 1
-
-        while true do
-            local cell = find_cell_from(search_line)
-            if cell == nil or cell.start_line >= before_line then
-                return previous_cell
-            end
-
-            previous_cell = cell
-            search_line = cell.end_line + 1
-        end
-    end
-
-    vim.keymap.set("n", "[", function()
-        local current = vim.api.nvim_win_get_cursor(0)[1]
-        local current_cell = find_current_cell(current)
-
-        if current_cell ~= nil then
-            if current == current_cell.end_line - 1 then
-                local next_cell = find_cell_from(current_cell.end_line + 1)
-                if next_cell ~= nil then
-                    vim.api.nvim_win_set_cursor(0, { target_line_for(next_cell), 0 })
-                end
-                return
-            end
-
-            vim.api.nvim_win_set_cursor(0, { target_line_for(current_cell), 0 })
-            return
-        end
-
-        local next_cell = find_cell_from(current + 1)
-        if next_cell ~= nil then
-            vim.api.nvim_win_set_cursor(0, { target_line_for(next_cell), 0 })
-        end
-    end, {
-        buffer = buf,
-        silent = true,
-        desc = "move to next code cell",
-    })
-    vim.keymap.set("n", "]", function()
-        local current = vim.api.nvim_win_get_cursor(0)[1]
-        local current_cell = find_current_cell(current)
-
-        if current_cell ~= nil then
-            if current == current_cell.end_line - 1 then
-                local previous_cell = find_previous_cell(current_cell.start_line)
-                if previous_cell ~= nil then
-                    vim.api.nvim_win_set_cursor(0, { target_line_for(previous_cell), 0 })
-                end
-                return
-            end
-
-            vim.api.nvim_win_set_cursor(0, { target_line_for(current_cell), 0 })
-            return
-        end
-
-        local previous_cell = find_previous_cell(current)
-        if previous_cell ~= nil then
-            vim.api.nvim_win_set_cursor(0, { target_line_for(previous_cell), 0 })
-        end
-    end, {
-        buffer = buf,
-        silent = true,
-        desc = "move to previous code cell",
-    })
     vim.keymap.set("n", "<leader>v", function()
         if vim.bo.filetype == "markdown" then
             vim.cmd("MarkdownPreview")
@@ -256,15 +212,153 @@ function M.setup()
         desc = "run view commands: markdown, quarto",
     })
 
-    local kernel_filter = frontmatter_code_kernel_filter(buf)
-    if vim.b.molten_auto_init_done or kernel_filter == nil then
+    --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    vim.keymap.set("n", "<leader>q", "<cmd>MoltenInterrupt<CR>", {
+        buffer = buf,
+        silent = true,
+        desc = "interrupt kernel",
+    })
+
+    --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    vim.keymap.set("n", "gi", "<cmd>noautocmd MoltenEnterOutput<CR>", {
+        buffer = buf,
+        silent = true,
+        desc = "enter output; use :q to leave the output",
+    })
+
+    --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    vim.keymap.set("n", "<leader>r", function()
+        local cell = current_code_cell(buf)
+        if cell == nil then
+            vim.notify("Cursor is not inside a code cell", vim.log.levels.WARN)
+            return
+        end
+
+        local function run_cell()
+            require("quarto.runner").run_cell()
+            vim.api.nvim_win_set_cursor(0, { cell.end_line - 2, 0 })
+        end
+
+        if language == nil then
+            run_cell()
+            return
+        end
+
+        with_ready_molten(buf, language, run_cell)
+    end, {
+        buffer = buf,
+        silent = true,
+        desc = "run current code cell",
+    })
+
+    --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    vim.keymap.set("n", "]]", function()
+        local cell = current_code_cell(buf)
+        if cell then
+            vim.api.nvim_win_set_cursor(0, { cell.start_line + 2, 0 })
+            return
+        end
+
+        vim.cmd("normal! ]]")
+    end, {
+        buffer = buf,
+        silent = true,
+        desc = "go to top of current code cell",
+    })
+
+    --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    vim.keymap.set("n", "[[", function()
+        local cell = current_code_cell(buf)
+        if cell then
+            vim.api.nvim_win_set_cursor(0, { cell.end_line - 2, 0 })
+            return
+        end
+
+        vim.cmd("normal! [[")
+    end, {
+        buffer = buf,
+        silent = true,
+        desc = "go to bottom of current code cell",
+    })
+
+    --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    vim.keymap.set("n", "[", function()
+        local cell = current_code_cell(buf)
+        local current_line = vim.api.nvim_win_get_cursor(0)[1]
+        local target = nil
+
+        if cell ~= nil then
+            target = next_code_cell(buf, cell.end_line + 1)
+        else
+            target = next_code_cell(buf, current_line + 1)
+        end
+
+        if target ~= nil then
+            vim.api.nvim_win_set_cursor(0, { target.start_line + 2, 0 })
+        end
+    end, {
+        buffer = buf,
+        silent = true,
+        desc = "move to next code cell",
+    })
+
+    --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    vim.keymap.set("n", "]", function()
+        local cell = current_code_cell(buf)
+        local current_line = vim.api.nvim_win_get_cursor(0)[1]
+        local target = nil
+
+        if cell ~= nil then
+            target = previous_code_cell(buf, cell.start_line - 1)
+        else
+            target = previous_code_cell(buf, current_line - 1)
+        end
+
+        if target ~= nil then
+            vim.api.nvim_win_set_cursor(0, { target.start_line + 2, 0 })
+        end
+    end, {
+        buffer = buf,
+        silent = true,
+        desc = "move to previous code cell",
+    })
+
+    --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    vim.keymap.set("n", "<leader>ra", function()
+        local function run_all_cells()
+            require("quarto.runner").run_all()
+        end
+
+        if language == nil then
+            run_all_cells()
+            return
+        end
+
+        with_ready_molten(buf, language, run_all_cells)
+    end, {
+        buffer = buf,
+        silent = true,
+        desc = "run all code cells",
+    })
+
+    --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    if language == nil or vim.b.molten_auto_init_done then
         return
     end
 
     vim.b.molten_auto_init_done = true
     vim.schedule(function()
         if vim.api.nvim_buf_is_valid(buf) then
-            init_with_first_kernel_then(buf, kernel_filter, function() end)
+            with_ready_molten(buf, language, function() end)
         end
     end)
 end
