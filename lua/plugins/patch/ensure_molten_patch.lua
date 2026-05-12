@@ -38,6 +38,7 @@ function M.ensure_molten_patch()
     patch,
     function(contents)
       return contents:find('png_data = data%.get%("image/png"%)') == nil
+        or contents:find('if chunk is None:%s*\n%s*for mimetype, process_func in special_mimetypes:') == nil
     end,
     "molten prefer png"
   )

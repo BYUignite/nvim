@@ -1,9 +1,8 @@
 diff --git a/rplugin/python3/molten/outputchunks.py b/rplugin/python3/molten/outputchunks.py
-index 1eb8804..b9a2d8d 100644
+index a39f636..5cd4d5a 100644
 --- a/rplugin/python3/molten/outputchunks.py
 +++ b/rplugin/python3/molten/outputchunks.py
-@@ -292,6 +292,11 @@ def to_outputchunk(
-     def _from_plaintext(text: str) -> OutputChunk:
+@@ -289,6 +289,11 @@ def to_outputchunk(
          return TextLnOutputChunk(text)
  
      chunk = None
@@ -14,3 +13,32 @@ index 1eb8804..b9a2d8d 100644
 +
      # if options.image_provider != "none":
      # handle these mimetypes first, since they require Molten to render them
+     special_mimetypes = [
+@@ -297,16 +302,17 @@ def to_outputchunk(
+         ("text/latex", _from_latex),
+     ]
+ 
+-    for mimetype, process_func in special_mimetypes:
+-        try:
+-            maybe_data = None
+-            if data is not None:
+-                maybe_data = data.get(mimetype)
+-            if maybe_data is not None:
+-                chunk = process_func(maybe_data)  # type: ignore
+-                break
+-        except ImportError:
+-            continue
++    if chunk is None:
++        for mimetype, process_func in special_mimetypes:
++            try:
++                maybe_data = None
++                if data is not None:
++                    maybe_data = data.get(mimetype)
++                if maybe_data is not None:
++                    chunk = process_func(maybe_data)  # type: ignore
++                    break
++            except ImportError:
++                continue
+ 
+     if chunk is None and data is not None:
+         # handle arbitrary images
