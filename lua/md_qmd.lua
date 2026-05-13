@@ -239,6 +239,12 @@ function M.setup()
 
         local function run_cell()
             require("quarto.runner").run_cell()
+            local next_cell = next_code_cell(buf, cell.end_line + 1)
+            if next_cell ~= nil then
+                vim.api.nvim_win_set_cursor(0, { next_cell.start_line + 2, 0 })
+                return
+            end
+
             vim.api.nvim_win_set_cursor(0, { cell.end_line - 2, 0 })
         end
 
