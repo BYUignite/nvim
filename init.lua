@@ -149,7 +149,7 @@ vim.api.nvim_command("digraphs dp 8706") -- ∂
 vim.api.nvim_command("digraphs 22  178") -- ²
 vim.api.nvim_command("digraphs oo  186") -- º
 vim.api.nvim_command("digraphs .. 8226") -- •
-vim.api.nvim_command("digraphs ~~ 8773") -- ≅
+vim.api.nvim_command("digraphs ~~ 8776") -- ≈
 vim.api.nvim_command("digraphs -- 8212") -- —  (em dash)
 
 
