@@ -356,7 +356,7 @@ hl(0, "WhichKeyDesc",         { fg = c.c09 })
 hl(0, "WhichKeySeparator",    { fg = c.c07 })
 hl(0, "WhichKeyFloat",        { bg = c.c01 })
 
-hl(0, "CodeBlock", { fg=c.c08, bg=c.c01 })  -- headlines
+hl(0, "CodeBlock", {           bg=c.c01 })  -- headlines
 hl(0, "Headline1", { fg=c.blk, bg=c.c08 })
 hl(0, "Headline2", { fg=c.blk, bg=c.c05 })
 hl(0, "Headline3", { fg=c.blk, bg=c.c04 })
