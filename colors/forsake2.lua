@@ -144,11 +144,11 @@ hl(0, "TabLineSel",    { fg = c.c01, bg = c.c07, bold = true })
 
 ------------------- floating windows
 
-hl(0, "NormalFloat",   Normal)
-hl(0, "Pmenu",         { bg = c01 })
-hl(0, "PmenuSel",      { bg = c.c02, bold = true })
-hl(0, "PmenuSbar",     { fg = c.c11, bg = c.c01 })
-hl(0, "PmenuThumb",    { fg = c.wht, bg = c.c02 })
+hl(0, "NormalFloat",   { bg = c.c01 })
+hl(0, "Pmenu",         { fg = c.c10, bg = c.c01 })
+hl(0, "PmenuSel",      { fg = c.c09, bg = c.c03, bold = true })
+hl(0, "PmenuSbar",     { fg = c.c10, bg = c.c01 })
+hl(0, "PmenuThumb",    { fg = c.wht, bg = c.c04 })
 
 ------------------- syntax
 
@@ -314,8 +314,6 @@ hl(0, "MarkdownUrl",              { fg = c.blu, underline = true })
 
 ------------------- plugins
 
-hl(0, "BlinkCmpMenu",         { fg = c.wht, bg = c.c01 })
-
 hl(0, "BufferCurrentSign",    { bg = c.c07 })      -- line between barbar tabs
 
 hl(0, "TelescopeNormal",      { bg = c.c01 })
@@ -337,7 +335,7 @@ hl(0, "NvimTreeGitDeleted",   { fg = c.red })
 hl(0, "CmpItemAbbr",          { fg = c.c09 })
 hl(0, "CmpItemAbbrMatch",     { fg = c.yel, bold = true })
 hl(0, "CmpItemAbbrMatchFuzzy",{ fg = c.yel, bold = true })
-hl(0, "CmpItemMenu",          { fg = c.c07 })
+hl(0, "CmpItemMenu",          {             bg = c.c01 })
 hl(0, "CmpItemKindFunction",  { fg = c.blg })
 hl(0, "CmpItemKindMethod",    { fg = c.blg })
 hl(0, "CmpItemKindVariable",  { fg = c.c09 })
@@ -356,7 +354,7 @@ hl(0, "WhichKeyDesc",         { fg = c.c09 })
 hl(0, "WhichKeySeparator",    { fg = c.c07 })
 hl(0, "WhichKeyFloat",        { bg = c.c01 })
 
-hl(0, "CodeBlock", {           bg=c.c01 })  -- headlines
+hl(0, "CodeBlock", {           bg="#0a1f29" })  -- headlines (200, 60, 10)
 hl(0, "Headline1", { fg=c.blk, bg=c.c08 })
 hl(0, "Headline2", { fg=c.blk, bg=c.c05 })
 hl(0, "Headline3", { fg=c.blk, bg=c.c04 })

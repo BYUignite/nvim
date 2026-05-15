@@ -144,10 +144,10 @@ hl(0, "TabLineSel",    { fg = c.c11, bg = c.c02, bold = true })
 
 ------------------- floating windows
 
-hl(0, "NormalFloat",   Normal)
-hl(0, "Pmenu",         { bg = c11 })
-hl(0, "PmenuSel",      { bg = c.c09, bold = true })
-hl(0, "PmenuSbar",     { fg = c.wht, bg = c.c02 })
+hl(0, "NormalFloat",   { bg = c.c10 })
+hl(0, "Pmenu",         { fg = c.c01, bg = c.c10 })
+hl(0, "PmenuSel",      { fg = c.c10, bg = c.c03, bold = true })
+hl(0, "PmenuSbar",     { fg = c.c01, bg = c.c10 })
 hl(0, "PmenuThumb",    { fg = c.wht, bg = c.c04 })
 
 ------------------- syntax
@@ -315,8 +315,6 @@ hl(0, "MarkdownUrl",              { fg = c.blu, underline = true })
 
 ------------------- plugins
 
-hl(0, "BlinkCmpMenu",         { fg = c.blk, bg = c.c11 })
-
 hl(0, "BufferCurrentSign",    { bg = c.c02 })      -- line between barbar tabs
 
 hl(0, "TelescopeNormal",      { bg = c.c11 })
@@ -338,7 +336,7 @@ hl(0, "NvimTreeGitDeleted",   { fg = c.red })
 hl(0, "CmpItemAbbr",          { fg = c.c02 })
 hl(0, "CmpItemAbbrMatch",     { fg = c.yel, bold = true })
 hl(0, "CmpItemAbbrMatchFuzzy",{ fg = c.yel, bold = true })
-hl(0, "CmpItemMenu",          { fg = c.c04 })
+hl(0, "CmpItemMenu",          {             bg = c.c10 })
 hl(0, "CmpItemKindFunction",  { fg = c.blg })
 hl(0, "CmpItemKindMethod",    { fg = c.blg })
 hl(0, "CmpItemKindVariable",  { fg = c.c02 })

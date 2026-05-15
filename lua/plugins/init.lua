@@ -44,8 +44,12 @@ vim.pack.add({
     "https://github.com/neovim/nvim-lspconfig",                    -- lsp server configurations
     "https://github.com/williamboman/mason.nvim",                  -- installs language servers
     "https://github.com/L3MON4D3/LuaSnip",                         -- snippets
-    "https://github.com/Saghen/blink.lib",                         -- completition
-    "https://github.com/Saghen/blink.cmp",                         -- completition
+
+    "https://github.com/hrsh7th/nvim-cmp",                         -- completion
+    "https://github.com/hrsh7th/cmp-nvim-lsp",                     -- LSP completion source
+    "https://github.com/hrsh7th/cmp-buffer",                       -- buffer completion source
+    "https://github.com/hrsh7th/cmp-path",                         -- path completion source
+    "https://github.com/saadparwaiz1/cmp_luasnip",                 -- LuaSnip completion source
 
     "https://github.com/vhyrro/luarocks.nvim",                     -- for running code in quarto/markdown cells
     "https://github.com/3rd/image.nvim",                           -- for running code in quarto/markdown cells
@@ -145,7 +149,8 @@ require('headlines').setup({
           "@text.title.5.marker.markdown",
           "@text.title.6.marker.markdown",
       },
-      bullets = { "◉", "○", "✸", "✿" },
+
+      bullets = { "◘", "●", "■", "◆" },
       codeblock_highlight = "CodeBlock",
       dash_highlight = "Dash",
       dash_string = "-",
@@ -246,28 +251,91 @@ end
 local snippets_path = vim.fn.stdpath("config") .. "/lua/snippets"
 require("luasnip.loaders.from_vscode").lazy_load( { paths = snippets_path })
 
---===================== blink completion
+--===================== nvim-cmp completion
 
-require("blink.cmp").setup({
+vim.o.completeopt = "menu,menuone,noselect"
 
-    fuzzy = { implementation = "lua" },
-    snippets = { preset = 'luasnip' },
-    keymap = {                      -- https://cmp.saghen.dev/configuration/keymap.html
-        ['<C-k>'] = false,
-        ['<Tab>'] = {
-            function(cmp)
-                if cmp.snippet_active() then return cmp.accept()
-                else return cmp.select_and_accept() end
-            end,
-            'snippet_forward',
-            'fallback'
-        },
+local cmp = require("cmp")
+local luasnip = require("luasnip")
+
+cmp.setup({
+    preselect = cmp.PreselectMode.Item,
+    completion = {
+        completeopt = "menu,menuone",
     },
+    performance = {
+        max_view_entries = 10,
+    },
+    snippet = {
+        expand = function(args)
+            luasnip.lsp_expand(args.body)
+        end,
+    },
+    formatting = {
+        fields = { "abbr", "kind", "menu" },
+        format = function(entry, item)
+            local max_width = 40
+            if #item.abbr > max_width then
+                item.abbr = item.abbr:sub(1, max_width - 1) .. "…"
+            end
+
+            local source_names = {
+                otter = "[cell]",
+                nvim_lsp = "[lsp]",
+                luasnip = "[snip]",
+                path = "[path]",
+                buffer = "[buf]",
+            }
+            item.menu = source_names[entry.source.name] or ("[" .. entry.source.name .. "]")
+            return item
+        end,
+    },
+    mapping = cmp.mapping.preset.insert({
+        ["<C-k>"] = cmp.config.disable,
+        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                if cmp.get_selected_entry() == nil then
+                    cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+                end
+                cmp.confirm({ select = true })
+            elseif luasnip.expand_or_locally_jumpable() then
+                luasnip.expand_or_jump()
+            else
+                fallback()
+            end
+        end, { "i", "s" }),
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if luasnip.locally_jumpable(-1) then
+                luasnip.jump(-1)
+            else
+                fallback()
+            end
+        end, { "i", "s" }),
+    }),
+    sources = cmp.config.sources({
+        { name = "otter" },
+        { name = "nvim_lsp" },
+        { name = "luasnip" },
+        { name = "path" },
+    }, {
+        { name = "buffer" },
+    }),
+})
+
+cmp.setup.filetype({ "quarto" }, {
+    sources = cmp.config.sources({
+        { name = "otter" },
+        { name = "luasnip" },
+        { name = "path" },
+    }, {
+        { name = "buffer" },
+    }),
 })
 
 ----------------------------------------
 
-local capabilities = require('blink.cmp').get_lsp_capabilities()
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 for _, srv in pairs(servers) do
     vim.lsp.config(srv, {capabilities = capabilities,} )
@@ -315,7 +383,12 @@ vim.g.molten_image_location           = "virt"
 --===================== otter (for quarto)
 
 require("plugins.patch.ensure_otter_patch").ensure_otter_patch()          -- apply bug fix to keep otter from breaking
-require("otter").setup( { buffers = { set_filetype = true }, })   -- it has several issues but fixed with quarto settings below (diagnostics, completion off; languages explicitly set)
+require("otter").setup({
+    buffers = {
+        set_filetype = true,
+        write_to_disk = false,
+    },
+})   -- keep otter buffers in-memory; on-disk temp files are only needed for some file-backed tools
 do   -- codex added this to fix a bug (my installed otter.nvim no longer exposes rafts, it uses _otters_attached instead...)
     local otterkeeper = require("otter.keeper")
     if otterkeeper.rafts == nil and otterkeeper._otters_attached ~= nil then
@@ -328,7 +401,7 @@ end
 require("quarto").setup({
     lspFeatures = {
         diagnostics = { enabled = false },
-        completion  = { enabled = false },
+        completion  = { enabled = true },
         languages   = { "python", "julia" },
     },
     codeRunner = {
