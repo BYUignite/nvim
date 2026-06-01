@@ -86,7 +86,7 @@
            "---",
            "title: $1",
            "code: python",
-           "format: { html: { theme: custom.scss } }",
+           "format: { html: { theme: ~/.custom.scss } }",
            "execute: { echo: true }",
            "---"
           ]
