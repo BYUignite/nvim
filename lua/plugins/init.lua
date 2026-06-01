@@ -278,8 +278,9 @@ local function code_cell_filetype(info_string)
     lang = lang:lower()
 
     local aliases = {
-        py = "python",
-        jl = "julia",
+        py  = "python",
+        jl  = "julia",
+        pyi = "pyodide",
     }
 
     return aliases[lang] or lang
@@ -350,7 +351,7 @@ luasnip.setup({
         local fts = luasnip_ft.from_filetype_load(bufnr)
 
         if is_quarto_like_filetype(fts) then
-            vim.list_extend(fts, { "python", "julia" })
+            vim.list_extend(fts, { "python", "julia", "pyodide" })
         end
 
         return fts

@@ -11,6 +11,9 @@
         "language": "python",
         "path": "./python.json"
       }, {
+        "language": "pyodide",
+        "path": "./python.json"
+      }, {
         "language": "markdown",
         "path": "./md.json"
       }, {
