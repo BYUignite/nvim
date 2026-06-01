@@ -248,6 +248,115 @@ end
 
 --===================== luasnip snippets
 
+local luasnip = require("luasnip")
+local luasnip_ft = require("luasnip.extras.filetype_functions")
+
+---------------
+
+local function parse_code_fence(line)
+    local ticks, tick_info = line:match("^%s*(```+)%s*(.*)$")
+    if ticks then
+        return "`", #ticks, tick_info
+    end
+
+    local tildes, tilde_info = line:match("^%s*(~~~+)%s*(.*)$")
+    if tildes then
+        return "~", #tildes, tilde_info
+    end
+end
+
+---------------
+
+local function code_cell_filetype(info_string)
+    local lang = info_string:match("^%s*{%s*%.?([%w_+-]+)")
+        or info_string:match("^%s*([%w_+-]+)")
+
+    if not lang then
+        return nil
+    end
+
+    lang = lang:lower()
+
+    local aliases = {
+        py = "python",
+        jl = "julia",
+    }
+
+    return aliases[lang] or lang
+end
+
+---------------
+
+local function current_code_cell_filetype()
+    local row = vim.api.nvim_win_get_cursor(0)[1]
+
+    if parse_code_fence(vim.api.nvim_get_current_line()) then
+        return nil
+    end
+
+    local lines = vim.api.nvim_buf_get_lines(0, 0, math.max(row - 1, 0), false)
+    local in_fence = false
+    local opening_fence_char = nil
+    local opening_fence_len = 0
+    local cell_ft = nil
+
+    for _, line in ipairs(lines) do
+        local fence_char, fence_len, fence_info = parse_code_fence(line)
+
+        if fence_char then
+            if in_fence then
+                if fence_char == opening_fence_char and fence_len >= opening_fence_len then
+                    in_fence = false
+                    opening_fence_char = nil
+                    opening_fence_len = 0
+                    cell_ft = nil
+                end
+            else
+                in_fence = true
+                opening_fence_char = fence_char
+                opening_fence_len = fence_len
+                cell_ft = code_cell_filetype(fence_info)
+            end
+        end
+    end
+
+    if in_fence then
+        return cell_ft
+    end
+end
+
+---------------
+
+local function is_quarto_like_filetype(fts)
+    return vim.tbl_contains(fts, "quarto") or vim.tbl_contains(fts, "markdown")
+end
+
+---------------
+
+luasnip.setup({
+    ft_func = function()
+        local fts = luasnip_ft.from_filetype()
+
+        if is_quarto_like_filetype(fts) then
+            local cell_ft = current_code_cell_filetype()
+            if cell_ft then
+                return { cell_ft }
+            end
+        end
+
+        return fts
+    end,
+    load_ft_func = function(bufnr)
+        local fts = luasnip_ft.from_filetype_load(bufnr)
+
+        if is_quarto_like_filetype(fts) then
+            vim.list_extend(fts, { "python", "julia" })
+        end
+
+        return fts
+    end,
+})
+
 local snippets_path = vim.fn.stdpath("config") .. "/lua/snippets"
 require("luasnip.loaders.from_vscode").lazy_load( { paths = snippets_path })
 
@@ -256,7 +365,6 @@ require("luasnip.loaders.from_vscode").lazy_load( { paths = snippets_path })
 vim.o.completeopt = "menu,menuone,noselect"
 
 local cmp = require("cmp")
-local luasnip = require("luasnip")
 
 cmp.setup({
     preselect = cmp.PreselectMode.Item,

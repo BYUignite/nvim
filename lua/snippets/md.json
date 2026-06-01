@@ -85,8 +85,9 @@
   "body": [
            "---",
            "title: $1",
-           "execute:",
-           "    echo: false",
+           "code: python",
+           "format: { html: { theme: custom.scss } }",
+           "execute: { echo: true }",
            "---"
           ]
   }
