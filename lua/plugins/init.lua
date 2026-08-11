@@ -151,7 +151,7 @@ require('headlines').setup({
           "@text.title.6.marker.markdown",
       },
 
-      bullets = { "◘", "●", "■", "◆" },
+      bullets = { "●", "◉", "◎", "○"  },
       codeblock_highlight = "CodeBlock",
       dash_highlight = "Dash",
       dash_string = "-",

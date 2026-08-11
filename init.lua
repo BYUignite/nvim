@@ -117,7 +117,7 @@ autocmd({"BufNewFile", "BufRead"}, {
 
 --============================= digraphs: greek
 -- in insert mode type: <ctrl>ktt --> \tau; <ctrl>kcc --> \xi
--- see list of digraphs with :dig!
+-- see list of digraphs with :dig!, or :h digraph-table, to allow searching
 
 vim.api.nvim_command("digraphs aa 945")  -- α
 vim.api.nvim_command("digraphs bb 946")  -- β
@@ -150,6 +150,9 @@ vim.api.nvim_command("digraphs 22  178") -- ²
 vim.api.nvim_command("digraphs oo  186") -- º
 vim.api.nvim_command("digraphs .. 8226") -- •
 vim.api.nvim_command("digraphs ~~ 8776") -- ≈
+vim.api.nvim_command("digraphs eq 8801") -- ≡ 
+vim.api.nvim_command("digraphs ne 8800") -- ≠
+vim.api.nvim_command("digraphs ch 10003") -- ✓, 
 vim.api.nvim_command("digraphs -- 8212") -- —  (em dash)
 
 
