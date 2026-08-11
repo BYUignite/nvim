@@ -7,7 +7,6 @@ local opt = vim.opt                       -- like :set option=value
 ------------
 
 o.cursorlineopt   = "both"                -- enable highlighting the line the cursor is on
-o.clipboard       = "unnamedplus"         -- clipboard integration: <C-c> then put; yank then <C-v>
 
 opt.number        = false
 opt.wrapscan      = false
@@ -33,6 +32,18 @@ opt.shortmess:append "sI"                 -- I: don't show welcome message; s: d
 opt.fillchars = { eob = " " }             -- character for visible lines at the end of file
 opt.signcolumn = "yes:1"                  -- space at first column
 
+o.clipboard       = "unnamedplus"         -- clipboard integration: <C-c> then put; yank then <C-v>
+vim.g.clipboard = {                       -- for yanking to clipboard from remote machine
+  name = 'OSC 52',
+  copy = {
+    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+  },
+  paste = {
+    ['+'] = function() return '' end,
+    ['*'] = function() return '' end,
+  },
+}
 
 
 ------------ don't continue comments on enter, etc. see :h fo-table
