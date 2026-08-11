@@ -40,6 +40,7 @@ vim.pack.add({
     "https://github.com/nvim-lua/plenary.nvim",                    -- helpers needed for other plugins
     "https://github.com/mikavilpas/yazi.nvim",                     -- file manager (needs plenary)
     "https://github.com/nvim-telescope/telescope.nvim",            -- find files, grep, etc. (needs plenary)
+    --"https://github.com/dmtrKovalenko/fff.nvim",
 
     "https://github.com/neovim/nvim-lspconfig",                    -- lsp server configurations
     "https://github.com/williamboman/mason.nvim",                  -- installs language servers
@@ -220,6 +221,18 @@ require("telescope").setup( {
        },
    },
 })
+
+--===================== fff
+
+-- vim.api.nvim_create_autocmd('PackChanged', {
+--   callback = function(ev)
+--     local name, kind = ev.data.spec.name, ev.data.kind
+--     if name == 'fff.nvim' and (kind == 'install' or kind == 'update') then
+--       if not ev.data.active then vim.cmd.packadd('fff.nvim') end
+--       require('fff.download').download_or_build_binary()
+--     end
+--   end,
+-- })
 
 --===================== lspconfig
 -- no config needed

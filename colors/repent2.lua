@@ -144,7 +144,7 @@ hl(0, "TabLineSel",    { fg = c.c11, bg = c.c02, bold = true })
 
 ------------------- floating windows
 
-hl(0, "NormalFloat",   { bg = c.c10 })
+hl(0, "NormalFloat",   { bg = c.c11 })
 hl(0, "Pmenu",         { fg = c.c01, bg = c.c10 })
 hl(0, "PmenuSel",      { fg = c.c10, bg = c.c03, bold = true })
 hl(0, "PmenuSbar",     { fg = c.c01, bg = c.c10 })
