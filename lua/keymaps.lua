@@ -55,6 +55,15 @@ end, {desc = "toggle colorschemes"})
 vim.api.nvim_set_keymap('n', '<leader>m', '<cmd>lua require("maximizer").toggle()<CR>', {silent = true, noremap = true})
 
 --=============================================================================
+------ copilot accept ghost text
+
+vim.keymap.set(
+     "i", "<Right>",
+     [[copilot#Accept("\<Right>")]],
+     { expr = true, replace_keycodes = false, }
+)
+
+--=============================================================================
 ------ telescope plugin
 
 -- map("n", "<leader>f",  ":Telescope git_files <CR>",      { desc = "telescope find git project files" })

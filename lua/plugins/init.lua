@@ -13,6 +13,11 @@ vim.api.nvim_create_autocmd('PackChanged', { callback = function(ev)
 end })
 
 --=============================================================================
+-- for copilot:
+
+vim.g.copilot_no_tab_map = true
+
+--=============================================================================
 -- install the plugins
 
 vim.pack.add({
@@ -55,9 +60,22 @@ vim.pack.add({
     "https://github.com/vhyrro/luarocks.nvim",                     -- for running code in quarto/markdown cells
     "https://github.com/3rd/image.nvim",                           -- for running code in quarto/markdown cells
     "https://github.com/benlubas/molten-nvim",                     -- for running code in quarto/markdown cells
-    "https://github.com/benlubas/otter.nvim",                        -- for running code in quarto/markdown cells
+    "https://github.com/benlubas/otter.nvim",                      -- for running code in quarto/markdown cells
     "https://github.com/quarto-dev/quarto-nvim",                   -- for running code in quarto/markdown cells
+
+    "https://github.com/github/copilot.vim",                       -- copilot: ghost text completion (separate from cmp completion items)
 })
+
+--=============================================================================
+-- setup for copilot: need to run :Copilot setup, but this code does that automatically on startup
+
+ vim.api.nvim_create_autocmd("VimEnter", {
+      callback = function()
+          vim.schedule(function()
+              vim.cmd("Copilot")
+          end)
+      end,
+  })
 --=============================================================================
 -- setup/configure plugins
 
