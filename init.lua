@@ -72,6 +72,8 @@ vim.g.rmd_fenced_languages = { "python" }
 
 --============================= plugins
 
+if not vim.g.vscode then
+
 require("plugins")                        -- runs file lua/plugins/init.lua
 
 --============================= keymaps
@@ -125,6 +127,8 @@ autocmd({"BufNewFile", "BufRead"}, {
         opt.commentstring = "// %s"
     end
 })
+
+end     -- end not vscode
 
 --============================= digraphs: greek
 -- in insert mode type: <ctrl>ktt --> \tau; <ctrl>kcc --> \xi
