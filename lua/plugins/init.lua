@@ -31,7 +31,7 @@ vim.pack.add({
     "https://github.com/kassio/neoterm",                           -- open/close terminal easily; positioning
     "https://github.com/max397574/better-escape.nvim",             -- escape from terminal
 
-    "https://github.com/derektata/lorem.nvim",                     -- lorem-ipsum: just type loremX inline in insert mode to get X words
+    "https://github.com/derektata/lorem.nvim",                     -- lorem-ipsum: just type loremX followed by space inline in insert mode to get X words, or loremXp to get X paragraphs
     "https://github.com/brenoprata10/nvim-highlight-colors",       -- show colors for color codes
     "https://github.com/vim-scripts/a.vim",                        -- switch between header and source
     "https://github.com/lervag/vimtex",                            -- latex tools
@@ -242,15 +242,15 @@ require("telescope").setup( {
 
 --===================== fff
 
--- vim.api.nvim_create_autocmd('PackChanged', {
---   callback = function(ev)
---     local name, kind = ev.data.spec.name, ev.data.kind
---     if name == 'fff.nvim' and (kind == 'install' or kind == 'update') then
---       if not ev.data.active then vim.cmd.packadd('fff.nvim') end
---       require('fff.download').download_or_build_binary()
---     end
---   end,
--- })
+--vim.api.nvim_create_autocmd('PackChanged', {
+--  callback = function(ev)
+--    local name, kind = ev.data.spec.name, ev.data.kind
+--    if name == 'fff.nvim' and (kind == 'install' or kind == 'update') then
+--      if not ev.data.active then vim.cmd.packadd('fff.nvim') end
+--      require('fff.download').download_or_build_binary()
+--    end
+--  end,
+--})
 
 --===================== lspconfig
 -- no config needed
