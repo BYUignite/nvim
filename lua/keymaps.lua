@@ -66,31 +66,27 @@ vim.keymap.set(
 --=============================================================================
 ------ telescope plugin
 
--- map("n", "<leader>f",  ":Telescope git_files <CR>",      { desc = "telescope find git project files" })
--- map("n", "<leader>ff", "<cmd>Telescope find_files<cr>",  { desc = "telescope find files" })
--- map("n", "<leader>fb", "<cmd>Telescope buffers<CR>",     { desc = "telescope find buffers" })
--- map("n", "<leader>ma", "<cmd>Telescope marks<CR>",       { desc = "telescope find marks" })
--- map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
--- map("n", "<leader>gc", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" })
--- map("n", "<leader>th", "<cmd>Telescope themes<CR>", { desc = "telescope themes" })
--- map("n", "<leader>mm", "<cmd>Telescope keymaps<CR>", { desc = "telescope show all known keymappings"})
---
--- ---- code: jump to definitions, etc. ctrl-o to go back; ctrl-i to go forward
--- map("n", "<leader>cd", "<cmd>Telescope lsp_definitions<CR>",      { desc = "telescope: definition for word under cursor"})
--- map("n", "<leader>ct", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "telescope: go to the definition of the type of the word under cursor"})
--- map("n", "<leader>cr", "<cmd>Telescope lsp_references<CR>",       { desc = "telescope: references for word under cursor"})
--- map("n", "<leader>ci", "<cmd>Telescope lsp_implementations<CR>",  { desc = "telescope: go to the implementation of the word under cursor"})
---
--- map("n", "<leader>gr", function()
---   require('telescope.builtin').live_grep({
---     cwd = vim.fn.systemlist("git rev-parse --show-toplevel")[1],
---   })
--- end,                                                              { desc = "telescope live grep" })
--- map("n", "<leader>gg", function()
---   require('telescope.builtin').grep_string({
---     cwd = vim.fn.systemlist("git rev-parse --show-toplevel")[1],
---   })
--- end,                                                              { desc = "telescope grep word under cursor" })
+map("n", "<leader>f",  ":Telescope git_files <CR>",      { desc = "telescope find git project files" })
+map("n", "<leader>ff", "<cmd>Telescope find_files<cr>",  { desc = "telescope find files" })
+map("n", "<leader>gs", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
+map("n", "<leader>gc", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" })
+
+---- code: jump to definitions, etc. ctrl-o to go back; ctrl-i to go forward
+map("n", "<leader>cd", "<cmd>Telescope lsp_definitions<CR>",      { desc = "telescope: definition for word under cursor"})
+map("n", "<leader>ct", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "telescope: go to the definition of the type of the word under cursor"})
+map("n", "<leader>cr", "<cmd>Telescope lsp_references<CR>",       { desc = "telescope: references for word under cursor"})
+map("n", "<leader>ci", "<cmd>Telescope lsp_implementations<CR>",  { desc = "telescope: go to the implementation of the word under cursor"})
+
+map("n", "<leader>gr", function()
+  require('telescope.builtin').live_grep({
+    cwd = vim.fn.systemlist("git rev-parse --show-toplevel")[1],
+  })
+end,                                                              { desc = "telescope live grep" })
+map("n", "<leader>gg", function()
+  require('telescope.builtin').grep_string({
+    cwd = vim.fn.systemlist("git rev-parse --show-toplevel")[1],
+  })
+end,                                                              { desc = "telescope grep word under cursor" })
 
 --=============================================================================
 ------ fff plugin

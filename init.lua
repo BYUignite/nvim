@@ -31,8 +31,8 @@ opt.showmode      = false                 -- don't show mode "insert, normal, vi
 opt.shortmess:append "sI"                 -- I: don't show welcome message; s: don't show search messages
 opt.fillchars = { eob = " " }             -- character for visible lines at the end of file
 opt.signcolumn = "yes:1"                  -- space at first column
+opt.signcolumn = "yes:1"                  -- space at first column
 
-o.clipboard       = "unnamedplus"         -- clipboard integration: <C-c> then put; yank then <C-v>
 vim.g.clipboard = {                       -- for yanking to clipboard from remote machine
   name = 'OSC 52',
   copy = {
@@ -40,8 +40,8 @@ vim.g.clipboard = {                       -- for yanking to clipboard from remot
     ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
   },
   paste = {
-    ['+'] = function() return '' end,
-    ['*'] = function() return '' end,
+    ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
   },
 }
 
