@@ -68,10 +68,8 @@ vim.keymap.set(
 
 map("n", "<leader>f",  ":Telescope git_files <CR>",      { desc = "telescope find git project files" })
 map("n", "<leader>ff", "<cmd>Telescope find_files<cr>",  { desc = "telescope find files" })
-map("n", "<leader>fb", "<cmd>Telescope buffers<CR>",     { desc = "telescope find buffers" })
-map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
+map("n", "<leader>gs", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
 map("n", "<leader>gc", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" })
-map("n", "<leader>mm", "<cmd>Telescope keymaps<CR>", { desc = "telescope show all known keymappings"})
 
 ---- code: jump to definitions, etc. ctrl-o to go back; ctrl-i to go forward
 map("n", "<leader>cd", "<cmd>Telescope lsp_definitions<CR>",      { desc = "telescope: definition for word under cursor"})

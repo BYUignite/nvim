@@ -33,7 +33,6 @@ opt.fillchars = { eob = " " }             -- character for visible lines at the 
 opt.signcolumn = "yes:1"                  -- space at first column
 opt.conceallevel  = 2                     -- conceal text in markdown, latex, etc.
 
-o.clipboard       = "unnamedplus"         -- clipboard integration: <C-c> then put; yank then <C-v>
 vim.g.clipboard = {                       -- for yanking to clipboard from remote machine
   name = 'OSC 52',
   copy = {
@@ -41,8 +40,8 @@ vim.g.clipboard = {                       -- for yanking to clipboard from remot
     ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
   },
   paste = {
-    ['+'] = function() return '' end,
-    ['*'] = function() return '' end,
+    ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
   },
 }
 
