@@ -15,7 +15,7 @@ end })
 --=============================================================================
 -- for copilot:
 
-vim.g.copilot_no_tab_map = true
+-- vim.g.copilot_no_tab_map = true
 
 --=============================================================================
 -- install the plugins
@@ -64,18 +64,20 @@ vim.pack.add({
     "https://github.com/quarto-dev/quarto-nvim",                   -- for running code in quarto/markdown cells
 
     "https://github.com/github/copilot.vim",                       -- copilot: ghost text completion (separate from cmp completion items)
+
+    "https://github.com/techwizrd/render-latex.nvim",              -- render latex math in markdown/quarto files
 })
 
 --=============================================================================
 -- setup for copilot: need to run :Copilot setup, but this code does that automatically on startup
 
- vim.api.nvim_create_autocmd("VimEnter", {
-      callback = function()
-          vim.schedule(function()
-              vim.cmd("Copilot")
-          end)
-      end,
-  })
+-- vim.api.nvim_create_autocmd("VimEnter", {
+--      callback = function()
+--          vim.schedule(function()
+--              vim.cmd("Copilot")
+--          end)
+--      end,
+--  })
 --=============================================================================
 -- setup/configure plugins
 
@@ -499,6 +501,16 @@ require("image").setup({
     max_width_window_percentage = math.huge,
     max_height_window_percentage = math.huge,
     window_overlap_clear_enabled = false,
+})
+
+--===================== render-latex
+
+require("render_latex").setup({
+    file_types = { "markdown", "quarto" },
+    render = {
+        match_text_size = false,
+        font_size = 14,
+    },
 })
 
 --===================== molten run code blocks
