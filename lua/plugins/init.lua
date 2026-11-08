@@ -63,7 +63,7 @@ vim.pack.add({
     "https://github.com/benlubas/otter.nvim",                      -- for running code in quarto/markdown cells
     "https://github.com/quarto-dev/quarto-nvim",                   -- for running code in quarto/markdown cells
 
-    "https://github.com/github/copilot.vim",                       -- copilot: ghost text completion (separate from cmp completion items)
+    --"https://github.com/github/copilot.vim",                       -- copilot: ghost text completion (separate from cmp completion items)
 
     "https://github.com/techwizrd/render-latex.nvim",              -- render latex math in markdown/quarto files
 })
@@ -525,7 +525,7 @@ vim.g.molten_virt_text_max_lines      = 8
 vim.g.molten_output_win_max_height    = 20
 vim.g.molten_output_win_max_width     = 200
 vim.g.molten_virt_text_output         = true
-vim.g.molten_virt_lines_off_by_1      = true
+vim.g.molten_virt_lines_off_by_1      = false
 vim.g.molten_auto_open_output         = false
 vim.g.molten_enter_output_behavior    = "open_and_enter"  -- (not open_then_enter); call using :noautocmd MoltenEnterOutput
 vim.g.molten_output_win_hide_on_leave = false
